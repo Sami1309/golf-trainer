@@ -44,7 +44,7 @@ The pure-vs-fat Stage 2 model is also a small JSON logistic model loaded from
 npm run train:stage2:pure-fat
 ```
 
-Stage 2 v0 intentionally excludes topped and 1mm/borderline fat examples. It is useful for live comparison and data collection, not yet a trusted swing-quality classifier.
+Stage 2 v0 intentionally excludes topped examples, 1mm/borderline fat examples, and three visually reviewed bad-data examples recorded in `data/stage2_pure_fat_exclusions.json`. Current local CV is promising: 19 included examples, single 5-fold CV accuracy 0.895, and 0.944 kept accuracy at confidence >= 0.60. It is useful for live comparison and data collection, not yet a production swing-quality classifier.
 
 Important: positives are cropped from `data/labels.json` around the labeled impact time. The script intentionally does **not** train on the full local `.m4a` positives because those recordings contain spoken shot names before impact. It now adds pre-impact crops from those same local files as hard negatives, so spoken pre-roll is treated as `not_shot` instead of leaking into positives. External positives are not used yet; current sourced positives are only copies of the same local recordings.
 
@@ -103,7 +103,7 @@ Failing any of these before adding a backend means the pipeline has a problem we
 
 ## What this does NOT do yet
 
-- Pure/fat classifier is experimental and trained on only 22 clear local examples.
+- Pure/fat classifier is experimental and trained on only 19 included local examples.
 - No topped classifier yet.
 - No multi-device sync / backend.
 - No spectrogram (yet).

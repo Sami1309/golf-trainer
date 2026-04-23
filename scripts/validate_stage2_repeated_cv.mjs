@@ -8,8 +8,15 @@ import {
   extractLogMelFeatures,
   prepareModelClip,
 } from '../frontend/audio_features.js';
+import {
+  classFromFolder,
+  exclusionForFolder,
+  loadStage2PureFatPolicy,
+  summarizeStage2PureFatPolicy,
+} from './stage2_pure_fat_policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const LABELS_PATH = join(ROOT, 'data', 'labels.json');
 const PREPARED_MANIFEST_PATH = join(ROOT, 'data', 'stage1b_prepared', 'manifest.jsonl');
 const REPORT_PATH = join(ROOT, 'data', 'stage2_pure_fat_repeated_cv_report.json');
 const REPEATS = Number(process.env.REPEATS || 200);
@@ -70,15 +77,6 @@ async function readPreparedClip(relPath) {
     throw new Error(`unexpected clip length in ${relPath}: ${samples.length}`);
   }
   return samples;
-}
-
-function classFromTitle(sourcePath) {
-  const title = sourcePath.split('/')[0].toLowerCase();
-  if (title.includes('topped')) return null;
-  if (title.includes('1mm')) return null;
-  if (title.includes('pure')) return 'pure';
-  if (title.includes('fat')) return 'fat';
-  return null;
 }
 
 function mulberry32(seed) {
@@ -243,6 +241,14 @@ function summarize(values) {
 }
 
 async function loadRows() {
+  const exclusionPolicy = await loadStage2PureFatPolicy();
+  const labelsDoc = JSON.parse(await readFile(LABELS_PATH, 'utf8'));
+  const labelByRelPath = new Map();
+  for (const entry of Object.values(labelsDoc.labels)) {
+    const relPath = entry.path.replace(/^samples\//, '');
+    labelByRelPath.set(relPath, entry);
+  }
+
   const manifestRows = (await readFile(PREPARED_MANIFEST_PATH, 'utf8'))
     .split('\n')
     .filter(Boolean)
@@ -252,9 +258,16 @@ async function loadRows() {
   const rows = [];
   const excluded = [];
   for (const manifest of manifestRows) {
-    const className = classFromTitle(manifest.source_path);
+    const labelEntry = labelByRelPath.get(manifest.source_path);
+    const folderLabel = labelEntry?.folderLabel ?? manifest.source_path.split('/')[0];
+    const exclusion = exclusionForFolder(folderLabel, exclusionPolicy);
+    const className = classFromFolder(folderLabel, exclusionPolicy);
     if (!className) {
-      excluded.push({ sourcePath: manifest.source_path, title: manifest.source_path.split('/')[0] });
+      excluded.push({
+        sourcePath: manifest.source_path,
+        folderLabel,
+        ...exclusion,
+      });
       continue;
     }
     const clip = await readPreparedClip(manifest.local_path);
@@ -263,13 +276,13 @@ async function loadRows() {
       className,
       x: extractLogMelFeatures(clip),
       sourcePath: manifest.source_path,
-      title: manifest.source_path.split('/')[0],
+      title: folderLabel,
     });
   }
-  return { rows, excluded };
+  return { rows, excluded, exclusionPolicy };
 }
 
-const { rows, excluded } = await loadRows();
+const { rows, excluded, exclusionPolicy } = await loadRows();
 if (!rows.length) throw new Error(`No pure/fat rows loaded from ${PREPARED_MANIFEST_PATH}`);
 if (rows[0].x.length !== LOG_MEL_FEATURE_NAMES.length) {
   throw new Error(`feature length mismatch: ${rows[0].x.length} != ${LOG_MEL_FEATURE_NAMES.length}`);
@@ -354,7 +367,8 @@ const perExampleSummary = perExample
 const report = {
   generatedAt: new Date().toISOString(),
   preparedManifest: PREPARED_MANIFEST_PATH.replace(ROOT + '/', ''),
-  labelSource: 'source_path folder/title parsed from prepared manifest',
+  labelSource: 'data/labels.json folderLabel joined through prepared manifest source_path',
+  exclusionPolicy: summarizeStage2PureFatPolicy(exclusionPolicy),
   featureExtractor: 'logmel_summary',
   rows: rows.length,
   pure: rows.filter(r => r.y === 1).length,

@@ -11,10 +11,10 @@ Target behavior:
 1. Listen through an iPhone mic near the ball.
 2. Detect candidate golf impacts with onset detection.
 3. Reject non-shot transients with a binary Stage 1b verifier.
-4. Later classify accepted shots as `pure`, `fat`, `topped`, or `unsure`.
+4. Classify accepted shots as `pure`, `fat`, or `unsure` for the current v0; later expand to `topped`.
 5. Run first as a mobile web app in iPhone Safari; native iOS is later.
 
-Current work is still detection/verifier quality and live data collection. A very early pure-vs-fat Stage 2 classifier exists for live comparison, but the full pure/fat/topped classifier is not implemented yet.
+Current work is live validation and data collection. The hybrid detector is deployed in the web app. A pure-vs-fat Stage 2 classifier is also deployed for live comparison, but the full pure/fat/topped classifier is not implemented yet.
 
 ## Current Truth
 
@@ -22,7 +22,7 @@ The app currently has a working hybrid detector:
 
 - Stage 1a: spectral-flux onset detector in the browser.
 - Stage 1b: deployed log-mel logistic verifier loaded from `frontend/models/stage1b_detector.json`.
-- Stage 2 v0: experimental log-mel logistic pure-vs-fat classifier loaded from `frontend/models/stage2_pure_fat.json`.
+- Stage 2 v0: deployed experimental log-mel logistic pure-vs-fat classifier loaded from `frontend/models/stage2_pure_fat.json`.
 - Live mic mode runs onset detection, extracts a 500 ms clip, then runs Stage 1b.
 - Accepted live/file detections run the Stage 2 pure-vs-fat model for comparison.
 - Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and 2 second review clip.
@@ -59,6 +59,28 @@ Current deployed log-mel CV metrics:
 
 Important interpretation: the perfect CV is promising but not production proof. Positives are still only 28 local recordings, so live iPhone/range holdout testing is the next required validation.
 
+Current deployed Stage 2 pure/fat model:
+
+- Model file: `frontend/models/stage2_pure_fat.json`
+- Feature extractor: `logmel_summary`
+- Confidence threshold: `0.60`
+- Feature count: `206`
+- Training report: `data/stage2_pure_fat_report.json`
+- Repeated-CV report: `data/stage2_pure_fat_repeated_cv_report.json`
+- Curation policy: `data/stage2_pure_fat_exclusions.json`
+
+Current Stage 2 v0 metrics after visual bad-data exclusion:
+
+- Included examples: `19` total = `10` pure + `9` fat.
+- Excluded examples: `9` total = `4` topped, `2` borderline/1mm fat, `3` bad-data visual-review exclusions (`49`, `67`, `83`).
+- Single 5-fold CV: accuracy `0.895`, pure recall `1.000`, fat recall `0.778`.
+- At confidence >= `0.60`: coverage `0.947`, kept accuracy `0.944`, pure recall `1.000`, fat recall `0.875`.
+- Repeated randomized 5-fold CV, 200 repeats: mean accuracy `0.882`, median `0.895`, min `0.842`, p95 `0.947`, max `1.000`.
+- Repeated-CV confidence >= `0.60`: mean coverage `0.924`, mean kept accuracy `0.926`.
+- OOF separation margin `0.058` (`minPureP=0.698`, `maxFatP=0.639`).
+
+Important interpretation: Stage 2 now has a real local pure/fat signal and is worth running in the app. It is still not production-proof because it has only 19 included examples from one local recording domain.
+
 ## Critical Data Rules
 
 Raw local positive recordings include a person saying the shot name before impact. Do not train on full local `.m4a` files as positive examples.
@@ -87,7 +109,7 @@ Raw top-level shot folders are source material. Do not rename or overwrite them.
 Top-level docs:
 
 - `AGENTS.md` - this orientation file.
-- `CLAUDE.md` - previous agent orientation. Useful, but parts are now stale because it predates the current log-mel deployed verifier.
+- `CLAUDE.md` - shorter synced handoff for Claude-style agents.
 - `PROJECT.md` - long-term roadmap from data audit through in-the-wild validation and native iOS.
 - `SUMMARY_1.md` - Phase 0 detector calibration report.
 - `STAGE1.md` - original Stage 1 plan.
@@ -114,6 +136,9 @@ Raw shot folders:
 - `data/stage1b_detector_report.json` - report for deployed model.
 - `data/stage1b_logmel_report.json` - report for log-mel model.
 - `data/stage1b_handcrafted_report.json` - report for handcrafted baseline.
+- `data/stage2_pure_fat_report.json` - current pure/fat training and single-CV report.
+- `data/stage2_pure_fat_repeated_cv_report.json` - repeated randomized CV report.
+- `data/stage2_pure_fat_exclusions.json` - auditable Stage 2 v0 exclusion policy.
 
 `frontend/`:
 
@@ -131,18 +156,20 @@ Raw shot folders:
 - `frontend/models/stage1b_detector.json` - deployed browser model.
 - `frontend/models/stage1b_logmel.json` - log-mel model copy.
 - `frontend/models/stage1b_handcrafted.json` - handcrafted baseline model copy.
-- `frontend/models/stage2_pure_fat.json` - experimental pure-vs-fat model.
+- `frontend/models/stage2_pure_fat.json` - deployed experimental pure-vs-fat model.
 
 `scripts/`:
 
 - `scripts/train_stage1b_detector.mjs` - prepares Stage 1b dataset and trains handcrafted baseline.
 - `scripts/train_stage1b_logmel.mjs` - trains/deploys log-mel verifier from prepared clips.
-- `scripts/train_stage2_pure_fat.mjs` - trains experimental pure-vs-fat classifier from prepared positive clips.
+- `scripts/train_stage2_pure_fat.mjs` - trains the pure-vs-fat classifier from prepared positive clips.
+- `scripts/stage2_pure_fat_policy.mjs` - shared Stage 2 label/exclusion policy helper.
+- `scripts/validate_stage2_repeated_cv.mjs` - repeated randomized Stage 2 pure/fat CV.
 - `scripts/source_golf_detector_data.py` - sourcing helper from prior data-collection work.
 
 `package.json`:
 
-- Defines Node scripts for Stage 1b training.
+- Defines Node scripts for Stage 1b training, Stage 2 training, and repeated Stage 2 validation.
 - No frontend build step.
 
 ## How The App Works Now
@@ -238,11 +265,13 @@ Individual commands:
 npm run train:stage1b:handcrafted
 npm run train:stage1b:logmel
 npm run train:stage2:pure-fat
+npm run validate:stage2:pure-fat
 ```
 
 Use `train:stage1b:logmel` only if `data/stage1b_prepared/` is already current.
 Use `train:stage1b:handcrafted` when you need to regenerate prepared clips or refresh the handcrafted baseline; it must not change the deployed detector.
 Use `train:stage2:pure-fat` only after `data/stage1b_prepared/` exists and is current.
+Use `validate:stage2:pure-fat` after Stage 2 training to test split stability over 200 randomized stratified 5-fold repeats.
 
 ## Threshold Selection
 
@@ -267,9 +296,13 @@ Syntax checks:
 ```sh
 node --check frontend/audio_features.js
 node --check frontend/stage1b.js
+node --check frontend/stage2.js
+node --check frontend/app.js
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
+node --check scripts/stage2_pure_fat_policy.mjs
 node --check scripts/train_stage2_pure_fat.mjs
+node --check scripts/validate_stage2_repeated_cv.mjs
 ```
 
 Full retrain:
@@ -343,11 +376,25 @@ Prepared negative categories:
 - `phone_handling`: 96
 - `whoosh_swing`: 59
 
+Stage 2 pure/fat v0:
+
+- Report: `data/stage2_pure_fat_report.json`
+- Repeated CV: `data/stage2_pure_fat_repeated_cv_report.json`
+- Model: `frontend/models/stage2_pure_fat.json`
+- Included examples: `19` = `10` pure / `9` fat
+- Excluded examples: `9` = `4` topped / `2` borderline / `3` bad-data visual-review exclusions
+- Single 5-fold CV accuracy: `0.895`
+- Confidence >= `0.60` kept accuracy: `0.944` at `0.947` coverage
+- Repeated CV mean accuracy: `0.882`
+- Repeated CV min accuracy: `0.842`
+- Repeated CV mean kept accuracy at confidence >= `0.60`: `0.926`
+- OOF separation margin: `0.058`
+
 ## Current Limitations
 
 - Only 28 local positive shot recordings.
 - Topped class has very few examples.
-- Stage 2 pure/fat exists only as an early experimental classifier.
+- Stage 2 pure/fat exists and runs in the app, but it is still an early local-domain classifier.
 - Stage 2 topped classifier does not exist yet.
 - No frozen live iPhone holdout yet.
 - Perfect log-mel CV may be inflated by small positive count and source/domain differences.
@@ -357,7 +404,7 @@ Prepared negative categories:
 
 ## Recommended Next Steps
 
-1. Live iPhone/range test the deployed log-mel verifier.
+1. Live iPhone/range test the deployed hybrid detector plus pure/fat quality column.
 
 Test real conditions:
 
@@ -392,7 +439,7 @@ Command:
 npm run train:stage1b
 ```
 
-5. Use the live collection/export loop to grow Stage 2 data while treating current pure-vs-fat predictions as experimental.
+5. Use the live collection/export loop to grow Stage 2 data while treating current pure-vs-fat predictions as experimental comparison data.
 
 Stage 2 should use trusted detector crops, not full `.m4a` recordings. More positives per class are needed before expecting a useful classifier, especially for topped.
 
@@ -405,10 +452,12 @@ Goal:
 Current implementation:
 
 - `pure` vs `fat` only.
-- Excludes topped and 1mm/borderline examples from v0 training.
-- CV accuracy `0.727` on 22 clear examples.
-- At confidence >= `0.60`: coverage `0.864`, kept accuracy `0.842`, unsure `3/22`.
-- Intended for live comparison and data collection, not trusted feedback.
+- Excludes topped, 1mm/borderline examples, and three visually reviewed bad-data examples from v0 training.
+- Exclusion policy lives in `data/stage2_pure_fat_exclusions.json`; do not add hard-coded exclusions in trainer scripts.
+- CV accuracy `0.895` on 19 included clear examples.
+- At confidence >= `0.60`: coverage `0.947`, kept accuracy `0.944`, unsure `1/19`.
+- Repeated randomized CV mean accuracy `0.882`; all 200 repeats were >= `0.80`.
+- Intended for live comparison and data collection, not final trusted feedback.
 
 Current data reality:
 
@@ -485,4 +534,4 @@ Concrete sequence:
 6. Add false positives as hard negatives.
 7. Re-run `npm run train:stage1b`.
 8. Evaluate against a frozen live holdout.
-9. Retrain/replace the experimental Stage 2 model as live labeled data grows.
+9. Retrain/replace the Stage 2 pure/fat model as live labeled data grows, keeping a frozen holdout before adding new clips to training.

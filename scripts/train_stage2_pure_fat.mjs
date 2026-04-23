@@ -8,6 +8,12 @@ import {
   extractLogMelFeatures,
   prepareModelClip,
 } from '../frontend/audio_features.js';
+import {
+  classFromFolder,
+  exclusionForFolder,
+  loadStage2PureFatPolicy,
+  summarizeStage2PureFatPolicy,
+} from './stage2_pure_fat_policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LABELS_PATH = join(ROOT, 'data', 'labels.json');
@@ -204,16 +210,8 @@ function scoreSummary(scored) {
   };
 }
 
-function classFromFolder(folderLabel) {
-  const label = folderLabel.toLowerCase();
-  if (label.includes('topped')) return null;
-  if (label.includes('1mm')) return null;
-  if (label.includes('pure')) return 'pure';
-  if (label.includes('fat')) return 'fat';
-  return null;
-}
-
 async function loadRows() {
+  const exclusionPolicy = await loadStage2PureFatPolicy();
   const labelsDoc = JSON.parse(await readFile(LABELS_PATH, 'utf8'));
   const labelByRelPath = new Map();
   for (const entry of Object.values(labelsDoc.labels)) {
@@ -231,9 +229,15 @@ async function loadRows() {
   const skipped = [];
   for (const manifest of manifestRows) {
     const labelEntry = labelByRelPath.get(manifest.source_path);
-    const className = labelEntry ? classFromFolder(labelEntry.folderLabel) : null;
+    const folderLabel = labelEntry?.folderLabel ?? null;
+    const exclusion = exclusionForFolder(folderLabel, exclusionPolicy);
+    const className = classFromFolder(folderLabel, exclusionPolicy);
     if (!className) {
-      skipped.push({ sourcePath: manifest.source_path, folderLabel: labelEntry?.folderLabel ?? null });
+      skipped.push({
+        sourcePath: manifest.source_path,
+        folderLabel,
+        ...exclusion,
+      });
       continue;
     }
     const clip = await readPreparedClip(manifest.local_path);
@@ -249,10 +253,10 @@ async function loadRows() {
       centerSec: manifest.center_sec,
     });
   }
-  return { rows, skipped };
+  return { rows, skipped, exclusionPolicy };
 }
 
-const { rows, skipped } = await loadRows();
+const { rows, skipped, exclusionPolicy } = await loadRows();
 if (!rows.length) throw new Error('No pure/fat Stage 2 rows found. Run npm run train:stage1b first.');
 if (rows[0].x.length !== LOG_MEL_FEATURE_NAMES.length) {
   throw new Error(`log-mel feature length mismatch: ${rows[0].x.length} != ${LOG_MEL_FEATURE_NAMES.length}`);
@@ -314,7 +318,8 @@ const modelOut = {
     pure: nPure,
     fat: nFat,
     excluded: skipped.length,
-    excludedPolicy: 'topped and 1mm/borderline fat are excluded from pure-vs-fat v0',
+    excludedPolicy: 'manual bad-data exclusions plus topped and 1mm/borderline exclusions for pure-vs-fat v0',
+    exclusionPolicy: summarizeStage2PureFatPolicy(exclusionPolicy),
     preparedManifest: PREPARED_MANIFEST_PATH.replace(ROOT + '/', ''),
     cv: oofMetrics,
     cvAtConfidence060: oofConfidenceMetrics,
@@ -329,6 +334,8 @@ const report = {
   modelPath: MODEL_PATH.replace(ROOT + '/', ''),
   featureExtractor: modelOut.featureExtractor,
   featureCount: LOG_MEL_FEATURE_NAMES.length,
+  labelSource: 'data/labels.json folderLabel joined through prepared manifest source_path',
+  exclusionPolicy: summarizeStage2PureFatPolicy(exclusionPolicy),
   pure: nPure,
   fat: nFat,
   excluded: skipped,
