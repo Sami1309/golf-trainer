@@ -39,6 +39,10 @@
       <span id="stage1b-threshold-val"></span>
     </label>
     <label>
+      quality conf: <input type="range" id="stage2-confidence" min="0.50" max="0.95" step="0.01" />
+      <span id="stage2-confidence-val"></span>
+    </label>
+    <label>
       <input type="checkbox" id="show-rejected" />
       show rejected
     </label>
@@ -46,6 +50,7 @@
       flux now: <b id="live-flux-now">—</b>
       &nbsp; peak: <b id="live-flux-peak">—</b>
       &nbsp; model: <b id="stage1b-status">loading</b>
+      &nbsp; quality: <b id="stage2-status">loading</b>
     </span>
   </div>
   <div class="calibration-panel">
@@ -100,7 +105,7 @@
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>#</th><th>source</th><th>when</th><th>flux</th><th>verifier</th><th>audio</th><th>label</th><th>files</th></tr>
+        <tr><th>#</th><th>source</th><th>when</th><th>flux</th><th>verifier</th><th>quality</th><th>audio</th><th>label</th><th>files</th></tr>
       </thead>
       <tbody id="detection-rows"></tbody>
     </table>

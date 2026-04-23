@@ -14,7 +14,7 @@ Target behavior:
 4. Later classify accepted shots as `pure`, `fat`, `topped`, or `unsure`.
 5. Run first as a mobile web app in iPhone Safari; native iOS is later.
 
-Current work is still detection/verifier quality. The pure/fat/topped classifier is not implemented yet.
+Current work is still detection/verifier quality and live data collection. A very early pure-vs-fat Stage 2 classifier exists for live comparison, but the full pure/fat/topped classifier is not implemented yet.
 
 ## Current Truth
 
@@ -22,7 +22,10 @@ The app currently has a working hybrid detector:
 
 - Stage 1a: spectral-flux onset detector in the browser.
 - Stage 1b: deployed log-mel logistic verifier loaded from `frontend/models/stage1b_detector.json`.
+- Stage 2 v0: experimental log-mel logistic pure-vs-fat classifier loaded from `frontend/models/stage2_pure_fat.json`.
 - Live mic mode runs onset detection, extracts a 500 ms clip, then runs Stage 1b.
+- Accepted live/file detections run the Stage 2 pure-vs-fat model for comparison.
+- Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and 2 second review clip.
 - File-analysis mode runs the same detector/verifier path on uploaded files.
 - File mode uses the calibrated labeled-sample onset threshold, not the live slider.
 - Live mode has one-shot calibration: user taps calibrate, hits a ball, and the app maps measured shot strength to onset threshold.
@@ -128,11 +131,13 @@ Raw shot folders:
 - `frontend/models/stage1b_detector.json` - deployed browser model.
 - `frontend/models/stage1b_logmel.json` - log-mel model copy.
 - `frontend/models/stage1b_handcrafted.json` - handcrafted baseline model copy.
+- `frontend/models/stage2_pure_fat.json` - experimental pure-vs-fat model.
 
 `scripts/`:
 
 - `scripts/train_stage1b_detector.mjs` - prepares Stage 1b dataset and trains handcrafted baseline.
 - `scripts/train_stage1b_logmel.mjs` - trains/deploys log-mel verifier from prepared clips.
+- `scripts/train_stage2_pure_fat.mjs` - trains experimental pure-vs-fat classifier from prepared positive clips.
 - `scripts/source_golf_detector_data.py` - sourcing helper from prior data-collection work.
 
 `package.json`:
@@ -151,7 +156,8 @@ Live path:
 5. Candidate onsets are picked when flux crosses threshold and min-gap rules.
 6. A 500 ms clip is extracted around the candidate and resampled to 16 kHz.
 7. `frontend/stage1b.js` runs the deployed verifier.
-8. Accepted candidates appear as shots; rejected candidates can be inspected if the UI is set to show rejected detections.
+8. Accepted candidates run the experimental Stage 2 pure-vs-fat classifier.
+9. Accepted and rejected candidates are stored locally for review/export; rejected candidates can be hidden or shown in the UI.
 
 File-analysis path:
 
@@ -231,10 +237,12 @@ Individual commands:
 ```sh
 npm run train:stage1b:handcrafted
 npm run train:stage1b:logmel
+npm run train:stage2:pure-fat
 ```
 
 Use `train:stage1b:logmel` only if `data/stage1b_prepared/` is already current.
 Use `train:stage1b:handcrafted` when you need to regenerate prepared clips or refresh the handcrafted baseline; it must not change the deployed detector.
+Use `train:stage2:pure-fat` only after `data/stage1b_prepared/` exists and is current.
 
 ## Threshold Selection
 
@@ -261,6 +269,7 @@ node --check frontend/audio_features.js
 node --check frontend/stage1b.js
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
+node --check scripts/train_stage2_pure_fat.mjs
 ```
 
 Full retrain:
@@ -338,7 +347,8 @@ Prepared negative categories:
 
 - Only 28 local positive shot recordings.
 - Topped class has very few examples.
-- Stage 2 pure/fat/topped classifier does not exist yet.
+- Stage 2 pure/fat exists only as an early experimental classifier.
+- Stage 2 topped classifier does not exist yet.
 - No frozen live iPhone holdout yet.
 - Perfect log-mel CV may be inflated by small positive count and source/domain differences.
 - External positives are not independent.
@@ -382,15 +392,23 @@ Command:
 npm run train:stage1b
 ```
 
-5. Only after detector quality is trusted, start Stage 2 classifier.
+5. Use the live collection/export loop to grow Stage 2 data while treating current pure-vs-fat predictions as experimental.
 
-Stage 2 should use trusted detector crops, not full `.m4a` recordings. More positives per class are needed before expecting a useful classifier.
+Stage 2 should use trusted detector crops, not full `.m4a` recordings. More positives per class are needed before expecting a useful classifier, especially for topped.
 
 ## Stage 2 Classifier Direction
 
 Goal:
 
 - Classify accepted golf shots as `pure`, `fat`, `topped`, or `unsure`.
+
+Current implementation:
+
+- `pure` vs `fat` only.
+- Excludes topped and 1mm/borderline examples from v0 training.
+- CV accuracy `0.727` on 22 clear examples.
+- At confidence >= `0.60`: coverage `0.864`, kept accuracy `0.842`, unsure `3/22`.
+- Intended for live comparison and data collection, not trusted feedback.
 
 Current data reality:
 
@@ -435,7 +453,7 @@ Track in Git:
 - Source code under `frontend/` and `scripts/`.
 - Docs such as `AGENTS.md`, `CLAUDE.md`, `PROJECT.md`, and progress reports.
 - Small canonical metadata: `data/labels.json`, `data/external/manifest.*`, `data/stage1b_prepared/manifest.jsonl`.
-- Small model/report artifacts: `frontend/models/*.json` and `data/stage1b_*_report.json`.
+- Small model/report artifacts: `frontend/models/*.json`, `data/stage1b_*_report.json`, and `data/stage2_*_report.json`.
 - Git policy files: `.gitignore` and `.gitattributes`.
 
 Do not track in normal Git:
@@ -467,4 +485,4 @@ Concrete sequence:
 6. Add false positives as hard negatives.
 7. Re-run `npm run train:stage1b`.
 8. Evaluate against a frozen live holdout.
-9. Then start Stage 2 classifier work.
+9. Retrain/replace the experimental Stage 2 model as live labeled data grows.

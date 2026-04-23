@@ -1,6 +1,7 @@
 import { magSpectrum, hann } from './fft.js';
 import { encodeWav, resample } from './wav.js';
 import { loadStage1bModel, verifyShot } from './stage1b.js';
+import { classifyShotQuality, loadStage2Model } from './stage2.js';
 import {
   clearDetectionsStore,
   deleteDetection as deleteStoredDetection,
@@ -32,6 +33,7 @@ const params = {
   threshold: 0.8,     // spectral flux threshold — tuned against the 28 m4a samples
   minGapMs: 200,      // min time between detected onsets
   stage1bThreshold: 0.7,
+  stage2ConfidenceThreshold: 0.6,
   showRejected: false,
   saveRejected: true,
   calibrationArmed: false,
@@ -138,6 +140,22 @@ function updateCalibrationUi() {
     state.textContent = `shot strength ${params.calibrationFlux.toFixed(2)}`;
     detail.textContent = `threshold ${(params.calibrationFlux * LIVE_CALIBRATION_THRESHOLD_FACTOR).toFixed(2)}`;
   }
+}
+
+function classifyVerifiedShot(verification) {
+  if (verification.label !== 'shot') {
+    return {
+      available: false,
+      label: 'no_shot',
+      predictedLabel: 'no_shot',
+      confidence: 1,
+      threshold: null,
+      probabilities: { pure: null, fat: null },
+    };
+  }
+  return classifyShotQuality(verification.samples, {
+    confidenceThreshold: params.stage2ConfidenceThreshold,
+  });
 }
 
 // ------------------------------------------------------------
@@ -391,6 +409,7 @@ async function onLiveDetected(ctxTimeSample, flux) {
     }
     const resampled = await resample(cropped, sr, TARGET_SR);
     const verification = verifyShot(resampled, { threshold: params.stage1bThreshold });
+    const quality = classifyVerifiedShot(verification);
     const contextPreSamples = Math.floor((CONTEXT_PRE_MS / 1000) * sr);
     const contextPostSamples = Math.floor((CONTEXT_POST_MS / 1000) * sr);
     const contextStart = impactSample - contextPreSamples;
@@ -408,10 +427,12 @@ async function onLiveDetected(ctxTimeSample, flux) {
       sampleRate: TARGET_SR,
       contextSampleRate: TARGET_SR,
       verification,
+      quality,
       calibration: {
         onsetThreshold: params.threshold,
         calibrationFlux: params.calibrationFlux,
         stage1bThreshold: params.stage1bThreshold,
+        stage2ConfidenceThreshold: params.stage2ConfidenceThreshold,
       },
     });
   } catch (e) {
@@ -479,6 +500,7 @@ async function addDetection(det) {
   det.createdAt = det.createdAt || nowStamp();
   det.verification ||= { available: false, label: 'shot', pShot: 1, confidence: 1 };
   if (det.verification.samples) delete det.verification.samples;
+  det.quality ||= { available: false, label: 'unsure', predictedLabel: 'unsure', confidence: 0, probabilities: { pure: null, fat: null } };
   det.label = det.label || defaultDetectionLabel(det);
   det.tester = tester;
   det.contextMs = CONTEXT_LEN_MS;
@@ -576,6 +598,11 @@ function renderDetectionRow(det) {
     ? `${det.verification.label} ${(det.verification.pShot * 100).toFixed(0)}%`
     : 'onset-only';
   const verifierClass = det.verification.label === 'shot' ? 'verifier-ok' : 'verifier-reject';
+  const quality = det.quality || {};
+  const qualityText = quality.available
+    ? `${quality.label} (${quality.predictedLabel} ${(quality.confidence * 100).toFixed(0)}%)`
+    : 'off';
+  const qualityClass = quality.label === 'unsure' || !quality.available ? 'quality-unsure' : 'quality-ok';
 
   const row = el('tr', { className: rejected ? 'rejected' : '' },
     el('td', {}, String(det.displayId)),
@@ -583,6 +610,7 @@ function renderDetectionRow(det) {
     el('td', {}, det.timestamp),
     el('td', {}, det.flux),
     el('td', { className: verifierClass }, verifierText),
+    el('td', { className: qualityClass }, qualityText),
     el('td', {}, audio),
     el('td', {},
       labelBtn('pure'),
@@ -654,6 +682,7 @@ function manifestRecord(d) {
     contextSampleRate: d.contextSampleRate || d.sampleRate,
     modelClipMs: d.modelClipMs || CLIP_LEN_MS,
     contextMs: d.contextMs || CONTEXT_LEN_MS,
+    quality: d.quality || null,
     contextFile: `clips/context/${detectionFilename(d, 'context_2s')}`,
     modelClipFile: `clips/model_500ms/${detectionFilename(d, 'model_500ms')}`,
   };
@@ -740,6 +769,7 @@ async function analyzeFile(file) {
       Math.floor((CONTEXT_POST_MS / 1000) * TARGET_SR)
     );
     const verification = verifyShot(clip, { threshold: params.stage1bThreshold });
+    const quality = classifyVerifiedShot(verification);
     void addDetection({
       source: `file:${file.name}`,
       timestamp: `t=${o.time.toFixed(3)}s`,
@@ -749,6 +779,7 @@ async function analyzeFile(file) {
       sampleRate: TARGET_SR,
       contextSampleRate: TARGET_SR,
       verification,
+      quality,
     });
   }
 }
@@ -895,6 +926,10 @@ $('#stage1b-threshold').oninput = (e) => {
   params.stage1bThreshold = parseFloat(e.target.value);
   $('#stage1b-threshold-val').textContent = params.stage1bThreshold.toFixed(2);
 };
+$('#stage2-confidence').oninput = (e) => {
+  params.stage2ConfidenceThreshold = parseFloat(e.target.value);
+  $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
+};
 $('#show-rejected').onchange = (e) => {
   params.showRejected = e.target.checked;
   renderDetections();
@@ -911,6 +946,8 @@ $('#min-gap').value = params.minGapMs;
 $('#min-gap-val').textContent = params.minGapMs;
 $('#stage1b-threshold').value = params.stage1bThreshold;
 $('#stage1b-threshold-val').textContent = params.stage1bThreshold.toFixed(2);
+$('#stage2-confidence').value = params.stage2ConfidenceThreshold;
+$('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
 $('#show-rejected').checked = params.showRejected;
 updateCalibrationUi();
 
@@ -928,6 +965,20 @@ async function initStage1b() {
 }
 
 initStage1b();
+async function initStage2() {
+  try {
+    const model = await loadStage2Model();
+    params.stage2ConfidenceThreshold = model.confidenceThreshold ?? params.stage2ConfidenceThreshold;
+    $('#stage2-confidence').value = params.stage2ConfidenceThreshold;
+    $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
+    $('#stage2-status').textContent = `${model.training?.pure ?? '?'} pure/${model.training?.fat ?? '?'} fat`;
+  } catch (e) {
+    $('#stage2-status').textContent = 'off';
+    console.warn(e);
+  }
+}
+
+initStage2();
 loadStoredDetections();
 
 // Debug info

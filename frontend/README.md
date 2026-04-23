@@ -4,6 +4,7 @@ Single-page web app for the Stage 1 hybrid detector:
 - Captures mic audio via Web Audio API
 - Runs spectral-flux onset detection live (via `AnalyserNode` polled at ~60 Hz)
 - Runs a Stage 1b shot verifier model on each detected 500 ms clip
+- Runs an experimental Stage 2 pure-vs-fat classifier on accepted shots
 - Runs the same algorithm offline against uploaded audio files
 - Extracts a canonical 500 ms model clip plus a 2 second review clip around each detection
 - Stores detections locally in IndexedDB for review after reloads
@@ -35,6 +36,15 @@ It writes:
 - `data/stage1b_logmel_report.json` — log-mel metrics and false-positive details.
 - `data/stage1b_handcrafted_report.json` — handcrafted baseline metrics.
 - `data/stage1b_prepared/` — regenerated 500 ms training clips used for Stage 1b.
+
+The pure-vs-fat Stage 2 model is also a small JSON logistic model loaded from
+`frontend/models/stage2_pure_fat.json`. Train it after the Stage 1b prepared clips exist:
+
+```sh
+npm run train:stage2:pure-fat
+```
+
+Stage 2 v0 intentionally excludes topped and 1mm/borderline fat examples. It is useful for live comparison and data collection, not yet a trusted swing-quality classifier.
 
 Important: positives are cropped from `data/labels.json` around the labeled impact time. The script intentionally does **not** train on the full local `.m4a` positives because those recordings contain spoken shot names before impact. It now adds pre-impact crops from those same local files as hard negatives, so spoken pre-roll is treated as `not_shot` instead of leaking into positives. External positives are not used yet; current sourced positives are only copies of the same local recordings.
 
@@ -71,7 +81,7 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 2. **One-shot live calibration**: click **Calibrate next shot**, then hit one real ball. The app temporarily lowers the onset gate to catch that shot, measures one dimension (`shot strength` / spectral flux), and sets the live onset threshold to 65% of that measured value.
 3. **File mode on known recordings**: upload any `.m4a` from the sample folders. File mode uses the calibrated labeled-sample threshold (`0.65`) instead of the live slider. The waveform should render with pink vertical lines at each detected onset.
 4. **Threshold tuning**: if live mode misses shots, use one-shot calibration rather than hand-tuning first. If everything fires, raise the threshold slightly.
-5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Check the detections table for real shots vs false positives.
+5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Check the detections table for real shots vs false positives and compare the pure/fat quality guess against your label.
 6. **Export**: hit Export All after a session. The app writes a ZIP with `manifest.json`, `clips/context/` 2 second review WAVs, and `clips/model_500ms/` canonical model clips.
 
 ## Known gotchas
@@ -93,7 +103,8 @@ Failing any of these before adding a backend means the pipeline has a problem we
 
 ## What this does NOT do yet
 
-- No pure/fat/topped classifier yet.
+- Pure/fat classifier is experimental and trained on only 22 clear local examples.
+- No topped classifier yet.
 - No multi-device sync / backend.
 - No spectrogram (yet).
 - The verifier was trained only on current shots plus edge negatives. It still needs deliberate hard negatives: practice swings, claps, bag drops, club taps, phone bumps.
