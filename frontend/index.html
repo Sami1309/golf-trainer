@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Golf Shot Detector — Hybrid</title>
 <link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </head>
 <body>
 <header>
@@ -87,18 +88,19 @@
 <section class="card">
   <h2>Detections <span id="detection-count">0</span></h2>
   <p class="hint">
-    For each detection: play the 500 ms clip to verify it actually contains the impact,
-    label it as shot / not_shot / unsure, and download (filename encodes the label).
-    <b>Export all</b> drops every WAV plus a <code>labels.json</code> manifest.
+    Each live/file candidate is stored locally with a 2 second review clip and a canonical
+    500 ms model clip. Label it as pure / fat / topped / no_shot / unsure, then export a ZIP
+    with WAVs plus a manifest.
   </p>
   <div class="controls">
     <button id="export-all">Export all</button>
     <button id="clear-detections" class="danger">Clear</button>
+    <span class="readout" id="stored-count">0 stored · 0 labeled</span>
   </div>
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>#</th><th>source</th><th>when</th><th>flux</th><th>verifier</th><th>audio</th><th>label</th><th>dl</th></tr>
+        <tr><th>#</th><th>source</th><th>when</th><th>flux</th><th>verifier</th><th>audio</th><th>label</th><th>files</th></tr>
       </thead>
       <tbody id="detection-rows"></tbody>
     </table>

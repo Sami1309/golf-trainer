@@ -5,10 +5,11 @@ Single-page web app for the Stage 1 hybrid detector:
 - Runs spectral-flux onset detection live (via `AnalyserNode` polled at ~60 Hz)
 - Runs a Stage 1b shot verifier model on each detected 500 ms clip
 - Runs the same algorithm offline against uploaded audio files
-- Extracts 500 ms windows around each detection, resampled to 16 kHz mono
-- Plays / labels / downloads each detection as a WAV
+- Extracts a canonical 500 ms model clip plus a 2 second review clip around each detection
+- Stores detections locally in IndexedDB for review after reloads
+- Plays / labels / exports detections as WAVs plus a JSON manifest
 
-No backend, no build step, no dependencies.
+No backend and no build step. ZIP export uses JSZip from jsDelivr in the browser.
 
 The default verifier is a small JSON logistic model loaded from
 `frontend/models/stage1b_detector.json`. The full Stage 1b training flow is:
@@ -71,7 +72,7 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 3. **File mode on known recordings**: upload any `.m4a` from the sample folders. File mode uses the calibrated labeled-sample threshold (`0.65`) instead of the live slider. The waveform should render with pink vertical lines at each detected onset.
 4. **Threshold tuning**: if live mode misses shots, use one-shot calibration rather than hand-tuning first. If everything fires, raise the threshold slightly.
 5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Check the detections table for real shots vs false positives.
-6. **Export**: hit Export All after a session. Each WAV has the label in its filename; `labels.json` is the master manifest.
+6. **Export**: hit Export All after a session. The app writes a ZIP with `manifest.json`, `clips/context/` 2 second review WAVs, and `clips/model_500ms/` canonical model clips.
 
 ## Known gotchas
 
@@ -86,14 +87,13 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 - [ ] On desktop: clap fires a detection, silence doesn't.
 - [ ] On desktop file-mode: every one of the 28 sample `.m4a` files produces ≥1 detection, and at least one of those detections, played back, clearly contains the impact.
 - [ ] On iPhone: mic permission granted, live detection works at a driving range.
-- [ ] Clip downloads are valid 16 kHz mono 16-bit WAV files that play everywhere.
+- [ ] Exported ZIP contains valid 16 kHz mono 16-bit WAV files that play everywhere.
 
 Failing any of these before adding a backend means the pipeline has a problem we need to solve first, not paper over with more layers.
 
 ## What this does NOT do yet
 
 - No pure/fat/topped classifier yet.
-- No labeling persistence across reloads (labels are in-memory until Export).
 - No multi-device sync / backend.
 - No spectrogram (yet).
 - The verifier was trained only on current shots plus edge negatives. It still needs deliberate hard negatives: practice swings, claps, bag drops, club taps, phone bumps.

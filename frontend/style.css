@@ -76,6 +76,11 @@ button {
 button:hover:not(:disabled) { background: #35354a; }
 button:disabled { opacity: 0.4; cursor: default; }
 button.danger { border-color: #663; color: #fc6; }
+button.mini {
+  padding: 2px 6px;
+  font-size: 0.72rem;
+  border-radius: 3px;
+}
 input[type="range"] { width: 160px; }
 input[type="file"] {
   background: #1a1a20;
@@ -119,6 +124,7 @@ tr.hidden-rejected { display: none; }
   margin-right: 4px;
   font-size: 0.78rem;
   border-radius: 3px;
+  white-space: nowrap;
 }
 .lbl.active { background: #2a5a2a; border-color: #3a7a3a; color: #bfb; }
 .dl {

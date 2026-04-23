@@ -1,6 +1,12 @@
 import { magSpectrum, hann } from './fft.js';
 import { encodeWav, resample } from './wav.js';
 import { loadStage1bModel, verifyShot } from './stage1b.js';
+import {
+  clearDetectionsStore,
+  deleteDetection as deleteStoredDetection,
+  getAllDetections,
+  putDetection,
+} from './shot_store.js';
 
 // ------------------------------------------------------------
 // Tunables (also reflected in UI controls)
@@ -9,6 +15,9 @@ const TARGET_SR = 16000;          // sample rate we save clips at
 const CLIP_PRE_MS = 100;
 const CLIP_POST_MS = 400;
 const CLIP_LEN_MS = CLIP_PRE_MS + CLIP_POST_MS;
+const CONTEXT_PRE_MS = 1000;
+const CONTEXT_POST_MS = 1000;
+const CONTEXT_LEN_MS = CONTEXT_PRE_MS + CONTEXT_POST_MS;
 
 // Spectral flux parameters for file-mode (offline) analysis
 const FILE_FFT_SIZE = 1024;
@@ -24,6 +33,7 @@ const params = {
   minGapMs: 200,      // min time between detected onsets
   stage1bThreshold: 0.7,
   showRejected: false,
+  saveRejected: true,
   calibrationArmed: false,
   calibrationFlux: null,
 };
@@ -50,6 +60,50 @@ function setStatus(msg, kind = 'info') {
 
 function clamp(v, lo, hi) {
   return Math.max(lo, Math.min(hi, v));
+}
+
+function makeId(prefix = 'det') {
+  if (crypto.randomUUID) return `${prefix}_${crypto.randomUUID()}`;
+  return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+}
+
+function nowStamp() {
+  return new Date().toISOString();
+}
+
+function fileStamp() {
+  return nowStamp().replace(/[:.]/g, '-');
+}
+
+function safeName(s) {
+  return String(s || 'clip')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 96) || 'clip';
+}
+
+function samplesToWav(samples, sampleRate) {
+  return encodeWav(samples, sampleRate);
+}
+
+async function blobToArrayBuffer(blob) {
+  return blob.arrayBuffer();
+}
+
+function arrayBufferToWavBlob(buffer) {
+  return new Blob([buffer], { type: 'audio/wav' });
+}
+
+function cropPadded(samples, centerSample, preSamples, postSamples) {
+  const length = preSamples + postSamples;
+  const out = new Float32Array(length);
+  const srcStartWanted = centerSample - preSamples;
+  const srcStart = Math.max(0, srcStartWanted);
+  const dstStart = Math.max(0, -srcStartWanted);
+  const copyLen = Math.min(samples.length - srcStart, length - dstStart);
+  if (copyLen > 0) out.set(samples.subarray(srcStart, srcStart + copyLen), dstStart);
+  return out;
 }
 
 function liveFluxThreshold() {
@@ -170,7 +224,7 @@ async function startLive() {
   live.analyser.fftSize = 2048;
   live.analyser.smoothingTimeConstant = 0;        // raw FFT — critical for transient flux
   live.worklet = new AudioWorkletNode(live.ctx, 'ring-buffer', {
-    processorOptions: { seconds: 3 },
+    processorOptions: { seconds: 5 },
     numberOfInputs: 1,
     numberOfOutputs: 0,
   });
@@ -227,6 +281,28 @@ function requestExtract(sampleIndex, length) {
     live.pendingExtracts.set(requestId, { resolve, reject });
     live.worklet.port.postMessage({ cmd: 'extract', requestId, sampleIndex, length });
   });
+}
+
+async function waitForLiveSamples(endSample, timeoutMs = 1800) {
+  const started = performance.now();
+  while (live.running && live.workletTotalSamples < endSample) {
+    if (performance.now() - started > timeoutMs) return false;
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+  return live.workletTotalSamples >= endSample;
+}
+
+async function requestExtractPadded(sampleIndex, length) {
+  const out = new Float32Array(length);
+  const oldest = Math.max(0, live.workletTotalSamples - Math.ceil(live.ctx.sampleRate * 5));
+  const wantedEnd = sampleIndex + length;
+  const requestStart = Math.max(oldest, sampleIndex);
+  const requestEnd = Math.min(live.workletTotalSamples, wantedEnd);
+  const requestLen = requestEnd - requestStart;
+  if (requestLen <= 0) return { samples: out, startSample: sampleIndex };
+  const { samples } = await requestExtract(requestStart, requestLen);
+  out.set(samples, requestStart - sampleIndex);
+  return { samples: out, startSample: sampleIndex };
 }
 
 // Poll AnalyserNode, compute spectral flux, peak-pick.
@@ -297,13 +373,15 @@ async function onLiveDetected(ctxTimeSample, flux) {
     startSample = live.workletTotalSamples - extraLen;
   }
   try {
-    const { samples } = await requestExtract(startSample, extraLen);
+    const shortExtract = await requestExtractPadded(startSample, extraLen);
+    const { samples } = shortExtract;
     // Find peak |amplitude| in [preSamples, preSamples + searchSamples)
     let peakIdx = preSamples, peakVal = 0;
     for (let i = preSamples; i < preSamples + searchSamples && i < samples.length; i++) {
       const v = Math.abs(samples[i]);
       if (v > peakVal) { peakVal = v; peakIdx = i; }
     }
+    const impactSample = shortExtract.startSample + peakIdx;
     // Re-crop to [peakIdx - preSamples, peakIdx + postSamples]
     const cropStart = Math.max(0, peakIdx - preSamples);
     const cropEnd = Math.min(samples.length, peakIdx + postSamples);
@@ -313,14 +391,28 @@ async function onLiveDetected(ctxTimeSample, flux) {
     }
     const resampled = await resample(cropped, sr, TARGET_SR);
     const verification = verifyShot(resampled, { threshold: params.stage1bThreshold });
-    const ts = new Date().toISOString().replace(/[:.]/g, '-');
-    addDetection({
+    const contextPreSamples = Math.floor((CONTEXT_PRE_MS / 1000) * sr);
+    const contextPostSamples = Math.floor((CONTEXT_POST_MS / 1000) * sr);
+    const contextStart = impactSample - contextPreSamples;
+    const contextLen = contextPreSamples + contextPostSamples;
+    await waitForLiveSamples(impactSample + contextPostSamples);
+    const contextExtract = await requestExtractPadded(contextStart, contextLen);
+    const contextResampled = await resample(contextExtract.samples, sr, TARGET_SR);
+    const ts = fileStamp();
+    void addDetection({
       source: 'live',
       timestamp: ts,
       flux: flux.toFixed(2),
       samples: verification.samples,
+      contextSamples: contextResampled,
       sampleRate: TARGET_SR,
+      contextSampleRate: TARGET_SR,
       verification,
+      calibration: {
+        onsetThreshold: params.threshold,
+        calibrationFlux: params.calibrationFlux,
+        stage1bThreshold: params.stage1bThreshold,
+      },
     });
   } catch (e) {
     console.warn('extract failed', e);
@@ -341,45 +433,144 @@ function applyLiveCalibration(flux) {
 // ------------------------------------------------------------
 const detections = [];
 
-function addDetection(det) {
-  det.id = detections.length + 1;
+function defaultDetectionLabel(det) {
+  return det.verification?.label === 'not_shot' ? 'no_shot' : 'unsure';
+}
+
+function detectionFilename(det, kind = 'context') {
+  const label = det.label || 'unlabeled';
+  const source = safeName(det.source);
+  const stamp = safeName(det.timestamp || det.createdAt || 'time');
+  return `${tester}_${String(det.displayId || det.id).padStart(3, '0')}_${source}_${stamp}_${label}_${kind}.wav`;
+}
+
+async function materializeDetection(det) {
+  if (!det.wavBuffer && det.samples) {
+    det.wavBuffer = await blobToArrayBuffer(samplesToWav(det.samples, det.sampleRate));
+  }
+  if (!det.contextWavBuffer) {
+    const contextSamples = det.contextSamples || det.samples;
+    const contextRate = det.contextSampleRate || det.sampleRate;
+    det.contextWavBuffer = await blobToArrayBuffer(samplesToWav(contextSamples, contextRate));
+  }
+  delete det.samples;
+  delete det.contextSamples;
+  return det;
+}
+
+function ensureDetectionUrls(det) {
+  if (!det.wavUrl && det.wavBuffer) {
+    det.wavUrl = URL.createObjectURL(arrayBufferToWavBlob(det.wavBuffer));
+  }
+  if (!det.contextUrl && det.contextWavBuffer) {
+    det.contextUrl = URL.createObjectURL(arrayBufferToWavBlob(det.contextWavBuffer));
+  }
+}
+
+function revokeDetectionUrls(det) {
+  if (det.wavUrl) URL.revokeObjectURL(det.wavUrl);
+  if (det.contextUrl) URL.revokeObjectURL(det.contextUrl);
+  det.wavUrl = null;
+  det.contextUrl = null;
+}
+
+async function addDetection(det) {
+  det.id = det.id || makeId('det');
+  det.createdAt = det.createdAt || nowStamp();
   det.verification ||= { available: false, label: 'shot', pShot: 1, confidence: 1 };
-  det.label = det.verification.label;
-  det.wav = encodeWav(det.samples, det.sampleRate);
-  det.url = URL.createObjectURL(det.wav);
+  if (det.verification.samples) delete det.verification.samples;
+  det.label = det.label || defaultDetectionLabel(det);
+  det.tester = tester;
+  det.contextMs = CONTEXT_LEN_MS;
+  det.modelClipMs = CLIP_LEN_MS;
+  await materializeDetection(det);
+  ensureDetectionUrls(det);
   detections.push(det);
+  sortDetections();
   renderDetections();
+  try {
+    await putDetection(stripRuntimeDetectionFields(det));
+  } catch (e) {
+    console.warn('failed to store detection', e);
+    setStatus(`Detection captured but not stored: ${e.message}`, 'error');
+  }
+}
+
+function stripRuntimeDetectionFields(det) {
+  const { wavUrl, contextUrl, displayId, ...record } = det;
+  return record;
+}
+
+function sortDetections() {
+  detections.sort((a, b) => (a.createdAt || '').localeCompare(b.createdAt || ''));
+  detections.forEach((d, i) => { d.displayId = i + 1; });
+}
+
+async function loadStoredDetections() {
+  try {
+    const stored = await getAllDetections();
+    detections.length = 0;
+    for (const det of stored) {
+      ensureDetectionUrls(det);
+      detections.push(det);
+    }
+    sortDetections();
+    renderDetections();
+  } catch (e) {
+    console.warn('failed to load stored detections', e);
+    setStatus(`Stored detection load failed: ${e.message}`, 'error');
+  }
 }
 
 function renderDetections() {
   $('#detection-rows').innerHTML = '';
   for (const det of detections) renderDetectionRow(det);
   const accepted = detections.filter(d => d.verification.label === 'shot').length;
+  const labeled = detections.filter(d => d.label && d.label !== 'unsure').length;
   $('#detection-count').textContent = `${accepted}/${detections.length}`;
+  $('#stored-count').textContent = `${detections.length} stored · ${labeled} labeled`;
 }
 
 function renderDetectionRow(det) {
-  const filename = `${tester}_${det.source}_${det.timestamp}_flux${det.flux}_${det.label}.wav`;
   const rejected = det.verification.label === 'not_shot';
 
-  const audio = el('audio', { controls: true, src: det.url, preload: 'none' });
+  const audio = el('audio', { controls: true, src: det.contextUrl || det.wavUrl, preload: 'none' });
   audio.style.height = '28px';
 
   const labelBtn = (lbl) => {
     const b = el('button', { className: `lbl ${det.label === lbl ? 'active' : ''}` }, lbl);
-    b.onclick = () => {
+    b.onclick = async () => {
       det.label = lbl;
+      det.labeledAt = nowStamp();
+      det.labeledBy = tester;
+      await putDetection(stripRuntimeDetectionFields(det));
       renderDetections();
     };
     return b;
   };
 
-  const dl = el('a', {
-    href: det.url,
-    download: filename,
+  const contextDl = el('a', {
+    href: det.contextUrl || det.wavUrl,
+    download: detectionFilename(det, 'context_2s'),
     className: 'dl',
-    textContent: 'dl',
+    textContent: 'ctx',
   });
+  const modelDl = el('a', {
+    href: det.wavUrl,
+    download: detectionFilename(det, 'model_500ms'),
+    className: 'dl',
+    textContent: '500ms',
+  });
+  const del = el('button', { className: 'mini danger', textContent: 'del' });
+  del.onclick = async () => {
+    if (!confirm(`Delete detection ${det.displayId}?`)) return;
+    revokeDetectionUrls(det);
+    await deleteStoredDetection(det.id);
+    const idx = detections.findIndex(d => d.id === det.id);
+    if (idx >= 0) detections.splice(idx, 1);
+    sortDetections();
+    renderDetections();
+  };
 
   const verifierText = det.verification.available
     ? `${det.verification.label} ${(det.verification.pShot * 100).toFixed(0)}%`
@@ -387,60 +578,105 @@ function renderDetectionRow(det) {
   const verifierClass = det.verification.label === 'shot' ? 'verifier-ok' : 'verifier-reject';
 
   const row = el('tr', { className: rejected ? 'rejected' : '' },
-    el('td', {}, String(det.id)),
+    el('td', {}, String(det.displayId)),
     el('td', {}, det.source),
     el('td', {}, det.timestamp),
     el('td', {}, det.flux),
     el('td', { className: verifierClass }, verifierText),
     el('td', {}, audio),
     el('td', {},
-      labelBtn('shot'),
-      labelBtn('not_shot'),
+      labelBtn('pure'),
+      labelBtn('fat'),
+      labelBtn('topped'),
+      labelBtn('no_shot'),
       labelBtn('unsure'),
     ),
-    el('td', {}, dl),
+    el('td', {}, contextDl, ' ', modelDl, ' ', del),
   );
   if (rejected && !params.showRejected) row.classList.add('hidden-rejected');
   $('#detection-rows').appendChild(row);
 }
 
-function exportAll() {
+async function exportAll() {
   if (detections.length === 0) {
     alert('No detections yet.');
     return;
   }
-  // Simple export: trigger each download sequentially. No zip lib dependency.
-  detections.forEach((det, i) => {
-    const wav = encodeWav(det.samples, det.sampleRate);
-    const url = URL.createObjectURL(wav);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${tester}_${det.source}_${det.timestamp}_flux${det.flux}_${det.label}.wav`;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
-  });
-  // Also drop a labels.json
-  const manifest = detections.map(d => ({
-    id: d.id, source: d.source, timestamp: d.timestamp,
-    flux: d.flux,
-    label: d.label,
-    verifier: d.verification,
+  if (!window.JSZip) {
+    setStatus('ZIP library unavailable; exporting manifest only.', 'error');
+    exportManifestOnly();
+    return;
+  }
+
+  setStatus(`Building ZIP for ${detections.length} detections…`, 'info');
+  const zip = new window.JSZip();
+  const manifest = detections.map(d => manifestRecord(d));
+  zip.file('manifest.json', JSON.stringify({
+    version: 1,
+    exportedAt: nowStamp(),
     tester,
-  }));
-  const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
+    app: 'golf-shot-detector',
+    detections: manifest,
+  }, null, 2));
+
+  for (const det of detections) {
+    const contextName = detectionFilename(det, 'context_2s');
+    const modelName = detectionFilename(det, 'model_500ms');
+    zip.file(`clips/context/${contextName}`, det.contextWavBuffer || det.wavBuffer);
+    zip.file(`clips/model_500ms/${modelName}`, det.wavBuffer);
+  }
+
+  const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${tester}_labels_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+  a.download = `${tester}_detections_${fileStamp()}.zip`;
   document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  setStatus(`Exported ${detections.length} detections.`, 'ok');
 }
 
-function clearDetections() {
+function manifestRecord(d) {
+  return {
+    id: d.id,
+    displayId: d.displayId,
+    createdAt: d.createdAt,
+    source: d.source,
+    timestamp: d.timestamp,
+    flux: d.flux,
+    label: d.label,
+    labeledAt: d.labeledAt || null,
+    labeledBy: d.labeledBy || null,
+    tester: d.tester || tester,
+    verifier: d.verification,
+    calibration: d.calibration || null,
+    sampleRate: d.sampleRate,
+    contextSampleRate: d.contextSampleRate || d.sampleRate,
+    modelClipMs: d.modelClipMs || CLIP_LEN_MS,
+    contextMs: d.contextMs || CONTEXT_LEN_MS,
+    contextFile: `clips/context/${detectionFilename(d, 'context_2s')}`,
+    modelClipFile: `clips/model_500ms/${detectionFilename(d, 'model_500ms')}`,
+  };
+}
+
+function exportManifestOnly() {
+  const blob = new Blob([JSON.stringify(detections.map(d => manifestRecord(d)), null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${tester}_labels_${fileStamp()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+async function clearDetections() {
   if (!confirm(`Clear all ${detections.length} detections?`)) return;
-  for (const det of detections) if (det.url) URL.revokeObjectURL(det.url);
+  for (const det of detections) revokeDetectionUrls(det);
   detections.length = 0;
+  await clearDetectionsStore();
   $('#detection-rows').innerHTML = '';
   $('#detection-count').textContent = '0';
+  $('#stored-count').textContent = '0 stored · 0 labeled';
 }
 
 // ------------------------------------------------------------
@@ -497,13 +733,21 @@ async function analyzeFile(file) {
     if (start < 0) { end += -start; start = 0; }
     if (end > sig.length) { start -= end - sig.length; end = sig.length; start = Math.max(0, start); }
     const clip = sig.slice(start, end);
+    const contextClip = cropPadded(
+      sig,
+      centerSample,
+      Math.floor((CONTEXT_PRE_MS / 1000) * TARGET_SR),
+      Math.floor((CONTEXT_POST_MS / 1000) * TARGET_SR)
+    );
     const verification = verifyShot(clip, { threshold: params.stage1bThreshold });
-    addDetection({
+    void addDetection({
       source: `file:${file.name}`,
       timestamp: `t=${o.time.toFixed(3)}s`,
       flux: o.flux.toFixed(2),
       samples: verification.samples,
+      contextSamples: contextClip,
       sampleRate: TARGET_SR,
+      contextSampleRate: TARGET_SR,
       verification,
     });
   }
@@ -684,6 +928,7 @@ async function initStage1b() {
 }
 
 initStage1b();
+loadStoredDetections();
 
 // Debug info
 $('#debug-ua').textContent = navigator.userAgent;
