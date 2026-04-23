@@ -1,0 +1,36 @@
+.DS_Store
+.claude/settings.local.json
+
+# Python / Node local state
+__pycache__/
+*.py[cod]
+node_modules/
+.env
+.env.*
+
+# Raw and generated audio/video payloads are too large for normal Git.
+# Keep manifests, labels, scripts, reports, and JSON model files tracked.
+*.aac
+*.aiff
+*.flac
+*.m4a
+*.mp3
+*.mp4
+*.mov
+*.MOV
+*.wav
+*.WAV
+
+# Generated Stage 1b clip payloads are reproducible from raw source files.
+data/stage1b_prepared/shot/
+data/stage1b_prepared/not_shot/
+
+# Common future generated clip/model folders.
+data/clips/
+data/clips_aug/
+data/holdout/
+/models/
+
+# Temporary local exports from the browser app.
+/exports/
+/sessions/

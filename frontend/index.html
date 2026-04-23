@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Golf Shot Detector — Hybrid</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>Golf Shot Detector — Hybrid</h1>
+  <div class="meta">
+    tester: <b id="tester-label">—</b>
+    <span id="status" class="status">idle</span>
+  </div>
+</header>
+
+<section class="card">
+  <h2>Live mic</h2>
+  <p class="hint">
+    iPhone on the ground, mic pointing up-ish, ≤1 m from the ball. Tap Start, let it run,
+    hit some shots (or clap for a sanity check). Watch the green <b>flux</b> curve spike at each impact;
+    the red dashed line is the trigger threshold.
+  </p>
+  <div class="controls">
+    <button id="live-start">Start listening</button>
+    <button id="live-stop" disabled>Stop</button>
+    <label>
+      threshold: <input type="range" id="threshold" min="0.1" max="3" step="0.05" />
+      <span id="threshold-val"></span>
+    </label>
+    <label>
+      min gap (ms): <input type="range" id="min-gap" min="50" max="1000" step="10" />
+      <span id="min-gap-val"></span>
+    </label>
+    <label>
+      verifier: <input type="range" id="stage1b-threshold" min="0.05" max="0.95" step="0.01" />
+      <span id="stage1b-threshold-val"></span>
+    </label>
+    <label>
+      <input type="checkbox" id="show-rejected" />
+      show rejected
+    </label>
+    <span class="readout">
+      flux now: <b id="live-flux-now">—</b>
+      &nbsp; peak: <b id="live-flux-peak">—</b>
+      &nbsp; model: <b id="stage1b-status">loading</b>
+    </span>
+  </div>
+  <div class="calibration-panel">
+    <div>
+      <b>One-shot calibration</b>
+      <span class="hint-inline">one dimension: expected shot strength → onset threshold</span>
+    </div>
+    <button id="calibrate-next-shot">Calibrate next shot</button>
+    <span class="readout">
+      calibration: <b id="calibration-state">not calibrated</b>
+      &nbsp; <span id="calibration-detail">default threshold</span>
+    </span>
+  </div>
+  <div class="strip-row">
+    <div class="strip">
+      <div class="strip-label">waveform (peak)</div>
+      <canvas id="live-wave" width="900" height="100"></canvas>
+    </div>
+    <div class="strip">
+      <div class="strip-label">spectral flux</div>
+      <canvas id="live-flux" width="900" height="100"></canvas>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>File analysis</h2>
+  <p class="hint">
+    Drop one or more audio files (the <code>.m4a</code> files in your sample folders work).
+    The detector runs offline and overlays detected onsets on the waveform as pink vertical lines.
+    File mode uses the calibrated labeled-sample threshold, independent of the live calibration slider.
+    The detected clips drop into the detections table below.
+  </p>
+  <div class="controls">
+    <input type="file" id="file-input" accept="audio/*" multiple />
+  </div>
+  <div id="file-result"></div>
+</section>
+
+<section class="card">
+  <h2>Detections <span id="detection-count">0</span></h2>
+  <p class="hint">
+    For each detection: play the 500 ms clip to verify it actually contains the impact,
+    label it as shot / not_shot / unsure, and download (filename encodes the label).
+    <b>Export all</b> drops every WAV plus a <code>labels.json</code> manifest.
+  </p>
+  <div class="controls">
+    <button id="export-all">Export all</button>
+    <button id="clear-detections" class="danger">Clear</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>source</th><th>when</th><th>flux</th><th>verifier</th><th>audio</th><th>label</th><th>dl</th></tr>
+      </thead>
+      <tbody id="detection-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Label onset times</h2>
+  <p class="hint">
+    Ground-truth labeling: for each raw recording, mark the exact moment the club hits the ball.
+    Select the <code>samples/</code> folder (all <code>.m4a</code> / <code>.wav</code> inside, including
+    subfolders, are picked up). Labels auto-save to this browser; export to JSON when you're done.
+  </p>
+  <div class="controls">
+    <label class="btn-label">
+      <input type="file" id="labeling-folder" webkitdirectory directory multiple style="display:none" />
+      <span class="fake-btn">Select samples folder</span>
+    </label>
+    <button id="labels-import">Import labels.json</button>
+    <input type="file" id="labels-import-input" accept="application/json" style="display:none" />
+    <button id="labels-export">Export labels.json</button>
+    <button id="labels-clear" class="danger">Clear labels</button>
+    <span class="readout">
+      labeled: <b id="labels-count">0</b> / <b id="files-count">0</b>
+    </span>
+  </div>
+  <div class="labeling-layout">
+    <aside class="file-list" id="file-list">
+      <div class="file-list-empty">No folder selected.</div>
+    </aside>
+    <div class="labeling-main">
+      <div class="labeling-header">
+        <span id="labeling-filename">—</span>
+        <span class="readout" id="labeling-folder-label"></span>
+      </div>
+      <canvas id="labeling-wave" width="900" height="140"></canvas>
+      <div class="controls labeling-controls">
+        <button id="labeling-play" disabled>▶ play / pause (space)</button>
+        <button id="labeling-mark" disabled>mark shot here (L)</button>
+        <button id="labeling-clear-one" disabled>clear label</button>
+        <span class="readout">
+          time: <b id="labeling-time">0.000</b>s / <b id="labeling-duration">0.000</b>s &nbsp;
+          shot @ <b id="labeling-shot-time">—</b>s
+        </span>
+      </div>
+      <p class="hint">
+        Click the waveform to seek. Press <kbd>Space</kbd> to play/pause. Press <kbd>L</kbd> or
+        click <b>mark shot here</b> at the impact. Shift+click the waveform to mark a shot at that
+        point without seeking. <kbd>N</kbd> / <kbd>P</kbd> move to the next / previous file.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Calibrate onset detector</h2>
+  <p class="hint">
+    Runs the spectral-flux detector on every labeled file, matches detections to your ground truth
+    within a tolerance window, and sweeps thresholds to find the best. A detection counts as a true
+    positive if it fires within ±tolerance of a labeled shot. Extra detections are false positives;
+    missed labeled shots are false negatives.
+  </p>
+  <div class="controls">
+    <button id="calibrate-run" disabled>Run calibration</button>
+    <label>
+      tolerance (ms): <input type="range" id="calibrate-tolerance" min="20" max="200" step="5" value="75" />
+      <span id="calibrate-tolerance-val">75</span>
+    </label>
+    <button id="calibrate-apply" disabled>Apply suggested threshold</button>
+  </div>
+  <div id="calibration-results"></div>
+</section>
+
+<section class="card debug">
+  <h2>Debug</h2>
+  <dl>
+    <dt>AudioContext sample rate</dt><dd><span id="debug-ctx-sr">—</span> Hz (clips saved at 16000)</dd>
+    <dt>User agent</dt><dd><span id="debug-ua"></span></dd>
+  </dl>
+</section>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

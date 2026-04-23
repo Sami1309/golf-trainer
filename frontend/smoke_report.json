@@ -1,0 +1,855 @@
+{
+  "globalMax": 1.946662057973299,
+  "report": [
+    {
+      "file": " 7- 1mm in front/Rancho Park Golf Course 7.m4a",
+      "duration": 6.7613125,
+      "maxFlux": 1.13,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.056
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.056
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.056
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "12 - for sure fat (maybe average fat)/Rancho Park Golf Course 12.m4a",
+      "duration": 7.0173125,
+      "maxFlux": 1.584,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            0.528,
+            3.456
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.456
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.456
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.456
+          ]
+        }
+      }
+    },
+    {
+      "file": "14 - very pure/Rancho Park Golf Course 14.m4a",
+      "duration": 7.0173125,
+      "maxFlux": 1.143,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.136
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.136
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.136
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "15 - pure/Rancho Park Golf Course 15.m4a",
+      "duration": 6.7613125,
+      "maxFlux": 1.131,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            0.368,
+            3.024
+          ]
+        },
+        "thr=0.5": {
+          "count": 2,
+          "times": [
+            0.368,
+            3.024
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.024
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "19 - fat/Rancho Park Golf Course 19.m4a",
+      "duration": 6.676,
+      "maxFlux": 1.677,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            2.656
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            2.656
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            2.656
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            2.656
+          ]
+        }
+      }
+    },
+    {
+      "file": "20 - great example of 1mm fat/Rancho Park Golf Course 20.m4a",
+      "duration": 6.5053125,
+      "maxFlux": 1.631,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            0.784,
+            2.896
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            2.896
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            2.896
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            2.896
+          ]
+        }
+      }
+    },
+    {
+      "file": "21 - topped/Rancho Park Golf Course 21.m4a",
+      "duration": 10.8573125,
+      "maxFlux": 1.375,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            5.424
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            5.424
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            5.424
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            5.424
+          ]
+        }
+      }
+    },
+    {
+      "file": "22 - topped/Fareways Grab & Golf.m4a",
+      "duration": 7.0173125,
+      "maxFlux": 1.947,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        }
+      }
+    },
+    {
+      "file": "23 - very fat/Rancho Park Golf Course 22.m4a",
+      "duration": 10.516,
+      "maxFlux": 1.33,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            7.04
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            7.04
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            7.04
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            7.04
+          ]
+        }
+      }
+    },
+    {
+      "file": "24 - topped/Rancho Park Golf Club.m4a",
+      "duration": 6.8466875,
+      "maxFlux": 1.249,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.76
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.76
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.76
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.76
+          ]
+        }
+      }
+    },
+    {
+      "file": "26 - topped/Rancho Park Golf Course 24.m4a",
+      "duration": 6.2493125,
+      "maxFlux": 1.193,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.328
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.488
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.488
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "27 - very pure/Rancho Park Golf Course 25.m4a",
+      "duration": 7.7853125,
+      "maxFlux": 1.355,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.984
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.984
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.984
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.984
+          ]
+        }
+      }
+    },
+    {
+      "file": "28 - very pure/Rancho Park Golf Course 26.m4a",
+      "duration": 7.0173125,
+      "maxFlux": 1.652,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.696
+          ]
+        }
+      }
+    },
+    {
+      "file": "31 - for sure and very fat/Rancho Park Golf Course 28.m4a",
+      "duration": 8.3826875,
+      "maxFlux": 1.565,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            3.888,
+            5.392
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            5.392
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            5.392
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            5.392
+          ]
+        }
+      }
+    },
+    {
+      "file": "39 - very pure /Rancho Park Golf Course 36.m4a",
+      "duration": 7.8706875,
+      "maxFlux": 1.113,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            2.992,
+            4.64
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            4.64
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            4.64
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "43 - medium fat/Rancho Park Golf Course 39.m4a",
+      "duration": 8.5533125,
+      "maxFlux": 1.135,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.632
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.632
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.632
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "45 - for sure fat/Rancho Park Golf Course 41.m4a",
+      "duration": 7.7853125,
+      "maxFlux": 1.59,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            4.144
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            4.144
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            4.144
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            4.144
+          ]
+        }
+      }
+    },
+    {
+      "file": "46 - pure for sure/Rancho Park Golf Course 42.m4a",
+      "duration": 7.1026875,
+      "maxFlux": 1.216,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.872
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.872
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.872
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.872
+          ]
+        }
+      }
+    },
+    {
+      "file": "49 - for sure very fat/Rancho Park Golf Club 5.m4a",
+      "duration": 8.6386875,
+      "maxFlux": 1.11,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            4.608
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            4.608
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            4.608
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "52 - pure for sure small divot/Rancho Park Golf Course 45.m4a",
+      "duration": 6.676,
+      "maxFlux": 1.042,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.856
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.856
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.856
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "53 - fat for sure 1 inch/Rancho Park Golf Course 46.m4a",
+      "duration": 12.052,
+      "maxFlux": 1.417,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            6.448
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            6.448
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            6.448
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            6.448
+          ]
+        }
+      }
+    },
+    {
+      "file": "57 - fat for sure/Rancho Park Golf Club 7.m4a",
+      "duration": 6.8466875,
+      "maxFlux": 1.437,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        }
+      }
+    },
+    {
+      "file": "58 - fat for sure/Rancho Park Golf Course 50.m4a",
+      "duration": 7.2733125,
+      "maxFlux": 1.042,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.792
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.792
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.792
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "59 - pure for sure/Rancho Park Golf Course 51.m4a",
+      "duration": 7.0173125,
+      "maxFlux": 1.275,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.36
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.36
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.36
+          ]
+        },
+        "thr=1.2": {
+          "count": 1,
+          "times": [
+            3.36
+          ]
+        }
+      }
+    },
+    {
+      "file": "6- pure (very)/Rancho Park Golf Course 6.m4a",
+      "duration": 6.7613125,
+      "maxFlux": 1.115,
+      "at": {
+        "thr=0.3": {
+          "count": 2,
+          "times": [
+            0.384,
+            3.152
+          ]
+        },
+        "thr=0.5": {
+          "count": 2,
+          "times": [
+            0.384,
+            3.152
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.152
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "62 - pure 99% sure/Rancho Park Golf Course 53.m4a",
+      "duration": 7.6146875,
+      "maxFlux": 1.184,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            4.208
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            4.208
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            4.208
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "67 - fat for sure/Rancho Park Golf Course 57.m4a",
+      "duration": 7.7,
+      "maxFlux": 0.925,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    },
+    {
+      "file": "83 - pure very pure/Rancho Park Golf Club 21.m4a",
+      "duration": 7.2733125,
+      "maxFlux": 1.145,
+      "at": {
+        "thr=0.3": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.5": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=0.8": {
+          "count": 1,
+          "times": [
+            3.552
+          ]
+        },
+        "thr=1.2": {
+          "count": 0,
+          "times": []
+        }
+      }
+    }
+  ]
+}

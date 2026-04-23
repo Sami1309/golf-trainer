@@ -1,0 +1,399 @@
+{
+  "generatedAt": "2026-04-23T21:58:03.775Z",
+  "modelPath": "frontend/models/stage1b_logmel.json",
+  "deployedModelPath": "frontend/models/stage1b_detector.json",
+  "featureExtractor": "logmel_summary",
+  "featureCount": 206,
+  "positives": 28,
+  "negatives": 1082,
+  "preparedManifest": "data/stage1b_prepared/manifest.jsonl",
+  "preparedCounts": {
+    "shot": 28,
+    "not_shot": 1082
+  },
+  "negativeCategories": {
+    "local_preshot_voice_ambient": 56,
+    "club_bag_equipment": 118,
+    "human_percussive": 256,
+    "non_golf_impacts": 296,
+    "outdoor_ambient": 201,
+    "phone_handling": 96,
+    "whoosh_swing": 59
+  },
+  "negativeSources": {
+    "self_recorded": 56,
+    "FSD50K": 1026
+  },
+  "positiveSources": {
+    "self_recorded": 28
+  },
+  "threshold": 0.8,
+  "thresholdSelection": "cross_validation_worst_fold_recall",
+  "cvRecommendedThreshold": 0.8,
+  "pooledCvThreshold": 0.8,
+  "cv": {
+    "threshold": 0.8,
+    "tp": 28,
+    "fp": 0,
+    "tn": 1082,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "specificity": 1,
+    "f1": 1,
+    "folds": [
+      {
+        "threshold": 0.8,
+        "tp": 6,
+        "fp": 0,
+        "tn": 216,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      },
+      {
+        "threshold": 0.8,
+        "tp": 6,
+        "fp": 0,
+        "tn": 216,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      },
+      {
+        "threshold": 0.8,
+        "tp": 6,
+        "fp": 0,
+        "tn": 216,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      },
+      {
+        "threshold": 0.8,
+        "tp": 5,
+        "fp": 0,
+        "tn": 217,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      },
+      {
+        "threshold": 0.8,
+        "tp": 5,
+        "fp": 0,
+        "tn": 217,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      }
+    ],
+    "worstRecall": 1,
+    "worstSpecificity": 1
+  },
+  "pooledCv": {
+    "threshold": 0.8,
+    "tp": 28,
+    "fp": 0,
+    "tn": 1082,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "specificity": 1,
+    "f1": 1
+  },
+  "oofScoreSeparation": {
+    "positives": {
+      "count": 28,
+      "min": 0.8006804211169074,
+      "p05": 0.8782104735286358,
+      "p50": 0.957140299300659,
+      "p95": 0.9874188695798791,
+      "max": 0.9953417838896743,
+      "mean": 0.944747066059241
+    },
+    "negatives": {
+      "count": 1082,
+      "min": 0.00023020924893634446,
+      "p05": 0.00792521206902996,
+      "p50": 0.06342361115882006,
+      "p95": 0.3005440469422517,
+      "max": 0.7249820598941072,
+      "mean": 0.09352056717504743
+    },
+    "minPositiveP": 0.8006804211169074,
+    "maxNegativeP": 0.7249820598941072,
+    "separationMargin": 0.07569836122280016
+  },
+  "trainAtCvThreshold": {
+    "threshold": 0.8,
+    "tp": 28,
+    "fp": 0,
+    "tn": 1082,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "specificity": 1,
+    "f1": 1
+  },
+  "trainScoreSeparation": {
+    "positives": {
+      "count": 28,
+      "min": 0.8522276931485615,
+      "p05": 0.902467809067636,
+      "p50": 0.9607388324543573,
+      "p95": 0.9885826801461304,
+      "max": 0.9952056363587043,
+      "mean": 0.9520187141706062
+    },
+    "negatives": {
+      "count": 1082,
+      "min": 0.00024951620444685726,
+      "p05": 0.008040052272492557,
+      "p50": 0.06278365466851718,
+      "p95": 0.29205269147632656,
+      "max": 0.69623348222679,
+      "mean": 0.0912709753487486
+    },
+    "minPositiveP": 0.8522276931485615,
+    "maxNegativeP": 0.69623348222679,
+    "separationMargin": 0.15599421092177146
+  },
+  "trainOnlyMetrics": {
+    "threshold": 0.85,
+    "tp": 28,
+    "fp": 0,
+    "tn": 1082,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "specificity": 1,
+    "f1": 1
+  },
+  "baselineHandcraftedCv": {
+    "threshold": 0.63,
+    "tp": 28,
+    "fp": 97,
+    "tn": 985,
+    "fn": 0,
+    "precision": 0.224,
+    "recall": 1,
+    "specificity": 0.910351201478743,
+    "f1": 0.36601307189542487,
+    "folds": [
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 16,
+        "tn": 200,
+        "fn": 0,
+        "precision": 0.2727272727272727,
+        "recall": 1,
+        "specificity": 0.9259259259259259,
+        "f1": 0.42857142857142855
+      },
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 17,
+        "tn": 199,
+        "fn": 0,
+        "precision": 0.2608695652173913,
+        "recall": 1,
+        "specificity": 0.9212962962962963,
+        "f1": 0.41379310344827586
+      },
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 18,
+        "tn": 198,
+        "fn": 0,
+        "precision": 0.25,
+        "recall": 1,
+        "specificity": 0.9166666666666666,
+        "f1": 0.4
+      },
+      {
+        "threshold": 0.63,
+        "tp": 5,
+        "fp": 28,
+        "tn": 189,
+        "fn": 0,
+        "precision": 0.15151515151515152,
+        "recall": 1,
+        "specificity": 0.8709677419354839,
+        "f1": 0.2631578947368421
+      },
+      {
+        "threshold": 0.63,
+        "tp": 5,
+        "fp": 18,
+        "tn": 199,
+        "fn": 0,
+        "precision": 0.21739130434782608,
+        "recall": 1,
+        "specificity": 0.9170506912442397,
+        "f1": 0.3571428571428571
+      }
+    ],
+    "worstRecall": 1,
+    "worstSpecificity": 0.8709677419354839
+  },
+  "foldDistribution": [
+    {
+      "fold": 1,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 2,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 3,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 4,
+      "groups": 136,
+      "positives": 5,
+      "negatives": 217,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 5,
+      "groups": 136,
+      "positives": 5,
+      "negatives": 217,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    }
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 1,
+        "tn": 215,
+        "fn": 0,
+        "precision": 0.8571428571428571,
+        "recall": 1,
+        "specificity": 0.9953703703703703,
+        "f1": 0.923076923076923
+      }
+    },
+    {
+      "fold": 2,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 2,
+        "tn": 214,
+        "fn": 0,
+        "precision": 0.75,
+        "recall": 1,
+        "specificity": 0.9907407407407407,
+        "f1": 0.8571428571428571
+      }
+    },
+    {
+      "fold": 3,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 3,
+        "tn": 213,
+        "fn": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "specificity": 0.9861111111111112,
+        "f1": 0.8
+      }
+    },
+    {
+      "fold": 4,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 5,
+      "valNegatives": 217,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 5,
+        "fp": 1,
+        "tn": 216,
+        "fn": 0,
+        "precision": 0.8333333333333334,
+        "recall": 1,
+        "specificity": 0.9953917050691244,
+        "f1": 0.9090909090909091
+      }
+    },
+    {
+      "fold": 5,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 5,
+      "valNegatives": 217,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 5,
+        "fp": 0,
+        "tn": 217,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "specificity": 1,
+        "f1": 1
+      }
+    }
+  ],
+  "hardestFalseNegativesAtThreshold": [],
+  "hardestFalsePositivesAtThreshold": []
+}

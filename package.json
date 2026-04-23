@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "scripts": {
+    "train:stage1b": "node scripts/train_stage1b_detector.mjs && node scripts/train_stage1b_logmel.mjs",
+    "train:stage1b:handcrafted": "node scripts/train_stage1b_detector.mjs",
+    "train:stage1b:logmel": "node scripts/train_stage1b_logmel.mjs"
+  }
+}

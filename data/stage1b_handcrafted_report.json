@@ -1,0 +1,3020 @@
+{
+  "generatedAt": "2026-04-23T21:57:59.121Z",
+  "positives": 28,
+  "negatives": 1082,
+  "preparedManifest": "data/stage1b_prepared/manifest.jsonl",
+  "preparedCounts": {
+    "shot": 28,
+    "not_shot": 1082
+  },
+  "negativeCategories": {
+    "local_preshot_voice_ambient": 56,
+    "club_bag_equipment": 118,
+    "human_percussive": 256,
+    "non_golf_impacts": 296,
+    "outdoor_ambient": 201,
+    "phone_handling": 96,
+    "whoosh_swing": 59
+  },
+  "negativeSources": {
+    "self_recorded": 56,
+    "FSD50K": 1026
+  },
+  "positiveSources": {
+    "self_recorded": 28
+  },
+  "skippedExternalNegatives": [
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__102960__jingle-keys.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__10431__gbell-8-1-ff.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__10440__gbell-3-1-ff.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__10729__bb-knuckle-1-r.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__118978__windchimes-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__119100__shaking-seasoning-rattling-1-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__125145__single-bell-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__13963__11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__150239__samylings1203-wchimes.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__15417__zipper5.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__154777__hoodie-zipper.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__156126__bike-bell-5.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__156946__campanes-esgl-sia-melodia1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__159759__cowbell-os-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__175929__zip.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__186401__balsa-hit-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__186531__tinker-tapper.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__219369__tapping.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__235265__bell2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__235460__chimes-pickup-drop-carpet.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__235724__tall-wine-glass-hits.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__235964__electric-teeth-brushing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__244925__writing-with-pencil.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__245695__church-bells-in-amsterdam-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__265638__bell-karthiccsk.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__273887__windchime-c3-a.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__275580__cutlery-throwing-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__318670__cutting-watercolour-paper.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__323122__bicycle-bell-from-bikekitchen-augsburg-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__323132__bicycle-bell-from-bikekitchen-augsburg-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__324659__zipper-zip.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__336200__keys-07.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__336608__music-box-wind-up-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__339640__glas-d1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__339642__glas-d7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__339647__glas-h3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__339951__pencil-tapping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__341579__ice-in-glass.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__348958__wooden-stick-and-glass.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__350705__cowbell-multi-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__367669__wind-chimes-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__375612__cowbell-cowbell-ff-1-wav.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__375614__cowbell-cowbell-fff-1-wav.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__375626__windchimes-windchimes-asc1-wav.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__377649__b20.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__377703__b38.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__378908__bike-ride-with-bell.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__379440__27pop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__383623__bicycle-bell-14.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__388479__unzip-zip-with-metal-zipper-sound.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__390159__gas-stove-170427-1445.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__396423__glass-bell.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__398503__lego-shakes-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__398886__jelly-beans-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__399234__bar-chimes-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__406278__hit-wooden-09.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__406687__zipper-slower-speed.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__406997__ziper.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__414315__christmas-bell-loop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__428144__cows-birds-spring.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__432464__tisno-old-bell-tower-bells-steps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__433596__typewriter-bell.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__51176__zipper-unzip-3-slow.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__60390__flys-unzip-zip-001.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__79208__walletzipper.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90536__cowbell-of-god-tube-lower-001.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90976__medium-cowbell-of-god-008.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90981__medium-cowbell-of-god-013.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90986__medium-cowbell-of-god-018.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90990__medium-cowbell-of-god-022.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__90994__medium-cowbell-of-god-026.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91002__medium-cowbell-of-god-034.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91003__medium-cowbell-of-god-035.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91145__dirty-tony-cowbell-mx-007.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91168__dirty-tony-cowbell-mx-030.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91176__dirty-tony-cowbell-mx-038.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91178__dirty-tony-cowbell-mx-040.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/club_bag_equipment/fsd50k__91179__dirty-tony-cowbell-mx-041.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__109399__finger-snap-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__125415__clapping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__13509__old-mountain-shrine2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__138113__small-crowd-applause-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__161240__clappic-2-epic-clap-ceremony-symbol-sound.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__166287__mco-walk-a01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__169619__ultimatefingersnap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__175050__emptyhand-09.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__175052__emptyhand-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__175053__emptyhand-13.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__175055__emptyhand-17.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__179714__bare-foot-various-carpet-mg.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__180768__hand-clap-landing-8.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__180784__hand-clap-bedroom-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__192336__shower-clap-open-flattened.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__196091__applause-enthusiastic-short.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__196559__clean-clap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__199878__cricki.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__208761__cough.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__233258__escaping-downstairs.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__234867__snoring.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__262659__clap-bathroom-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__276549__fly-binaural.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__316875__tr-dhita-clap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__323510__clearing-throat.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__323692__clear-throat4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__325263__finger-click-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__32635__step-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__32639__step-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__32644__step-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__32646__step-9.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__33835__snap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__343910__clear-throat13.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__348324__groupofpeople.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__349893__skin-pat-4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__351996__1388-perc-claps-im-freifeldphildav-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__353615__walking-steps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361715__simple-15.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361721__simple-22.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361724__simple-27.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361729__simple-30.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361732__simple-32.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361734__simple-35.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361753__real-snap-21.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__361764__real-snap-28.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__368380__cigarette-girl.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__379207__walking-in-the-snow.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__384141__hard-clap-6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__386717__finger-snaps-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__388772__fast-snaps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__392839__caminata-rapida.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__396992__helicopter-in-the-air-above.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__406678__male-dress-shoes-fast-walk-draggingly-slow.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__406688__walking-down-hallway-hardwood-quiet-heel-medium.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__409802__73-pasos-cueva.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__414357__finger-snapping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__420552__footsteps-snow-06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__422136__7-cough.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__422158__3-sink-towel.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__422854__footsteps-dirt-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__422856__footsteps-cave-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__429310__23-pasos-tacones.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__430716__20-choque-de-manos.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__432467__tisno-old-bell-tower-chiming-steps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__50291__143-applause.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__52285__leaving-walk.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__62591__arch-leaf.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__67114__kenrokuen.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/human_percussive/fsd50k__94370__pulsa-i-djupsn-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__102698__record-static.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__104006__wood-scrape-soft-close.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__10773__breathump-f-1-r.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__113131__frontdoor18.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__119074__door-closing-definite-1-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__119904__door-close-fast.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__133608__skitter-thrum-06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__133851__heavy-knocking.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__14226__31.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__142332__drawer-open.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__145363__kleaudio-crackingbone2-msst.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__151983__bedroom-door-shutting.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__152614__knocking-on-door.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__154418__drawers-opening-1-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__156306__03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__156313__10.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__164568__door-impact-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__172074__fire-granulized.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__178885__open-wooden-doorlocked-by-safty-chain-room-rever.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__180147__knock.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__186517__door-knock-open-wooden-distant.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__193834__door-knock-18.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__193855__door-knock-20.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__193859__door-knock-24.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__193863__door-knock-26.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__206143__drawer144.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__207488__20131118-spoon-hits-trash-can-zoomh2nxy.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__232988__robust-door-closing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__316682__sparkler-fuse-nm.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__330523__ball-dropping-on-bench.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__332362__kick11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__334978__opening-drawer.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__336494__lowthump-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__336619__shell-crunch-wide-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__336625__shell-crunch-wide-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__337153__door-opening-and-closing-with-creaking-tascam-dr.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__348244__punch-boxing-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__348935__crack-5.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__348941__crackle-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__353397__kick-heavy-electro.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__364789__8-thump.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__372573__knocking-door.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__378284__destruction-of-bubble-foil.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__378287__cracling-of-stick.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__385834__wood-shaker-ruettli-heavy-shaker.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__394180__arrow-loose-and-flyby.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__395883__flame-in-furnace.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__398817__vinyl-out-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__399333__plastic-bubble-wrap-vinyl-crackle-type-sound-aft.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__405293__crackling-bread-rolls.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__418792__antique-coffee-grinder-additional-sounds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__422741__fire-crackle-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__422850__fire-crackle-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__427300__drawer-close.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__429143__22-openingdrawer.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__430600__door-closing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/non_golf_impacts/fsd50k__62327__door-slam.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__109197__car-seats-squeak.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__117146__buzzing-bee-3-multi.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__119449__ford-mustang-engine-1985.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__124597__frenata-motorino.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__125780__bird-twitter-car.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__128612__bmwz4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__131591__distant-motorbike.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__135777__birds-incl-woodpigeon-crow.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__156063__barcelona-traffic.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__157610__exterior-chainsaw-idle.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__162536__50driverswindowntg2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__162891__big-truck-approach-ff658.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__164201__nighthawk-swoosh-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__164626__car-horn-mid.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__174886__110713-01-seagulls-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182501__birds-chirping-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182506__cow-shed-with-birds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182507__bird-chirp.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182509__lamb-and-mother.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182899__kitchen-window-10-3-2-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__182911__living-room-window-9-3-2-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__189528__turdus-merula-04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__189533__turdus-merula-22.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__189547__turdus-merula-15.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__189553__turdus-merula-32.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__191392__berlin-bus-voice-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__192347__quiet-ambiance.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__221639__mumbai-bombay-street-sounds-traffic.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__237324__viento-helado.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__242738__engyukon.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__264993__car-honk.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__278870__forest-birds-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__30823__highway-patrol.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__319512__pigeon.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__321737__waves-medium-strength-st-ives-cornwall-england-0.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__325808__motor-loop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__327771__wind-heulen-wind-howling-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__330319__tweets.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__332850__diesel-car-engine-in-street.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__337692__soft-wind-blowing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__338280__bird1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__340638__forklift-engine-rev-down-to-idle.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__34280__wim-sirene-floweredit.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__344967__man-doing-dove-call.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__345761__mini-van-drive-by.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__347557__rustling-leaves.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__349177__chicken-squawk.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__349834__printer.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__360728__t05-huber-motorcycle-crows-redo.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__362939__chevrolet-lacetti-1-4-driving-161018-0280.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__362942__chevrolet-lacetti-1-4-start-161018-0285.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__369048__car-accelerate.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__371719__f8-wind-leaves.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__378339__13fmikovaa-jawa-volnob-h.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__378341__13fmikovaa-jawa-startov-n.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__379382__bus-engine-start-outside.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__382294__birds-chirping.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__384116__washing-machine-moderate-spin.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__387980__birds-singing-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__389739__birds2-clean.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__390250__042616-ravens-in-sapporo.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__392259__bus-ambiente-03-compuerta-cerrandose.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__393004__viento-noche.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__394239__bird-call-set-of-three.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__400393__20170823-ms-stereo-aspen-tree-bees-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__404453__birds-in-action.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__405473__birt-5.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__405479__birt-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__405480__birt-8.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__406170__auto-horn-honk-quick-heads-up-thin-nearby-wet-ga.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__407024__wind-arctic-storm-breeze-013.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__407029__wind-arctic-storm-breeze-021.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__409779__56-aleteo-r-pido2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__411817__truck-race-24h-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__411842__car-passage-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__414320__a-murder-of-crows.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__416728__pablo-giraldo-alta-fidelidad-tangara-primavera.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__423448__a-small-sewing-factory-across-a-street-in-sri-la.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__427434__birds-outside-1-sr.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__429176__car-passage.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__429691__serinusserinus.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__54545__distant-dog.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__55059__platform-over-the-sea-porto-antico.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__62951__blind-lady-need-the-bus-in-this-area.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__66524__birds-kea.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__67354__flamingo.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__73497__gull.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__84764__lawn-mower.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__85406__bobbiepeaches00.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__85411__bobbiepeaches05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/outdoor_ambient/fsd50k__9199__parking3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__125319__c220-camera-winder.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__182857__new-pm.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__232986__air-conditioning.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__235609__fan-on.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__256211__cellphone-vibration-on-a-plastic-music-stand-mon.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__256438__pressing-spacebar.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__257949__rotary-phone.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__265486__keyboard.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__273344__mobile-phone-dialing-tones-slow-l-close-r-distan.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__274289__rotary-phone-ring-medium.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__317851__mobile-phone-button-click-iphone.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__326291__keyboard-library.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__333609__ratch8th.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__339105__my-cellphone-number1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__344178__old-phone.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__378272__13-cash-register.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__386203__ratchet-vlc-tighten-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__406241__typewriter-keys-slow-near-mono.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__406614__camera-flash-crackle-near-mono.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__417593__clock-ticking.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__429396__air-conditioner-turning-on-and-beeping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__431817__car-air-conditioner.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__433861__bicycle-rear-hub-ratchet-clicking.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__45721__busy-phone-r.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__54277__telephoneringremix.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__83704__vibrating-phone-on-table.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/phone_handling/fsd50k__91264__typing-real.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__205194__spacewoosh-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__267950__whoosh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__321129__arrow-hitting-target.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__344403__knife-swish-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__344408__knife-swish-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__351416__switch-swish-fs.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__389458__whoosh-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__389590__swing-woosh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__389690__small-knife-whoosh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__390388__soft-swishes.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__390775__fx-017-sword-swing-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__391445__ukulele-whoosh-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__391446__slotted-spoon-whoosh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__394099__whip-crack-swish.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__394877__single-clean-light-sword-whoosh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__402243__simple-swoosh-12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__402657__swish-toss.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__418229__spring-loaded-release.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__60024__swosh-swinging-sword-37.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__72193__whips04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc0/whoosh_swing/fsd50k__75544__swish-bamboo-pole-w-insect-net-12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__106726__bell-department-store-dbl-6m.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__111349__jinglebells.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__114188__keys1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__118187__key-jingling.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__120257__heatsink-small-16-audio-audio-16.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__167194__zippers-jeans.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__173001__bicycle-bell-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__175429__vocal-humming-while-tapping-cheek.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__176177__zipper-mono.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__179186__snare6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__180538__pocket-watch-ticking-44-24.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__180986__lid-down-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__184696__zipper.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__186041__timbrebicing.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__201273__zipper-bag-sound-bit.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__204864__keys-9.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__211159__ice-in-glass-6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__212696__tableclockbell.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__216120__zipper3aif.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__22596__klokslagvijf.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__266439__chimes-shop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__274817__key.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__27518__streetcar22.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__321415__golpe-p.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__325943__zipping-fx.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__328043__26-lighter.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__340866__bagzip-quick-bip.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__351903__bfxa6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__37311__lipari-bells.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__394148__church-bells.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__401139__zip.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__401305__chalkboard-writing-on-a-blackboard-medium-versio.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__414283__striking-bell-softly.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__414565__agogo-bell-low-velocity13.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__414586__agogo-bell-low-velocity03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__422070__space-chimes-dust-07.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__422074__space-chimes-dust-06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__422076__space-chimes-dust-04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__6234__zipper004.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__66952__boxing-bell-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__68449__broken-bottle-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__76214__081003-00-monfalcone-church-bell.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__81237__cowbell-hihi.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__88901__gt02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__89871__soh04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__94171__gentle-wind-chimer.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/club_bag_equipment/fsd50k__9853__180803d.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__109640__fx-tos.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__119025__polite-applause-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__130794__clap-with-natural-reverb.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__140055__finger-snap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__151214__click-finger-snap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__160139__viaduct-impulse-response-reverb-20m-away-clap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__160140__viaduct-impulse-response-reverb-5m-away-clap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__160146__tunnel-3-impulse-response-reverb-high-pitched-cl.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__160512__cheerful-clapping-laughing-crowd-s-applause.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__167487__birds-field.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__17140__lg-wind2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__17168__cough02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__176153__snap-fingers.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__177495__snap-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__177504__snap-9.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__177505__snap-8.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__178610__short-audience-applause.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__180037__sickness-07-blowing-nose-cough.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__180041__sickness-02-cough.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__186037__pasos.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__187960__echoclap7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__187967__echoclap2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__19116__cough14.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__19119__cough4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__191628__jhd-clp-9.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__192000__applause-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__192002__applause-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__1921__rbh-applause-01-big.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__194993__splashing-footsteps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__209989__small-clap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__217984__shoeswalktiles04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__219289__finger-snap.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__22939__mini-van.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__231895__clap7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__231896__clap6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__233384__people-steps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__241892__croc-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__241902__croc-20.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__241908__croc-22.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__243506__applaud.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__26557__clp06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__273602__clear-throat.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__30036__small-group-applause-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__321980__multiple-sets-of-footsteps-in-dirt-walking-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__326761__applause1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__331052__cough-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__331058__cough-04.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__331060__cough-08.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__331065__cough-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__331067__throat-clear-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__332516__binauraleffect-walkwhisper.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__346798__fingersnap27.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__346803__fingersnap7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__346809__fingersnap23.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__36362__pas-dans-la-boue-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__377038__261110-budapest-jazz-club-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__386527__clearing-throat.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__403889__the-indian-palm-squirrel-or-three-striped-palm-s.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__404539__clap-single-12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__404540__clap-single-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__404542__clap-single-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__404544__clap-single-15.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__404545__clap-single-14.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__414358__finger-snapping-jazzy-two-hands.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__41456__females-rejoicing-ambient.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__415826__ambience-manifestation-sant-celoni-applause-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__427650__18-pasos-rey.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__43481__sw-cough.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__44791__nyc-bus-idle.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__60784__laugh-and-applause-in-the-end-of-the-first-act.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__60788__shor-applause.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__68685__footstepscarpet.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__72578__clappy2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__72837__approx-800-cheer-and-clapping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__78369__walking-on-a-wooden-bridge.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__78991__dorm-steps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__85132__mp-footsteps.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/human_percussive/fsd50k__86661__finger-snaps-loop-8bars-100bpm.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__103333__welding-a-piece-of-metal-with-sparks-flying-all.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__104958__petit-feu-little-fire-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__114179__metalbar3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__114182__thud12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__114236__pecan1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__114399__dremel-tool4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__120557__elevator-door-open.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__170893__drawer.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__178063__slam-door-shut.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__190023__hit-on-wood-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__190024__hit-on-wood-6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__195772__door-close-undergroundtrain-one-shot.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196334__crappyvhcrowdfade.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196352__korean-speakinglz.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196353__killersurfacenoiseloop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__212664__plastic-bag-crackle.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__217965__housedoorclose01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__218071__vinyl-loop-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__218483__explosion.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__219520__oeuf-ecrase-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__232668__golpe-de-puerta.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__233001__door-close.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__241644__door03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__249767__egg-shell-empty-cracking-01-140219-0092.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__254954__mysound-gwech-dphotographyclass-classroom-door.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258265__metal-rod.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__261090__door-opening-and-closing-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__261091__door-opening-and-closing-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__270116__drumsticks-stagg-maple-so5an-click-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__275494__cookiecrack-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__334966__020-house-drawer.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__337350__bs-hit-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__337353__bs-hit-16.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__337355__bs-hit-14.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__34261__door-knocks-r.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__35107__cellophane2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__352386__old-door-closing-with-squeek.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__362969__bone-break-2b.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__36340__ascenseur-fermeture.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__390973__door-open-shut-creak-wide.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__399218__crackle-12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__424994__designed-fire-textures-glitch-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__49164__potpourris-18.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__65420__1240-walnut-crack.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__68702__knockingdoor.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__74329__plastic-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__74335__plastic-09.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__98718__ball-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__102563__birds-and-passing-cars.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__107451__electricengine.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__109534__fx-doppler-camion-al-pasar-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__111008__bali-starling01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__113328__contactfloor.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__113338__lowcutmakesthedropoutsgoaway.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__114444__taveta-golden-weaver.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__115759__windloop.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__116225__kingfisher.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__118901__dogs-and-birds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__122822__washing-machine.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__124051__parsian-car-pass-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__125635__fountain-pigeons-short.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__131477__sonicsnaps-hd-tomjacob-birds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__144141__beach-at-night.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__145084__amb-fridge-idle-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__159374__2012-6-14-1070-skylark.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__164306__generatorengine.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__164913__birds-wings-48hz.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__16765__20060307-bee-birds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__180339__snoring-5.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__180673__motorcycle-drive-by-fast-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__187822__short-bird-ambience.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__190674__viento-medio-hojas-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__194933__birds-traffic.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__194940__gulls1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__194948__crows-or-rooks1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__194949__crows-or-rooks.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__20782__ldp-highway.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__209037__ocell2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__209441__ocell-laura-i-cris.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__21174__birdcalls2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__216208__seagull-06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__216209__birds-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__216935__birds1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__221672__owls-at-night.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__223276__dan-river-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__223294__gideon-springs-water-gurgling.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__22382__20060824-street-cleaning.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__22682__garden-crickets.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__231957__gafarr-c-d-a-p.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__231960__avi.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__23519__aeroplane-passing-overhead.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__237155__bus-open-close-door-001.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__23741__ernesto4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__238144__small-bird-jungle-sounds-v3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__238926__click-click.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__250389__ducks.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__251672__rossinyol-bord-julia.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__254508__henkil-auto-l-ht-j-ll-renkaat-sutivat-a-car-pull.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__261325__crows.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__265255__dishwasher1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__268565__western-jackdaw.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__277330__drainpipe-motorcycle-medina-marrakesh.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__324977__bus.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__325464__camion-mono-001editado.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__32552__20070318-jurassik-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__329116__windy-atmosphere.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__340862__babybirdchirp-raw-mono-bip.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__34355__bird-calls.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__345768__7-ackerdijkse-plassen-3.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__34696__oiseau7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__351241__dry-leaves-and-parasol-creaks-13-and-child-speak.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__353213__brd1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__368083__car-taking-off.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__370320__2012-camry-2200rpm.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__377005__robin-in-the-tree.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__38688__car-medium-muffler.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__38689__car-traffic-blend-01.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__387670__car-engine-running-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__388899__washing-machine-rumble.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__393508__bird-thailand-notification.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__397622__washing-machine.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__403454__carr-neutro.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__407648__djparanoia-washmachine02-175.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__429150__owl-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__43358__2-magpies-guarding-their-territory.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__52450__craw.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__54190__magpie-wingsflapping.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__59186__20080728-peacock.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__69449__birds.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__70158__washing-machine-rinse-cycle-4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__70194__crows-medium-distant-in-creek-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__70954__20090407-toy-train-02.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__75642__newjersey-longport-wind.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__75643__newjersey-longportbridge.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__76440__porto-birdmarket-25.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__77911__bcr-f1-car-11.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__94218__flimo.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__106071__toasterovenclassictick.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__185312__still-printer.wav",
+      "reason": "below_peak_threshold"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__212532__phone-vibration1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__216376__fan.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__25480__old-telephone-bell-british-version.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__264098__minoltav300picture4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__268842__eps013.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__27086__mantelclockticks.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__277299__typewriter-manual-spacebar.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__327906__bicycle-ratchet.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__332458__keyboard-typing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__360329__camera-shutter-fast-a.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__368812__camera-flash-lift-f.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__370892__camera-shutter-flash.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__387162__hacking-phone-booth.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/phone_handling/fsd50k__78952__typing.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__121650__low-whoosh-4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__121653__medium-whoosh-2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__121742__whooshes-high-7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__216239__high-whoosh-03.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__216243__high-whoosh-05.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__223631__weapon-swing-heavy-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__269286__swoosh24.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__269289__swoosh27.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__269294__swoosh39.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__269299__swoosh30.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__269303__swoosh34.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__28877__btn067.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__377830__long-wispy-woosh1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394412__bamboo-swing-a12.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394418__bamboo-swing-a14.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394428__bamboo-swing-d4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394430__bamboo-swing-b18.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394436__bamboo-swing-b2.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394447__bamboo-swing-b13.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394448__bamboo-swing-c7.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__394449__bamboo-swing-c6.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__422498__swinging-staff-whoosh-low-08.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__422503__swinging-staff-whoosh-low-09.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__422511__swinging-staff-whoosh-strong-06.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__77936__ropeswoosh-1.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__78248__ropeswoosh-4.wav",
+      "reason": "no_flux_onset_candidate"
+    },
+    {
+      "local_path": "data/external/negatives/cc_by/whoosh_swing/fsd50k__78250__ropeswoosh-6.wav",
+      "reason": "no_flux_onset_candidate"
+    }
+  ],
+  "threshold": 0.63,
+  "thresholdSelection": "cross_validation_worst_fold_recall",
+  "cvRecommendedThreshold": 0.63,
+  "pooledCvThreshold": 0.63,
+  "cv": {
+    "threshold": 0.63,
+    "tp": 28,
+    "fp": 97,
+    "tn": 985,
+    "fn": 0,
+    "precision": 0.224,
+    "recall": 1,
+    "specificity": 0.910351201478743,
+    "f1": 0.36601307189542487,
+    "folds": [
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 16,
+        "tn": 200,
+        "fn": 0,
+        "precision": 0.2727272727272727,
+        "recall": 1,
+        "specificity": 0.9259259259259259,
+        "f1": 0.42857142857142855
+      },
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 17,
+        "tn": 199,
+        "fn": 0,
+        "precision": 0.2608695652173913,
+        "recall": 1,
+        "specificity": 0.9212962962962963,
+        "f1": 0.41379310344827586
+      },
+      {
+        "threshold": 0.63,
+        "tp": 6,
+        "fp": 18,
+        "tn": 198,
+        "fn": 0,
+        "precision": 0.25,
+        "recall": 1,
+        "specificity": 0.9166666666666666,
+        "f1": 0.4
+      },
+      {
+        "threshold": 0.63,
+        "tp": 5,
+        "fp": 28,
+        "tn": 189,
+        "fn": 0,
+        "precision": 0.15151515151515152,
+        "recall": 1,
+        "specificity": 0.8709677419354839,
+        "f1": 0.2631578947368421
+      },
+      {
+        "threshold": 0.63,
+        "tp": 5,
+        "fp": 18,
+        "tn": 199,
+        "fn": 0,
+        "precision": 0.21739130434782608,
+        "recall": 1,
+        "specificity": 0.9170506912442397,
+        "f1": 0.3571428571428571
+      }
+    ],
+    "worstRecall": 1,
+    "worstSpecificity": 0.8709677419354839
+  },
+  "pooledCv": {
+    "threshold": 0.63,
+    "tp": 28,
+    "fp": 97,
+    "tn": 985,
+    "fn": 0,
+    "precision": 0.224,
+    "recall": 1,
+    "specificity": 0.910351201478743,
+    "f1": 0.36601307189542487
+  },
+  "oofScoreSeparation": {
+    "positives": {
+      "count": 28,
+      "min": 0.6343554771293225,
+      "p05": 0.6767770990847685,
+      "p50": 0.8249591146597453,
+      "p95": 0.8879388919730741,
+      "max": 0.937675823425049,
+      "mean": 0.8129643792786261
+    },
+    "negatives": {
+      "count": 1082,
+      "min": 9.837598110705412e-8,
+      "p05": 0.00007196849295402936,
+      "p50": 0.05554211392978396,
+      "p95": 0.7528663989331531,
+      "max": 0.9722481627592076,
+      "mean": 0.17650621970955724
+    },
+    "minPositiveP": 0.6343554771293225,
+    "maxNegativeP": 0.9722481627592076,
+    "separationMargin": -0.33789268562988506
+  },
+  "trainAtCvThreshold": {
+    "threshold": 0.63,
+    "tp": 28,
+    "fp": 95,
+    "tn": 987,
+    "fn": 0,
+    "precision": 0.22764227642276422,
+    "recall": 1,
+    "specificity": 0.9121996303142329,
+    "f1": 0.3708609271523179
+  },
+  "trainScoreSeparation": {
+    "positives": {
+      "count": 28,
+      "min": 0.7484379281210959,
+      "p05": 0.7605347174746835,
+      "p50": 0.8557657507601575,
+      "p95": 0.9091188356154055,
+      "max": 0.947256318853682,
+      "mean": 0.8478829196654258
+    },
+    "negatives": {
+      "count": 1082,
+      "min": 1.0711138664638586e-7,
+      "p05": 0.00007221223662454463,
+      "p50": 0.05533529342277629,
+      "p95": 0.7352247732427998,
+      "max": 0.968000466436279,
+      "mean": 0.17458918558578773
+    },
+    "minPositiveP": 0.7484379281210959,
+    "maxNegativeP": 0.968000466436279,
+    "separationMargin": -0.21956253831518313
+  },
+  "trainOnlyMetrics": {
+    "threshold": 0.74,
+    "tp": 28,
+    "fp": 54,
+    "tn": 1028,
+    "fn": 0,
+    "precision": 0.34146341463414637,
+    "recall": 1,
+    "specificity": 0.9500924214417745,
+    "f1": 0.5090909090909091
+  },
+  "foldDistribution": [
+    {
+      "fold": 1,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 2,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 3,
+      "groups": 136,
+      "positives": 6,
+      "negatives": 216,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 4,
+      "groups": 136,
+      "positives": 5,
+      "negatives": 217,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    },
+    {
+      "fold": 5,
+      "groups": 136,
+      "positives": 5,
+      "negatives": 217,
+      "total": 222,
+      "train": 888,
+      "val": 222
+    }
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 26,
+        "tn": 190,
+        "fn": 0,
+        "precision": 0.1875,
+        "recall": 1,
+        "specificity": 0.8796296296296297,
+        "f1": 0.3157894736842105
+      }
+    },
+    {
+      "fold": 2,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 29,
+        "tn": 187,
+        "fn": 0,
+        "precision": 0.17142857142857143,
+        "recall": 1,
+        "specificity": 0.8657407407407407,
+        "f1": 0.2926829268292683
+      }
+    },
+    {
+      "fold": 3,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 6,
+      "valNegatives": 216,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 6,
+        "fp": 29,
+        "tn": 187,
+        "fn": 0,
+        "precision": 0.17142857142857143,
+        "recall": 1,
+        "specificity": 0.8657407407407407,
+        "f1": 0.2926829268292683
+      }
+    },
+    {
+      "fold": 4,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 5,
+      "valNegatives": 217,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 5,
+        "fp": 38,
+        "tn": 179,
+        "fn": 0,
+        "precision": 0.11627906976744186,
+        "recall": 1,
+        "specificity": 0.8248847926267281,
+        "f1": 0.20833333333333334
+      }
+    },
+    {
+      "fold": 5,
+      "train": 888,
+      "val": 222,
+      "valGroups": 136,
+      "valPositives": 5,
+      "valNegatives": 217,
+      "at_050": {
+        "threshold": 0.5,
+        "tp": 5,
+        "fp": 23,
+        "tn": 194,
+        "fn": 0,
+        "precision": 0.17857142857142858,
+        "recall": 1,
+        "specificity": 0.8940092165898618,
+        "f1": 0.30303030303030304
+      }
+    }
+  ],
+  "hardestFalseNegativesAtThreshold": [],
+  "hardestFalsePositivesAtThreshold": [
+    {
+      "p": 0.9722481627592076,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__322397__kitchen-drawer-close.wav",
+      "centerSec": 1.2103125
+    },
+    {
+      "p": 0.9647551414964438,
+      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__367236__clock-siren-bell.wav",
+      "centerSec": 0.0878125
+    },
+    {
+      "p": 0.9635212237224599,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__249679__chickens-and-birds.wav",
+      "centerSec": 17.015125
+    },
+    {
+      "p": 0.9542834082394263,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258040__chopping-wood-01.wav",
+      "centerSec": 17.9068125
+    },
+    {
+      "p": 0.949507090236738,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__11482__wood01.wav",
+      "centerSec": 13.03425
+    },
+    {
+      "p": 0.9481313681193598,
+      "sourcePath": "data/external/negatives/cc0/outdoor_ambient/fsd50k__170244__car-door.wav",
+      "centerSec": 0.679125
+    },
+    {
+      "p": 0.9463482361194808,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__26010__foot-steps.wav",
+      "centerSec": 4.4804375
+    },
+    {
+      "p": 0.9457997006659359,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__426255__finger-snap.wav",
+      "centerSec": 1.1455625
+    },
+    {
+      "p": 0.9450797668605903,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__327934__puertamaderacerrandose3.wav",
+      "centerSec": 3.188125
+    },
+    {
+      "p": 0.9440666258114175,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__319636__drawer-close-01.wav",
+      "centerSec": 0.1478125
+    },
+    {
+      "p": 0.9405178599397108,
+      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__389703__enter-key-hard.wav",
+      "centerSec": 0.165125
+    },
+    {
+      "p": 0.9367794514324543,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__182034__five-knocks-on-bathroom2-door.wav",
+      "centerSec": 1.638375
+    },
+    {
+      "p": 0.9327328137274826,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258040__chopping-wood-01.wav",
+      "centerSec": 0.73175
+    },
+    {
+      "p": 0.9317939488591069,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__173596__running.wav",
+      "centerSec": 8.8299375
+    },
+    {
+      "p": 0.9248562430909097,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196321__tridentstatic.wav",
+      "centerSec": 3.572
+    },
+    {
+      "p": 0.9187503172944231,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__156319__21.wav",
+      "centerSec": 0.3970625
+    },
+    {
+      "p": 0.9174177310322926,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__372231__knocking-on-door-2-indoor-mixed.wav",
+      "centerSec": 1.4150625
+    },
+    {
+      "p": 0.8994768912639411,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__152305__drawer-wooden-empty-close-02.wav",
+      "centerSec": 0.8055
+    },
+    {
+      "p": 0.8979351179523514,
+      "sourcePath": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__140342__yellingman1.wav",
+      "centerSec": 28.967125
+    },
+    {
+      "p": 0.8927952705388311,
+      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__155575__typing-laptop-keyboard-4.wav",
+      "centerSec": 13.5546875
+    }
+  ]
+}
