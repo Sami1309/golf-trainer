@@ -6,7 +6,7 @@ Single-page web app for the Stage 1 hybrid detector:
 - Runs a Stage 1b shot verifier model on each detected 500 ms clip
 - Runs an experimental Stage 2 pure-vs-fat classifier on accepted shots
 - Runs the same algorithm offline against uploaded audio files
-- Extracts a canonical 500 ms model clip plus a 2 second review clip around each detection
+- Extracts a canonical 500 ms model clip plus a configurable review clip around each detection
 - Stores detections locally in IndexedDB for review after reloads
 - Plays / labels / exports detections as WAVs plus a JSON manifest
 
@@ -78,11 +78,11 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 ## What to test
 
 1. **Sanity check on desktop**: open, click Start, clap. You should see the green flux curve spike. If the verifier rejects it, the accepted/total counter will show something like `0/1`; enable **show rejected** to inspect it.
-2. **One-shot live calibration**: click **Calibrate next shot**, then hit one real ball. The app temporarily lowers the onset gate to catch that shot, measures one dimension (`shot strength` / spectral flux), and sets the live onset threshold to 65% of that measured value.
+2. **One-shot live calibration**: tap **Start recording**, then hit one real ball. The app temporarily lowers the onset gate to catch that shot, asks you to confirm or retry it, then sets the live onset threshold to 65% of that measured strength.
 3. **File mode on known recordings**: upload any `.m4a` from the sample folders. File mode uses the calibrated labeled-sample threshold (`0.65`) instead of the live slider. The waveform should render with pink vertical lines at each detected onset.
 4. **Threshold tuning**: if live mode misses shots, use one-shot calibration rather than hand-tuning first. If everything fires, raise the threshold slightly.
 5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Check the detections table for real shots vs false positives and compare the pure/fat quality guess against your label.
-6. **Export**: hit Export All after a session. The app writes a ZIP with `manifest.json`, `clips/context/` 2 second review WAVs, and `clips/model_500ms/` canonical model clips.
+6. **Export**: hit Export All after a session. The app writes a ZIP with `manifest.json`, `clips/context/` review WAVs, and `clips/model_500ms/` canonical model clips. The review clip defaults to 5 seconds and can be changed before capture.
 
 ## Known gotchas
 

@@ -16,9 +16,8 @@ const TARGET_SR = 16000;          // sample rate we save clips at
 const CLIP_PRE_MS = 100;
 const CLIP_POST_MS = 400;
 const CLIP_LEN_MS = CLIP_PRE_MS + CLIP_POST_MS;
-const CONTEXT_PRE_MS = 1000;
-const CONTEXT_POST_MS = 1000;
-const CONTEXT_LEN_MS = CONTEXT_PRE_MS + CONTEXT_POST_MS;
+const DEFAULT_CONTEXT_SECONDS = 5;
+const LIVE_RING_SECONDS = 12;
 
 // Spectral flux parameters for file-mode (offline) analysis
 const FILE_FFT_SIZE = 1024;
@@ -34,10 +33,13 @@ const params = {
   minGapMs: 200,      // min time between detected onsets
   stage1bThreshold: 0.7,
   stage2ConfidenceThreshold: 0.6,
+  contextSeconds: DEFAULT_CONTEXT_SECONDS,
   showRejected: false,
   saveRejected: true,
   calibrationArmed: false,
   calibrationFlux: null,
+  calibrationPending: null,
+  sessionMode: 'idle',
 };
 
 const tester = new URLSearchParams(location.search).get('tester') || 'anon';
@@ -114,6 +116,18 @@ function liveFluxThreshold() {
     : params.threshold;
 }
 
+function contextDurationMs() {
+  return Math.round(params.contextSeconds * 1000);
+}
+
+function contextPreMs() {
+  return Math.floor(contextDurationMs() / 2);
+}
+
+function contextPostMs() {
+  return contextDurationMs() - contextPreMs();
+}
+
 function updateThresholdUi() {
   $('#threshold').value = params.threshold;
   $('#threshold-val').textContent = params.threshold.toFixed(2);
@@ -133,6 +147,11 @@ function updateCalibrationUi() {
   }
 
   btn.textContent = 'Calibrate next shot';
+  if (params.calibrationPending) {
+    state.textContent = `heard ${params.calibrationPending.flux.toFixed(2)}`;
+    detail.textContent = `confirm threshold ${params.calibrationPending.threshold.toFixed(2)}`;
+    return;
+  }
   if (params.calibrationFlux == null) {
     state.textContent = 'not calibrated';
     detail.textContent = `default threshold ${params.threshold.toFixed(2)}`;
@@ -140,6 +159,80 @@ function updateCalibrationUi() {
     state.textContent = `shot strength ${params.calibrationFlux.toFixed(2)}`;
     detail.textContent = `threshold ${(params.calibrationFlux * LIVE_CALIBRATION_THRESHOLD_FACTOR).toFixed(2)}`;
   }
+}
+
+function setSessionMode(mode) {
+  params.sessionMode = mode;
+  updateSessionUi();
+}
+
+function updateSessionUi() {
+  const panel = $('#session-panel');
+  const state = $('#session-state-label');
+  const title = $('#session-title');
+  const detail = $('#session-detail');
+  const confirm = $('#confirm-calibration');
+  const retry = $('#retry-calibration');
+  const start = $('#live-start');
+  const stop = $('#live-stop');
+  if (!panel || !state || !title || !detail) return;
+
+  document.body.classList.toggle('is-recording', live.running);
+  panel.dataset.mode = params.sessionMode;
+  start.disabled = live.running;
+  stop.disabled = !live.running;
+  confirm.hidden = params.sessionMode !== 'calibration-confirm';
+  retry.hidden = params.sessionMode !== 'calibration-confirm';
+
+  if (!live.running) {
+    state.textContent = 'Ready';
+    title.textContent = 'Set the phone near the ball';
+    detail.textContent = 'Put the iPhone in front of or behind the club path, then start recording. The first shot is used for calibration.';
+    return;
+  }
+
+  if (params.sessionMode === 'calibrating') {
+    state.textContent = 'Recording - calibration needed';
+    title.textContent = 'Hit one calibration shot';
+    detail.textContent = 'The app is listening with a low onset gate. After it hears the shot, confirm before live mode starts.';
+    return;
+  }
+
+  if (params.sessionMode === 'calibration-confirm' && params.calibrationPending) {
+    state.textContent = 'Calibration shot heard';
+    title.textContent = 'Use this shot for calibration?';
+    detail.textContent = `Measured shot strength ${params.calibrationPending.flux.toFixed(2)}. Proposed onset threshold ${params.calibrationPending.threshold.toFixed(2)}.`;
+    return;
+  }
+
+  state.textContent = 'Recording - live mode';
+  title.textContent = 'Live shot detection is running';
+  detail.textContent = 'Hit shots normally. Recent detections and pure/fat estimates appear below.';
+}
+
+function updateRecentShot(det = null) {
+  const box = $('#recent-shot');
+  if (!box) return;
+  if (!det) {
+    box.className = 'recent-shot empty';
+    box.innerHTML = '<div class="recent-label">No shot yet</div><div class="recent-meta">After calibration, recent detected shots and quality estimates appear here.</div>';
+    return;
+  }
+
+  const rejected = det.verification?.label === 'not_shot';
+  const quality = det.quality || {};
+  const qualityLabel = rejected ? 'not a shot' : (quality.label || 'unsure');
+  const predicted = quality.predictedLabel && quality.predictedLabel !== quality.label
+    ? `model leaned ${quality.predictedLabel}`
+    : '';
+  const verifierPct = det.verification?.pShot != null ? `${(det.verification.pShot * 100).toFixed(0)}% shot` : 'shot';
+  const qualityPct = quality.confidence != null && quality.available ? `${(quality.confidence * 100).toFixed(0)}% quality confidence` : 'quality unsure';
+  box.className = `recent-shot ${rejected ? 'rejected' : 'accepted'} quality-${safeName(qualityLabel)}`;
+  box.innerHTML = '';
+  box.append(
+    el('div', { className: 'recent-label' }, rejected ? 'Transient rejected' : qualityLabel),
+    el('div', { className: 'recent-meta' }, `Shot ${det.displayId || detections.length || 1} · ${verifierPct} · ${qualityPct}${predicted ? ` · ${predicted}` : ''}`),
+  );
 }
 
 function classifyVerifiedShot(verification) {
@@ -242,7 +335,7 @@ async function startLive() {
   live.analyser.fftSize = 2048;
   live.analyser.smoothingTimeConstant = 0;        // raw FFT — critical for transient flux
   live.worklet = new AudioWorkletNode(live.ctx, 'ring-buffer', {
-    processorOptions: { seconds: 5 },
+    processorOptions: { seconds: LIVE_RING_SECONDS },
     numberOfInputs: 1,
     numberOfOutputs: 0,
   });
@@ -258,11 +351,14 @@ async function startLive() {
   live.workletTotalSamples = 0;
   live.lastOnsetSample = -Infinity;
   live.peakFlux = 0;
+  params.calibrationArmed = true;
+  params.calibrationPending = null;
+  params.sessionMode = 'calibrating';
 
   setStatus(`Listening (ctx ${live.ctx.sampleRate} Hz)`, 'ok');
-  $('#live-start').disabled = true;
-  $('#live-stop').disabled = false;
   $('#debug-ctx-sr').textContent = live.ctx.sampleRate;
+  updateCalibrationUi();
+  updateSessionUi();
   requestAnimationFrame(livePollTick);
 }
 
@@ -273,9 +369,12 @@ function stopLive() {
   try { live.source.disconnect(); } catch {}
   try { live.stream.getTracks().forEach(t => t.stop()); } catch {}
   try { live.ctx.close(); } catch {}
+  params.calibrationArmed = false;
+  params.calibrationPending = null;
+  params.sessionMode = 'idle';
   setStatus('Stopped');
-  $('#live-start').disabled = false;
-  $('#live-stop').disabled = true;
+  updateCalibrationUi();
+  updateSessionUi();
 }
 
 function onWorkletMessage(e) {
@@ -312,7 +411,7 @@ async function waitForLiveSamples(endSample, timeoutMs = 1800) {
 
 async function requestExtractPadded(sampleIndex, length) {
   const out = new Float32Array(length);
-  const oldest = Math.max(0, live.workletTotalSamples - Math.ceil(live.ctx.sampleRate * 5));
+  const oldest = Math.max(0, live.workletTotalSamples - Math.ceil(live.ctx.sampleRate * LIVE_RING_SECONDS));
   const wantedEnd = sampleIndex + length;
   const requestStart = Math.max(oldest, sampleIndex);
   const requestEnd = Math.min(live.workletTotalSamples, wantedEnd);
@@ -364,7 +463,9 @@ function livePollTick() {
 
   // Peak pick: flux crosses threshold and enough time has passed
   const ctxTimeSample = Math.floor(live.ctx.currentTime * live.ctx.sampleRate);
-  if (flux > liveFluxThreshold() &&
+  const detectionPaused = params.sessionMode === 'calibration-confirm';
+  if (!detectionPaused &&
+      flux > liveFluxThreshold() &&
       (ctxTimeSample - live.lastOnsetSample) > (params.minGapMs / 1000) * live.ctx.sampleRate) {
     live.lastOnsetSample = ctxTimeSample;
     onLiveDetected(ctxTimeSample, flux);
@@ -404,17 +505,17 @@ async function onLiveDetected(ctxTimeSample, flux) {
     const cropStart = Math.max(0, peakIdx - preSamples);
     const cropEnd = Math.min(samples.length, peakIdx + postSamples);
     const cropped = samples.slice(cropStart, cropEnd);
-    if (params.calibrationArmed) {
-      applyLiveCalibration(flux);
-    }
+    const calibrationCapture = params.calibrationArmed ? beginCalibrationConfirmation(flux) : null;
     const resampled = await resample(cropped, sr, TARGET_SR);
     const verification = verifyShot(resampled, { threshold: params.stage1bThreshold });
     const quality = classifyVerifiedShot(verification);
-    const contextPreSamples = Math.floor((CONTEXT_PRE_MS / 1000) * sr);
-    const contextPostSamples = Math.floor((CONTEXT_POST_MS / 1000) * sr);
+    const contextPre = contextPreMs();
+    const contextPost = contextPostMs();
+    const contextPreSamples = Math.floor((contextPre / 1000) * sr);
+    const contextPostSamples = Math.floor((contextPost / 1000) * sr);
     const contextStart = impactSample - contextPreSamples;
     const contextLen = contextPreSamples + contextPostSamples;
-    await waitForLiveSamples(impactSample + contextPostSamples);
+    await waitForLiveSamples(impactSample + contextPostSamples, contextPost + 1500);
     const contextExtract = await requestExtractPadded(contextStart, contextLen);
     const contextResampled = await resample(contextExtract.samples, sr, TARGET_SR);
     const ts = fileStamp();
@@ -428,11 +529,14 @@ async function onLiveDetected(ctxTimeSample, flux) {
       contextSampleRate: TARGET_SR,
       verification,
       quality,
+      sessionMode: calibrationCapture ? 'calibration' : params.sessionMode,
       calibration: {
         onsetThreshold: params.threshold,
         calibrationFlux: params.calibrationFlux,
+        pendingCalibration: calibrationCapture,
         stage1bThreshold: params.stage1bThreshold,
         stage2ConfidenceThreshold: params.stage2ConfidenceThreshold,
+        contextSeconds: params.contextSeconds,
       },
     });
   } catch (e) {
@@ -440,13 +544,37 @@ async function onLiveDetected(ctxTimeSample, flux) {
   }
 }
 
-function applyLiveCalibration(flux) {
+function beginCalibrationConfirmation(flux) {
   params.calibrationArmed = false;
-  params.calibrationFlux = flux;
-  params.threshold = clamp(flux * LIVE_CALIBRATION_THRESHOLD_FACTOR, 0.1, 3);
+  params.calibrationPending = {
+    flux,
+    threshold: clamp(flux * LIVE_CALIBRATION_THRESHOLD_FACTOR, 0.1, 3),
+    detectedAt: nowStamp(),
+  };
+  params.sessionMode = 'calibration-confirm';
+  updateCalibrationUi();
+  updateSessionUi();
+  setStatus('Calibration shot heard. Confirm it before live mode starts.', 'ok');
+  return { ...params.calibrationPending };
+}
+
+function confirmLiveCalibration() {
+  if (!params.calibrationPending) return;
+  params.calibrationFlux = params.calibrationPending.flux;
+  params.threshold = params.calibrationPending.threshold;
+  params.calibrationPending = null;
   updateThresholdUi();
   updateCalibrationUi();
-  setStatus(`Calibrated onset threshold to ${params.threshold.toFixed(2)} from shot strength ${flux.toFixed(2)}`, 'ok');
+  setSessionMode('live');
+  setStatus(`Live mode armed at onset threshold ${params.threshold.toFixed(2)}`, 'ok');
+}
+
+function retryLiveCalibration() {
+  params.calibrationPending = null;
+  params.calibrationArmed = true;
+  updateCalibrationUi();
+  setSessionMode('calibrating');
+  setStatus('Calibration reset: hit one real shot.', 'info');
 }
 
 // ------------------------------------------------------------
@@ -463,6 +591,11 @@ function detectionFilename(det, kind = 'context') {
   const source = safeName(det.source);
   const stamp = safeName(det.timestamp || det.createdAt || 'time');
   return `${tester}_${String(det.displayId || det.id).padStart(3, '0')}_${source}_${stamp}_${label}_${kind}.wav`;
+}
+
+function contextFileKind(det) {
+  const ms = det.contextMs || contextDurationMs();
+  return `context_${Math.round(ms / 1000)}s`;
 }
 
 async function materializeDetection(det) {
@@ -503,13 +636,14 @@ async function addDetection(det) {
   det.quality ||= { available: false, label: 'unsure', predictedLabel: 'unsure', confidence: 0, probabilities: { pure: null, fat: null } };
   det.label = det.label || defaultDetectionLabel(det);
   det.tester = tester;
-  det.contextMs = CONTEXT_LEN_MS;
+  det.contextMs = det.contextMs || contextDurationMs();
   det.modelClipMs = CLIP_LEN_MS;
   await materializeDetection(det);
   ensureDetectionUrls(det);
   detections.push(det);
   sortDetections();
   renderDetections();
+  if (det.source === 'live') updateRecentShot(det);
   try {
     await putDetection(stripRuntimeDetectionFields(det));
   } catch (e) {
@@ -573,7 +707,7 @@ function renderDetectionRow(det) {
 
   const contextDl = el('a', {
     href: det.contextUrl || det.wavUrl,
-    download: detectionFilename(det, 'context_2s'),
+    download: detectionFilename(det, contextFileKind(det)),
     className: 'dl',
     textContent: 'ctx',
   });
@@ -648,7 +782,7 @@ async function exportAll() {
   }, null, 2));
 
   for (const det of detections) {
-    const contextName = detectionFilename(det, 'context_2s');
+    const contextName = detectionFilename(det, contextFileKind(det));
     const modelName = detectionFilename(det, 'model_500ms');
     zip.file(`clips/context/${contextName}`, det.contextWavBuffer || det.wavBuffer);
     zip.file(`clips/model_500ms/${modelName}`, det.wavBuffer);
@@ -681,9 +815,9 @@ function manifestRecord(d) {
     sampleRate: d.sampleRate,
     contextSampleRate: d.contextSampleRate || d.sampleRate,
     modelClipMs: d.modelClipMs || CLIP_LEN_MS,
-    contextMs: d.contextMs || CONTEXT_LEN_MS,
+    contextMs: d.contextMs || contextDurationMs(),
     quality: d.quality || null,
-    contextFile: `clips/context/${detectionFilename(d, 'context_2s')}`,
+    contextFile: `clips/context/${detectionFilename(d, contextFileKind(d))}`,
     modelClipFile: `clips/model_500ms/${detectionFilename(d, 'model_500ms')}`,
   };
 }
@@ -765,8 +899,8 @@ async function analyzeFile(file) {
     const contextClip = cropPadded(
       sig,
       centerSample,
-      Math.floor((CONTEXT_PRE_MS / 1000) * TARGET_SR),
-      Math.floor((CONTEXT_POST_MS / 1000) * TARGET_SR)
+      Math.floor((contextPreMs() / 1000) * TARGET_SR),
+      Math.floor((contextPostMs() / 1000) * TARGET_SR)
     );
     const verification = verifyShot(clip, { threshold: params.stage1bThreshold });
     const quality = classifyVerifiedShot(verification);
@@ -903,12 +1037,17 @@ $('#live-start').onclick = startLive;
 $('#live-stop').onclick = stopLive;
 $('#export-all').onclick = exportAll;
 $('#clear-detections').onclick = clearDetections;
+$('#confirm-calibration').onclick = confirmLiveCalibration;
+$('#retry-calibration').onclick = retryLiveCalibration;
 $('#calibrate-next-shot').onclick = () => {
+  params.calibrationPending = null;
   params.calibrationArmed = !params.calibrationArmed;
   updateCalibrationUi();
   if (params.calibrationArmed) {
+    if (live.running) setSessionMode('calibrating');
     setStatus('Calibration armed: hit one real shot. Only onset strength will be calibrated.', 'info');
   } else {
+    if (live.running) setSessionMode(params.calibrationFlux == null ? 'calibrating' : 'live');
     setStatus('Calibration cancelled.', 'info');
   }
 };
@@ -930,6 +1069,10 @@ $('#stage2-confidence').oninput = (e) => {
   params.stage2ConfidenceThreshold = parseFloat(e.target.value);
   $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
 };
+$('#context-seconds').oninput = (e) => {
+  params.contextSeconds = parseInt(e.target.value, 10);
+  $('#context-seconds-val').textContent = params.contextSeconds;
+};
 $('#show-rejected').onchange = (e) => {
   params.showRejected = e.target.checked;
   renderDetections();
@@ -948,8 +1091,12 @@ $('#stage1b-threshold').value = params.stage1bThreshold;
 $('#stage1b-threshold-val').textContent = params.stage1bThreshold.toFixed(2);
 $('#stage2-confidence').value = params.stage2ConfidenceThreshold;
 $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
+$('#context-seconds').value = params.contextSeconds;
+$('#context-seconds-val').textContent = params.contextSeconds;
 $('#show-rejected').checked = params.showRejected;
 updateCalibrationUi();
+updateSessionUi();
+updateRecentShot();
 
 async function initStage1b() {
   try {

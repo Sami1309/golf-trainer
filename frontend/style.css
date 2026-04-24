@@ -1,4 +1,5 @@
 * { box-sizing: border-box; }
+html { width: 100%; overflow-x: hidden; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   margin: 0;
@@ -7,6 +8,10 @@ body {
   color: #e5e5e5;
   max-width: 1000px;
   margin: 0 auto;
+  overflow-x: hidden;
+}
+body.is-recording {
+  background: #090b0d;
 }
 header {
   display: flex;
@@ -27,6 +32,7 @@ h3 { margin: 0 0 6px 0; font-size: 0.95rem; color: #bbb; }
   border-radius: 8px;
   padding: 14px;
   margin-top: 14px;
+  overflow: hidden;
 }
 .hint {
   font-size: 0.85rem;
@@ -76,6 +82,12 @@ button {
 button:hover:not(:disabled) { background: #35354a; }
 button:disabled { opacity: 0.4; cursor: default; }
 button.danger { border-color: #663; color: #fc6; }
+button.primary {
+  background: #1f6f4a;
+  border-color: #2f9b68;
+  color: #f4fff9;
+}
+button.primary:hover:not(:disabled) { background: #258258; }
 button.mini {
   padding: 2px 6px;
   font-size: 0.72rem;
@@ -141,6 +153,132 @@ tr.hidden-rejected { display: none; }
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 .readout b { color: #8cf; }
+.recording-banner {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border: 1px solid #884;
+  border-radius: 6px;
+  background: #241f08;
+  color: #ffe991;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+body.is-recording .recording-banner {
+  display: block;
+}
+.live-card {
+  border-color: #283241;
+}
+.session-panel {
+  border: 1px solid #263545;
+  border-radius: 8px;
+  padding: 18px;
+  background: #10161d;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+body.is-recording .session-panel {
+  border-color: #6c5b1e;
+  box-shadow: inset 0 0 0 1px rgba(255, 215, 90, 0.14), 0 0 0 1px rgba(255, 215, 90, 0.08);
+}
+.session-panel[data-mode="calibrating"] {
+  background: #111a20;
+}
+.session-panel[data-mode="calibration-confirm"] {
+  border-color: #b98f2a;
+  background: #1d190d;
+}
+.session-panel[data-mode="live"] {
+  border-color: #257450;
+  background: #0f1a16;
+}
+.session-kicker {
+  color: #8cf;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.session-title {
+  color: #f4f6f8;
+  font-size: clamp(1.6rem, 7vw, 3.2rem);
+  line-height: 1.05;
+  font-weight: 750;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  min-width: 0;
+  width: 100%;
+}
+.session-detail {
+  color: #aeb9c3;
+  font-size: 1rem;
+  line-height: 1.45;
+  max-width: 680px;
+  overflow-wrap: anywhere;
+}
+.session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.session-actions button {
+  min-height: 42px;
+  padding: 9px 14px;
+}
+.recent-shot {
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid #27313c;
+  border-radius: 8px;
+  background: #0b0f13;
+}
+.recent-shot.accepted {
+  border-color: #2f7e58;
+  background: #0b1711;
+}
+.recent-shot.rejected {
+  border-color: #664342;
+  background: #17100f;
+}
+.recent-shot.empty {
+  color: #87919b;
+}
+.recent-label {
+  font-size: 1.45rem;
+  line-height: 1.1;
+  font-weight: 750;
+  text-transform: capitalize;
+}
+.recent-shot.quality-pure .recent-label { color: #8fd7ff; }
+.recent-shot.quality-fat .recent-label { color: #ffd36d; }
+.recent-shot.quality-unsure .recent-label { color: #c8c8c8; }
+.recent-shot.quality-not-a-shot .recent-label,
+.recent-shot.rejected .recent-label { color: #f2aaa4; }
+.recent-meta {
+  margin-top: 5px;
+  color: #9aa7b2;
+  font-size: 0.9rem;
+}
+.advanced-panel {
+  margin-top: 12px;
+}
+.advanced-panel summary {
+  cursor: pointer;
+  color: #9fb4c5;
+  font-size: 0.9rem;
+  padding: 6px 0;
+}
 .debug dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.82rem; }
 .debug dt { color: #888; }
 .debug dd { margin: 0; color: #bbb; word-break: break-all; }
@@ -254,4 +392,19 @@ kbd {
 @media (max-width: 600px) {
   audio { width: 180px; }
   .controls { gap: 8px; }
+  header { align-items: flex-start; }
+  body { padding: 10px; width: 100vw; max-width: 100vw; }
+  header, .card, .recording-banner { width: 100%; max-width: 370px; }
+  .live-card, .session-panel { min-width: 0; }
+  .session-panel { min-height: 360px; padding: 16px; }
+  .session-title { font-size: 1.85rem; }
+  .session-actions { flex-direction: column; }
+  .session-actions button { width: 100%; }
+  .session-title, .session-detail, .recent-shot, .hint {
+    max-width: 300px;
+    overflow-wrap: anywhere;
+  }
+  .recent-meta { max-width: 100%; overflow-wrap: anywhere; }
+  table { font-size: 0.78rem; }
+  th, td { padding: 6px; }
 }

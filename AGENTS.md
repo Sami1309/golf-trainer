@@ -25,10 +25,11 @@ The app currently has a working hybrid detector:
 - Stage 2 v0: deployed experimental log-mel logistic pure-vs-fat classifier loaded from `frontend/models/stage2_pure_fat.json`.
 - Live mic mode runs onset detection, extracts a 500 ms clip, then runs Stage 1b.
 - Accepted live/file detections run the Stage 2 pure-vs-fat model for comparison.
-- Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and 2 second review clip.
+- Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and configurable review clip.
+- The review clip defaults to `5` seconds so the user can speak shot notes before or after impact.
 - File-analysis mode runs the same detector/verifier path on uploaded files.
 - File mode uses the calibrated labeled-sample onset threshold, not the live slider.
-- Live mode has one-shot calibration: user taps calibrate, hits a ball, and the app maps measured shot strength to onset threshold.
+- Live mode starts with one-shot calibration: user starts recording, hits one calibration shot, confirms/retries it, and the app maps measured shot strength to onset threshold before entering live mode.
 
 Current deployed Stage 1b model:
 
@@ -110,13 +111,10 @@ Top-level docs:
 
 - `AGENTS.md` - this orientation file.
 - `CLAUDE.md` - shorter synced handoff for Claude-style agents.
-- `PROJECT.md` - long-term roadmap from data audit through in-the-wild validation and native iOS.
-- `SUMMARY_1.md` - Phase 0 detector calibration report.
-- `STAGE1.md` - original Stage 1 plan.
-- `PLAN_STAGE1B_STAGE2.md` - plan for Stage 1b and Stage 2 model work.
-- `IDEAS.md` - gotchas, risks, sequencing notes.
+- `PROJECT.md` - current v1 product status and next-step roadmap.
+- `ML_2.md` - current Stage 2 pure/fat validation report.
 - `SOURCING_GUIDE.md` - guidance for sourcing external positive/negative audio.
-- `PROGRESS_fc6c97af.md` - latest detailed handoff before this file.
+- `archive/` - older plans and progress docs that are useful history but not current guidance.
 
 Raw shot folders:
 
@@ -177,14 +175,19 @@ Raw shot folders:
 Live path:
 
 1. User opens `frontend/index.html` in browser.
-2. User starts mic capture.
-3. `frontend/app.js` reads audio from Web Audio.
-4. Spectral flux is computed over live frames.
-5. Candidate onsets are picked when flux crosses threshold and min-gap rules.
-6. A 500 ms clip is extracted around the candidate and resampled to 16 kHz.
-7. `frontend/stage1b.js` runs the deployed verifier.
-8. Accepted candidates run the experimental Stage 2 pure-vs-fat classifier.
-9. Accepted and rejected candidates are stored locally for review/export; rejected candidates can be hidden or shown in the UI.
+2. User taps `Start recording`.
+3. The full screen enters a visible recording state and asks for a calibration shot.
+4. User hits one calibration shot.
+5. The app pauses detection after hearing it and asks the user to confirm or retry.
+6. After confirmation, live mode uses the calibrated onset threshold.
+7. `frontend/app.js` reads audio from Web Audio.
+8. Spectral flux is computed over live frames.
+9. Candidate onsets are picked when flux crosses threshold and min-gap rules.
+10. A 500 ms clip is extracted around the candidate and resampled to 16 kHz.
+11. `frontend/stage1b.js` runs the deployed verifier.
+12. Accepted candidates run the experimental Stage 2 pure-vs-fat classifier.
+13. Recent shot result and quality are shown in the practice-session panel.
+14. Accepted and rejected candidates are stored locally for review/export; rejected candidates can be hidden or shown in the UI.
 
 File-analysis path:
 
@@ -198,10 +201,10 @@ File-analysis path:
 Calibration:
 
 - Live calibration is one-dimensional.
-- User clicks `Calibrate next shot`.
+- User starts recording and the app arms calibration automatically.
 - App temporarily lowers the onset gate to catch the next real shot.
-- It measures spectral-flux shot strength.
-- Live onset threshold becomes a fraction of measured strength.
+- It measures spectral-flux shot strength, pauses detection, and asks the user to confirm or retry.
+- On confirmation, live onset threshold becomes a fraction of measured strength.
 - This calibrates onset threshold only; it does not calibrate model probability or mic EQ.
 
 Stage 1b inference:
@@ -224,6 +227,7 @@ Keep this consistent across training and inference:
 - Channels: mono
 - Clip length: `500 ms`
 - Clip samples: `8000`
+- Review clip default: `5` seconds, configurable in the app before capture/export.
 - Positive crop shape: roughly `100 ms` pre-impact and `400 ms` post-impact
 - Normalization: peak-normalize to `-3 dBFS`
 - Generated training format: 16-bit PCM WAV
@@ -528,7 +532,7 @@ Concrete sequence:
 
 1. Serve `frontend/` over HTTPS.
 2. Open on iPhone Safari.
-3. Run one-shot calibration.
+3. Start recording and confirm the calibration shot.
 4. Hit shots and intentionally create non-shot transients.
 5. Export detections.
 6. Add false positives as hard negatives.

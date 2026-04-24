@@ -22,8 +22,17 @@ Live/file pipeline:
 2. A 500 ms clip is extracted, recentered around impact, resampled to 16 kHz mono, and peak-normalized.
 3. Stage 1b loads `frontend/models/stage1b_detector.json` and rejects non-shot candidates.
 4. Accepted candidates run Stage 2 pure/fat classification from `frontend/models/stage2_pure_fat.json`.
-5. Accepted and rejected candidates are stored locally in IndexedDB with both the model clip and a 2 second review clip.
+5. Accepted and rejected candidates are stored locally in IndexedDB with both the model clip and a configurable review clip.
 6. Users can label clips in the app and export a ZIP with WAVs plus manifest JSON.
+
+Live session flow:
+
+- Start recording arms calibration automatically.
+- The first heard shot becomes a pending calibration shot.
+- The user confirms or retries that calibration shot.
+- Confirmed calibration puts the app into live mode.
+- Live mode shows the most recent accepted shot and the pure/fat/unsure quality estimate.
+- Review clips default to 5 seconds so the user can speak labels around the shot.
 
 The `quality` column in the app is the Stage 2 pure/fat classifier result. It is a useful live comparison signal, not final trusted coaching feedback.
 
@@ -149,7 +158,7 @@ Next useful work is live iPhone/range validation:
 
 1. Serve `frontend/` over HTTPS.
 2. Open on iPhone Safari.
-3. Run one-shot calibration.
+3. Start recording and confirm the calibration shot.
 4. Hit real shots and deliberately create non-shot transients.
 5. Export accepted and rejected clips.
 6. Label pure/fat/topped/no-shot in the app.

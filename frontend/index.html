@@ -16,64 +16,80 @@
   </div>
 </header>
 
-<section class="card">
-  <h2>Live mic</h2>
-  <p class="hint">
-    iPhone on the ground, mic pointing up-ish, ≤1 m from the ball. Tap Start, let it run,
-    hit some shots (or clap for a sanity check). Watch the green <b>flux</b> curve spike at each impact;
-    the red dashed line is the trigger threshold.
-  </p>
-  <div class="controls">
-    <button id="live-start">Start listening</button>
-    <button id="live-stop" disabled>Stop</button>
-    <label>
-      threshold: <input type="range" id="threshold" min="0.1" max="3" step="0.05" />
-      <span id="threshold-val"></span>
-    </label>
-    <label>
-      min gap (ms): <input type="range" id="min-gap" min="50" max="1000" step="10" />
-      <span id="min-gap-val"></span>
-    </label>
-    <label>
-      verifier: <input type="range" id="stage1b-threshold" min="0.05" max="0.95" step="0.01" />
-      <span id="stage1b-threshold-val"></span>
-    </label>
-    <label>
-      quality conf: <input type="range" id="stage2-confidence" min="0.50" max="0.95" step="0.01" />
-      <span id="stage2-confidence-val"></span>
-    </label>
-    <label>
-      <input type="checkbox" id="show-rejected" />
-      show rejected
-    </label>
-    <span class="readout">
-      flux now: <b id="live-flux-now">—</b>
-      &nbsp; peak: <b id="live-flux-peak">—</b>
-      &nbsp; model: <b id="stage1b-status">loading</b>
-      &nbsp; quality: <b id="stage2-status">loading</b>
-    </span>
-  </div>
-  <div class="calibration-panel">
-    <div>
-      <b>One-shot calibration</b>
-      <span class="hint-inline">one dimension: expected shot strength → onset threshold</span>
+<div id="recording-banner" class="recording-banner">Recording · keep Safari open</div>
+
+<section class="card live-card">
+  <h2>Practice session</h2>
+  <div id="session-panel" class="session-panel">
+    <div class="session-kicker" id="session-state-label">Ready</div>
+    <div class="session-title" id="session-title">Set the phone near the ball</div>
+    <div class="session-detail" id="session-detail">
+      Put the iPhone in front of or behind the club path, then start recording. The first shot is used for calibration.
     </div>
-    <button id="calibrate-next-shot">Calibrate next shot</button>
-    <span class="readout">
-      calibration: <b id="calibration-state">not calibrated</b>
-      &nbsp; <span id="calibration-detail">default threshold</span>
-    </span>
-  </div>
-  <div class="strip-row">
-    <div class="strip">
-      <div class="strip-label">waveform (peak)</div>
-      <canvas id="live-wave" width="900" height="100"></canvas>
+    <div class="session-actions">
+      <button id="live-start" class="primary">Start recording</button>
+      <button id="live-stop" disabled>End session</button>
+      <button id="confirm-calibration" class="primary" hidden>Use calibration shot</button>
+      <button id="retry-calibration" hidden>Try calibration again</button>
     </div>
-    <div class="strip">
-      <div class="strip-label">spectral flux</div>
-      <canvas id="live-flux" width="900" height="100"></canvas>
+    <div id="recent-shot" class="recent-shot empty">
+      <div class="recent-label">No shot yet</div>
+      <div class="recent-meta">After calibration, recent detected shots and quality estimates appear here.</div>
     </div>
   </div>
+
+  <details class="advanced-panel">
+    <summary>Advanced detector controls</summary>
+    <div class="controls">
+      <label>
+        threshold: <input type="range" id="threshold" min="0.1" max="3" step="0.05" />
+        <span id="threshold-val"></span>
+      </label>
+      <label>
+        min gap (ms): <input type="range" id="min-gap" min="50" max="1000" step="10" />
+        <span id="min-gap-val"></span>
+      </label>
+      <label>
+        verifier: <input type="range" id="stage1b-threshold" min="0.05" max="0.95" step="0.01" />
+        <span id="stage1b-threshold-val"></span>
+      </label>
+      <label>
+        quality conf: <input type="range" id="stage2-confidence" min="0.50" max="0.95" step="0.01" />
+        <span id="stage2-confidence-val"></span>
+      </label>
+      <label>
+        <input type="checkbox" id="show-rejected" />
+        show rejected
+      </label>
+      <span class="readout">
+        flux now: <b id="live-flux-now">—</b>
+        &nbsp; peak: <b id="live-flux-peak">—</b>
+        &nbsp; model: <b id="stage1b-status">loading</b>
+        &nbsp; quality: <b id="stage2-status">loading</b>
+      </span>
+    </div>
+    <div class="calibration-panel">
+      <div>
+        <b>One-shot calibration</b>
+        <span class="hint-inline">one dimension: expected shot strength → onset threshold</span>
+      </div>
+      <button id="calibrate-next-shot">Calibrate next shot</button>
+      <span class="readout">
+        calibration: <b id="calibration-state">not calibrated</b>
+        &nbsp; <span id="calibration-detail">default threshold</span>
+      </span>
+    </div>
+    <div class="strip-row">
+      <div class="strip">
+        <div class="strip-label">waveform (peak)</div>
+        <canvas id="live-wave" width="900" height="100"></canvas>
+      </div>
+      <div class="strip">
+        <div class="strip-label">spectral flux</div>
+        <canvas id="live-flux" width="900" height="100"></canvas>
+      </div>
+    </div>
+  </details>
 </section>
 
 <section class="card">
@@ -90,16 +106,20 @@
   <div id="file-result"></div>
 </section>
 
-<section class="card">
+<section class="card" id="review-section">
   <h2>Detections <span id="detection-count">0</span></h2>
   <p class="hint">
-    Each live/file candidate is stored locally with a 2 second review clip and a canonical
+    Each live/file candidate is stored locally with a configurable review clip and a canonical
     500 ms model clip. Label it as pure / fat / topped / no_shot / unsure, then export a ZIP
     with WAVs plus a manifest.
   </p>
   <div class="controls">
     <button id="export-all">Export all</button>
     <button id="clear-detections" class="danger">Clear</button>
+    <label>
+      review clip (s): <input type="range" id="context-seconds" min="2" max="10" step="1" />
+      <span id="context-seconds-val"></span>
+    </label>
     <span class="readout" id="stored-count">0 stored · 0 labeled</span>
   </div>
   <div class="table-wrap">
