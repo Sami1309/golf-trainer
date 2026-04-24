@@ -71,7 +71,7 @@ node frontend/eval_labels.mjs recentered
 ## Next Work
 
 1. Apply the intended visual design to the current v1 flow.
-2. Deploy `frontend/` to an HTTPS static host for iPhone testing.
+2. Deploy `frontend/` to GitHub Pages for HTTPS iPhone testing. Manual setup is in `MANUAL.md`.
 3. Run live range sessions and export all accepted/rejected candidates.
 4. Create a frozen holdout from the first live data before adding new clips to training.
 5. Add live false positives as Stage 1b hard negatives.

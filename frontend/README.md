@@ -62,7 +62,11 @@ Then open http://localhost:8000/?tester=YOURNAME in a desktop browser (Chrome or
 
 Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 
-1. **ngrok** (fastest for a one-off test):
+1. **GitHub Pages** (recommended for repeatable range testing):
+   use the included GitHub Actions workflow to publish `frontend/` over HTTPS.
+   Manual setup steps are in `../MANUAL.md`.
+
+2. **ngrok** (fastest for a one-off test):
    ```sh
    # terminal 1
    python3 -m http.server 8000
@@ -71,9 +75,10 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
    ```
    Open the `https://*.ngrok.io` URL on your iPhone. Grant mic permission when prompted.
 
-2. **Tailscale Funnel** or **Cloudflare Tunnel** — same idea, different provider.
+3. **Tailscale Funnel** or **Cloudflare Tunnel** — same idea, different provider.
 
-3. **Deploy to Vercel / Cloudflare Pages** — static hosting, free tier, auto-HTTPS. Drag `frontend/` into a Vercel project. This is where Phase 1 will end up anyway.
+4. **Cloudflare Pages / Vercel** — static hosting with free tiers and auto-HTTPS.
+   Use these if GitHub Pages is blocked by repository visibility or account policy.
 
 ## What to test
 

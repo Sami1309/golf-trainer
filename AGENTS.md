@@ -115,6 +115,7 @@ Top-level docs:
 - `AGENTS.md` - this orientation file.
 - `CLAUDE.md` - shorter synced handoff for Claude-style agents.
 - `PROJECT.md` - current v1 product status and next-step roadmap.
+- `MANUAL.md` - manual GitHub Pages setup and iPhone deployment test steps.
 - `ML_2.md` - current Stage 2 pure/fat validation report.
 - `SOURCING_GUIDE.md` - guidance for sourcing external positive/negative audio.
 - `archive/` - older plans and progress docs that are useful history but not current guidance.
