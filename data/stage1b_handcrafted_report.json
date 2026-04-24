@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-04-23T21:57:59.121Z",
-  "positives": 28,
-  "negatives": 1082,
+  "generatedAt": "2026-04-24T21:01:40.320Z",
+  "positives": 42,
+  "negatives": 1110,
   "preparedManifest": "data/stage1b_prepared/manifest.jsonl",
   "preparedCounts": {
-    "shot": 28,
-    "not_shot": 1082
+    "shot": 42,
+    "not_shot": 1110
   },
   "negativeCategories": {
-    "local_preshot_voice_ambient": 56,
+    "local_preshot_voice_ambient": 84,
     "club_bag_equipment": 118,
     "human_percussive": 256,
     "non_golf_impacts": 296,
@@ -17,11 +17,11 @@
     "whoosh_swing": 59
   },
   "negativeSources": {
-    "self_recorded": 56,
+    "self_recorded": 84,
     "FSD50K": 1026
   },
   "positiveSources": {
-    "self_recorded": 28
+    "self_recorded": 42
   },
   "skippedExternalNegatives": [
     {
@@ -2617,404 +2617,404 @@
       "reason": "no_flux_onset_candidate"
     }
   ],
-  "threshold": 0.63,
+  "threshold": 0.67,
   "thresholdSelection": "cross_validation_worst_fold_recall",
-  "cvRecommendedThreshold": 0.63,
-  "pooledCvThreshold": 0.63,
+  "cvRecommendedThreshold": 0.67,
+  "pooledCvThreshold": 0.67,
   "cv": {
-    "threshold": 0.63,
-    "tp": 28,
-    "fp": 97,
-    "tn": 985,
+    "threshold": 0.67,
+    "tp": 42,
+    "fp": 82,
+    "tn": 1028,
     "fn": 0,
-    "precision": 0.224,
+    "precision": 0.3387096774193548,
     "recall": 1,
-    "specificity": 0.910351201478743,
-    "f1": 0.36601307189542487,
+    "specificity": 0.9261261261261261,
+    "f1": 0.5060240963855421,
     "folds": [
       {
-        "threshold": 0.63,
-        "tp": 6,
+        "threshold": 0.67,
+        "tp": 9,
+        "fp": 21,
+        "tn": 201,
+        "fn": 0,
+        "precision": 0.3,
+        "recall": 1,
+        "specificity": 0.9054054054054054,
+        "f1": 0.4615384615384615
+      },
+      {
+        "threshold": 0.67,
+        "tp": 9,
+        "fp": 21,
+        "tn": 201,
+        "fn": 0,
+        "precision": 0.3,
+        "recall": 1,
+        "specificity": 0.9054054054054054,
+        "f1": 0.4615384615384615
+      },
+      {
+        "threshold": 0.67,
+        "tp": 8,
+        "fp": 12,
+        "tn": 210,
+        "fn": 0,
+        "precision": 0.4,
+        "recall": 1,
+        "specificity": 0.9459459459459459,
+        "f1": 0.5714285714285715
+      },
+      {
+        "threshold": 0.67,
+        "tp": 8,
         "fp": 16,
-        "tn": 200,
+        "tn": 206,
         "fn": 0,
-        "precision": 0.2727272727272727,
+        "precision": 0.3333333333333333,
         "recall": 1,
-        "specificity": 0.9259259259259259,
-        "f1": 0.42857142857142855
+        "specificity": 0.9279279279279279,
+        "f1": 0.5
       },
       {
-        "threshold": 0.63,
-        "tp": 6,
-        "fp": 17,
-        "tn": 199,
+        "threshold": 0.67,
+        "tp": 8,
+        "fp": 12,
+        "tn": 210,
         "fn": 0,
-        "precision": 0.2608695652173913,
+        "precision": 0.4,
         "recall": 1,
-        "specificity": 0.9212962962962963,
-        "f1": 0.41379310344827586
-      },
-      {
-        "threshold": 0.63,
-        "tp": 6,
-        "fp": 18,
-        "tn": 198,
-        "fn": 0,
-        "precision": 0.25,
-        "recall": 1,
-        "specificity": 0.9166666666666666,
-        "f1": 0.4
-      },
-      {
-        "threshold": 0.63,
-        "tp": 5,
-        "fp": 28,
-        "tn": 189,
-        "fn": 0,
-        "precision": 0.15151515151515152,
-        "recall": 1,
-        "specificity": 0.8709677419354839,
-        "f1": 0.2631578947368421
-      },
-      {
-        "threshold": 0.63,
-        "tp": 5,
-        "fp": 18,
-        "tn": 199,
-        "fn": 0,
-        "precision": 0.21739130434782608,
-        "recall": 1,
-        "specificity": 0.9170506912442397,
-        "f1": 0.3571428571428571
+        "specificity": 0.9459459459459459,
+        "f1": 0.5714285714285715
       }
     ],
     "worstRecall": 1,
-    "worstSpecificity": 0.8709677419354839
+    "worstSpecificity": 0.9054054054054054
   },
   "pooledCv": {
-    "threshold": 0.63,
-    "tp": 28,
-    "fp": 97,
-    "tn": 985,
+    "threshold": 0.67,
+    "tp": 42,
+    "fp": 82,
+    "tn": 1028,
     "fn": 0,
-    "precision": 0.224,
+    "precision": 0.3387096774193548,
     "recall": 1,
-    "specificity": 0.910351201478743,
-    "f1": 0.36601307189542487
+    "specificity": 0.9261261261261261,
+    "f1": 0.5060240963855421
   },
   "oofScoreSeparation": {
     "positives": {
-      "count": 28,
-      "min": 0.6343554771293225,
-      "p05": 0.6767770990847685,
-      "p50": 0.8249591146597453,
-      "p95": 0.8879388919730741,
-      "max": 0.937675823425049,
-      "mean": 0.8129643792786261
+      "count": 42,
+      "min": 0.6700403569450185,
+      "p05": 0.744486829850697,
+      "p50": 0.8445467478615449,
+      "p95": 0.9227415957509876,
+      "max": 0.9378130283200039,
+      "mean": 0.8409732920712311
     },
     "negatives": {
-      "count": 1082,
-      "min": 9.837598110705412e-8,
-      "p05": 0.00007196849295402936,
-      "p50": 0.05554211392978396,
-      "p95": 0.7528663989331531,
-      "max": 0.9722481627592076,
-      "mean": 0.17650621970955724
+      "count": 1110,
+      "min": 8.165470050813109e-8,
+      "p05": 0.00006979654450195045,
+      "p50": 0.05012547438263072,
+      "p95": 0.7414150371848124,
+      "max": 0.9719659541510575,
+      "mean": 0.17195093517402799
     },
-    "minPositiveP": 0.6343554771293225,
-    "maxNegativeP": 0.9722481627592076,
-    "separationMargin": -0.33789268562988506
+    "minPositiveP": 0.6700403569450185,
+    "maxNegativeP": 0.9719659541510575,
+    "separationMargin": -0.30192559720603895
   },
   "trainAtCvThreshold": {
-    "threshold": 0.63,
-    "tp": 28,
-    "fp": 95,
-    "tn": 987,
+    "threshold": 0.67,
+    "tp": 42,
+    "fp": 79,
+    "tn": 1031,
     "fn": 0,
-    "precision": 0.22764227642276422,
+    "precision": 0.34710743801652894,
     "recall": 1,
-    "specificity": 0.9121996303142329,
-    "f1": 0.3708609271523179
+    "specificity": 0.9288288288288288,
+    "f1": 0.5153374233128835
   },
   "trainScoreSeparation": {
     "positives": {
-      "count": 28,
-      "min": 0.7484379281210959,
-      "p05": 0.7605347174746835,
-      "p50": 0.8557657507601575,
-      "p95": 0.9091188356154055,
-      "max": 0.947256318853682,
-      "mean": 0.8478829196654258
+      "count": 42,
+      "min": 0.7535158981974953,
+      "p05": 0.7689274718025852,
+      "p50": 0.8538064645200869,
+      "p95": 0.9273250551819104,
+      "max": 0.9484774991708455,
+      "mean": 0.8531788814293993
     },
     "negatives": {
-      "count": 1082,
-      "min": 1.0711138664638586e-7,
-      "p05": 0.00007221223662454463,
-      "p50": 0.05533529342277629,
-      "p95": 0.7352247732427998,
-      "max": 0.968000466436279,
-      "mean": 0.17458918558578773
+      "count": 1110,
+      "min": 9.013755485272315e-8,
+      "p05": 0.00007017653357725893,
+      "p50": 0.04984523166304536,
+      "p95": 0.7262679747248121,
+      "max": 0.9727302694060431,
+      "mean": 0.1687130256813243
     },
-    "minPositiveP": 0.7484379281210959,
-    "maxNegativeP": 0.968000466436279,
-    "separationMargin": -0.21956253831518313
+    "minPositiveP": 0.7535158981974953,
+    "maxNegativeP": 0.9727302694060431,
+    "separationMargin": -0.2192143712085478
   },
   "trainOnlyMetrics": {
-    "threshold": 0.74,
-    "tp": 28,
-    "fp": 54,
-    "tn": 1028,
+    "threshold": 0.75,
+    "tp": 42,
+    "fp": 47,
+    "tn": 1063,
     "fn": 0,
-    "precision": 0.34146341463414637,
+    "precision": 0.47191011235955055,
     "recall": 1,
-    "specificity": 0.9500924214417745,
-    "f1": 0.5090909090909091
+    "specificity": 0.9576576576576576,
+    "f1": 0.6412213740458015
   },
   "foldDistribution": [
     {
       "fold": 1,
-      "groups": 136,
-      "positives": 6,
-      "negatives": 216,
-      "total": 222,
-      "train": 888,
-      "val": 222
+      "groups": 139,
+      "positives": 9,
+      "negatives": 222,
+      "total": 231,
+      "train": 921,
+      "val": 231
     },
     {
       "fold": 2,
-      "groups": 136,
-      "positives": 6,
-      "negatives": 216,
-      "total": 222,
-      "train": 888,
-      "val": 222
+      "groups": 139,
+      "positives": 9,
+      "negatives": 222,
+      "total": 231,
+      "train": 921,
+      "val": 231
     },
     {
       "fold": 3,
-      "groups": 136,
-      "positives": 6,
-      "negatives": 216,
-      "total": 222,
-      "train": 888,
-      "val": 222
+      "groups": 138,
+      "positives": 8,
+      "negatives": 222,
+      "total": 230,
+      "train": 922,
+      "val": 230
     },
     {
       "fold": 4,
-      "groups": 136,
-      "positives": 5,
-      "negatives": 217,
-      "total": 222,
-      "train": 888,
-      "val": 222
+      "groups": 139,
+      "positives": 8,
+      "negatives": 222,
+      "total": 230,
+      "train": 922,
+      "val": 230
     },
     {
       "fold": 5,
-      "groups": 136,
-      "positives": 5,
-      "negatives": 217,
-      "total": 222,
-      "train": 888,
-      "val": 222
+      "groups": 139,
+      "positives": 8,
+      "negatives": 222,
+      "total": 230,
+      "train": 922,
+      "val": 230
     }
   ],
   "folds": [
     {
       "fold": 1,
-      "train": 888,
-      "val": 222,
-      "valGroups": 136,
-      "valPositives": 6,
-      "valNegatives": 216,
+      "train": 921,
+      "val": 231,
+      "valGroups": 139,
+      "valPositives": 9,
+      "valNegatives": 222,
       "at_050": {
         "threshold": 0.5,
-        "tp": 6,
-        "fp": 26,
+        "tp": 9,
+        "fp": 32,
         "tn": 190,
         "fn": 0,
-        "precision": 0.1875,
+        "precision": 0.21951219512195122,
         "recall": 1,
-        "specificity": 0.8796296296296297,
-        "f1": 0.3157894736842105
+        "specificity": 0.8558558558558559,
+        "f1": 0.36
       }
     },
     {
       "fold": 2,
-      "train": 888,
-      "val": 222,
-      "valGroups": 136,
-      "valPositives": 6,
-      "valNegatives": 216,
+      "train": 921,
+      "val": 231,
+      "valGroups": 139,
+      "valPositives": 9,
+      "valNegatives": 222,
       "at_050": {
         "threshold": 0.5,
-        "tp": 6,
-        "fp": 29,
-        "tn": 187,
+        "tp": 9,
+        "fp": 39,
+        "tn": 183,
         "fn": 0,
-        "precision": 0.17142857142857143,
+        "precision": 0.1875,
         "recall": 1,
-        "specificity": 0.8657407407407407,
-        "f1": 0.2926829268292683
+        "specificity": 0.8243243243243243,
+        "f1": 0.3157894736842105
       }
     },
     {
       "fold": 3,
-      "train": 888,
-      "val": 222,
-      "valGroups": 136,
-      "valPositives": 6,
-      "valNegatives": 216,
+      "train": 922,
+      "val": 230,
+      "valGroups": 138,
+      "valPositives": 8,
+      "valNegatives": 222,
       "at_050": {
         "threshold": 0.5,
-        "tp": 6,
-        "fp": 29,
-        "tn": 187,
+        "tp": 8,
+        "fp": 17,
+        "tn": 205,
         "fn": 0,
-        "precision": 0.17142857142857143,
+        "precision": 0.32,
         "recall": 1,
-        "specificity": 0.8657407407407407,
-        "f1": 0.2926829268292683
+        "specificity": 0.9234234234234234,
+        "f1": 0.48484848484848486
       }
     },
     {
       "fold": 4,
-      "train": 888,
-      "val": 222,
-      "valGroups": 136,
-      "valPositives": 5,
-      "valNegatives": 217,
+      "train": 922,
+      "val": 230,
+      "valGroups": 139,
+      "valPositives": 8,
+      "valNegatives": 222,
       "at_050": {
         "threshold": 0.5,
-        "tp": 5,
-        "fp": 38,
-        "tn": 179,
+        "tp": 8,
+        "fp": 30,
+        "tn": 192,
         "fn": 0,
-        "precision": 0.11627906976744186,
+        "precision": 0.21052631578947367,
         "recall": 1,
-        "specificity": 0.8248847926267281,
-        "f1": 0.20833333333333334
+        "specificity": 0.8648648648648649,
+        "f1": 0.34782608695652173
       }
     },
     {
       "fold": 5,
-      "train": 888,
-      "val": 222,
-      "valGroups": 136,
-      "valPositives": 5,
-      "valNegatives": 217,
+      "train": 922,
+      "val": 230,
+      "valGroups": 139,
+      "valPositives": 8,
+      "valNegatives": 222,
       "at_050": {
         "threshold": 0.5,
-        "tp": 5,
-        "fp": 23,
-        "tn": 194,
+        "tp": 8,
+        "fp": 18,
+        "tn": 204,
         "fn": 0,
-        "precision": 0.17857142857142858,
+        "precision": 0.3076923076923077,
         "recall": 1,
-        "specificity": 0.8940092165898618,
-        "f1": 0.30303030303030304
+        "specificity": 0.918918918918919,
+        "f1": 0.47058823529411764
       }
     }
   ],
   "hardestFalseNegativesAtThreshold": [],
   "hardestFalsePositivesAtThreshold": [
     {
-      "p": 0.9722481627592076,
+      "p": 0.9719659541510575,
       "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__322397__kitchen-drawer-close.wav",
       "centerSec": 1.2103125
     },
     {
-      "p": 0.9647551414964438,
-      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__367236__clock-siren-bell.wav",
-      "centerSec": 0.0878125
-    },
-    {
-      "p": 0.9635212237224599,
-      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__249679__chickens-and-birds.wav",
-      "centerSec": 17.015125
-    },
-    {
-      "p": 0.9542834082394263,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258040__chopping-wood-01.wav",
-      "centerSec": 17.9068125
-    },
-    {
-      "p": 0.949507090236738,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__11482__wood01.wav",
-      "centerSec": 13.03425
-    },
-    {
-      "p": 0.9481313681193598,
-      "sourcePath": "data/external/negatives/cc0/outdoor_ambient/fsd50k__170244__car-door.wav",
-      "centerSec": 0.679125
-    },
-    {
-      "p": 0.9463482361194808,
-      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__26010__foot-steps.wav",
-      "centerSec": 4.4804375
-    },
-    {
-      "p": 0.9457997006659359,
+      "p": 0.9700219113444924,
       "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__426255__finger-snap.wav",
       "centerSec": 1.1455625
     },
     {
-      "p": 0.9450797668605903,
+      "p": 0.9657592705219555,
+      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__367236__clock-siren-bell.wav",
+      "centerSec": 0.0878125
+    },
+    {
+      "p": 0.9540482533408813,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__249679__chickens-and-birds.wav",
+      "centerSec": 17.015125
+    },
+    {
+      "p": 0.9516939492536742,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__26010__foot-steps.wav",
+      "centerSec": 4.4804375
+    },
+    {
+      "p": 0.9508734277901807,
       "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__327934__puertamaderacerrandose3.wav",
       "centerSec": 3.188125
     },
     {
-      "p": 0.9440666258114175,
-      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__319636__drawer-close-01.wav",
-      "centerSec": 0.1478125
-    },
-    {
-      "p": 0.9405178599397108,
+      "p": 0.9383665014082694,
       "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__389703__enter-key-hard.wav",
       "centerSec": 0.165125
     },
     {
-      "p": 0.9367794514324543,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__182034__five-knocks-on-bathroom2-door.wav",
-      "centerSec": 1.638375
+      "p": 0.9352917964555977,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__50758__snapping-fingers.wav",
+      "centerSec": 1.8750625
     },
     {
-      "p": 0.9327328137274826,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258040__chopping-wood-01.wav",
-      "centerSec": 0.73175
-    },
-    {
-      "p": 0.9317939488591069,
-      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__173596__running.wav",
-      "centerSec": 8.8299375
-    },
-    {
-      "p": 0.9248562430909097,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196321__tridentstatic.wav",
-      "centerSec": 3.572
-    },
-    {
-      "p": 0.9187503172944231,
-      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__156319__21.wav",
-      "centerSec": 0.3970625
-    },
-    {
-      "p": 0.9174177310322926,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__372231__knocking-on-door-2-indoor-mixed.wav",
-      "centerSec": 1.4150625
-    },
-    {
-      "p": 0.8994768912639411,
-      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__152305__drawer-wooden-empty-close-02.wav",
-      "centerSec": 0.8055
-    },
-    {
-      "p": 0.8979351179523514,
+      "p": 0.9334747569870918,
       "sourcePath": "data/external/negatives/cc_by/outdoor_ambient/fsd50k__140342__yellingman1.wav",
       "centerSec": 28.967125
     },
     {
-      "p": 0.8927952705388311,
-      "sourcePath": "data/external/negatives/cc0/phone_handling/fsd50k__155575__typing-laptop-keyboard-4.wav",
-      "centerSec": 13.5546875
+      "p": 0.9333942362487955,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__11482__wood01.wav",
+      "centerSec": 13.03425
+    },
+    {
+      "p": 0.9284999489927012,
+      "sourcePath": "data/external/negatives/cc_by/phone_handling/fsd50k__216126__keyboard.wav",
+      "centerSec": 6.0588125
+    },
+    {
+      "p": 0.9217200265955959,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__319636__drawer-close-01.wav",
+      "centerSec": 0.1478125
+    },
+    {
+      "p": 0.9204272069132212,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__156319__21.wav",
+      "centerSec": 0.3970625
+    },
+    {
+      "p": 0.9165632720225076,
+      "sourcePath": "data/external/negatives/cc0/outdoor_ambient/fsd50k__170244__car-door.wav",
+      "centerSec": 0.679125
+    },
+    {
+      "p": 0.9148200612930206,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__258040__chopping-wood-01.wav",
+      "centerSec": 17.9068125
+    },
+    {
+      "p": 0.9118937566547987,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__182034__five-knocks-on-bathroom2-door.wav",
+      "centerSec": 1.638375
+    },
+    {
+      "p": 0.9075019747095612,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__196321__tridentstatic.wav",
+      "centerSec": 3.572
+    },
+    {
+      "p": 0.9024983621762052,
+      "sourcePath": "data/external/negatives/cc0/human_percussive/fsd50k__173596__running.wav",
+      "centerSec": 8.8299375
+    },
+    {
+      "p": 0.8922922069324835,
+      "sourcePath": "data/external/negatives/cc_by/non_golf_impacts/fsd50k__152305__drawer-wooden-empty-close-02.wav",
+      "centerSec": 0.8055
+    },
+    {
+      "p": 0.8906179327526186,
+      "sourcePath": "data/external/negatives/cc0/non_golf_impacts/fsd50k__433587__cabinet-door-close.wav",
+      "centerSec": 0.795
     }
   ]
 }

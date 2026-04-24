@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "check": "node scripts/check_syntax.mjs && node scripts/check_static_frontend.mjs",
+    "import:new-data": "node scripts/import_new_data.mjs",
     "train:stage1b": "node scripts/train_stage1b_detector.mjs && node scripts/train_stage1b_logmel.mjs",
     "train:stage1b:handcrafted": "node scripts/train_stage1b_detector.mjs",
     "train:stage1b:logmel": "node scripts/train_stage1b_logmel.mjs",

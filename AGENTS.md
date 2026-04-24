@@ -28,6 +28,7 @@ The app currently has a working hybrid detector:
 - Live mic mode runs onset detection, extracts a 500 ms clip, then runs Stage 1b.
 - Accepted live/file detections run the Stage 2 pure-vs-fat model for comparison.
 - Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and configurable review clip.
+- Stage 1b rejected onsets can be collected as `no_shot` negatives through the review/export UI; this is enabled by default for data collection.
 - The review clip defaults to `5` seconds so the user can speak shot notes before or after impact.
 - Live audio uses a `12` second AudioWorklet ring buffer so the default 5 second review clip can be extracted after waiting for post-shot context.
 - File-analysis mode runs the same detector/verifier path on uploaded files.
@@ -38,30 +39,30 @@ Current deployed Stage 1b model:
 
 - Model file: `frontend/models/stage1b_detector.json`
 - Feature extractor: `logmel_summary`
-- Threshold: `0.80`
+- Threshold: `0.79`
 - Feature count: `206`
 - Training report: `data/stage1b_detector_report.json`
 
 Current prepared training set:
 
-- `28` shot clips.
-- `1082` not-shot clips.
-- `1110` total prepared clips.
+- `42` shot clips.
+- `1110` not-shot clips.
+- `1152` total prepared clips.
 - Prepared manifest: `data/stage1b_prepared/manifest.jsonl`
 
 Current deployed log-mel CV metrics:
 
-- TP `28`
+- TP `42`
 - FP `0`
-- TN `1082`
+- TN `1110`
 - FN `0`
 - Precision `1.000`
 - Recall `1.000`
 - Specificity `1.000`
 - Worst-fold specificity `1.000`
-- OOF separation margin `0.076` (`minPositiveP=0.801`, `maxNegativeP=0.725`)
+- OOF separation margin `0.072` (`minPositiveP=0.790`, `maxNegativeP=0.719`)
 
-Important interpretation: the perfect CV is promising but not production proof. Positives are still only 28 local recordings, so live iPhone/range holdout testing is the next required validation.
+Important interpretation: the perfect CV is promising but not production proof. Positives are still only 42 local recordings, so live iPhone/range holdout testing is the next required validation.
 
 Current deployed Stage 2 pure/fat model:
 
@@ -73,17 +74,17 @@ Current deployed Stage 2 pure/fat model:
 - Repeated-CV report: `data/stage2_pure_fat_repeated_cv_report.json`
 - Curation policy: `data/stage2_pure_fat_exclusions.json`
 
-Current Stage 2 v0 metrics after visual bad-data exclusion:
+Current Stage 2 v0 metrics after new-sample import and visual bad-data exclusion:
 
-- Included examples: `19` total = `10` pure + `9` fat.
+- Included examples: `33` total = `15` pure + `18` fat.
 - Excluded examples: `9` total = `4` topped, `2` borderline/1mm fat, `3` bad-data visual-review exclusions (`49`, `67`, `83`).
-- Single 5-fold CV: accuracy `0.895`, pure recall `1.000`, fat recall `0.778`.
-- At confidence >= `0.60`: coverage `0.947`, kept accuracy `0.944`, pure recall `1.000`, fat recall `0.875`.
-- Repeated randomized 5-fold CV, 200 repeats: mean accuracy `0.882`, median `0.895`, min `0.842`, p95 `0.947`, max `1.000`.
-- Repeated-CV confidence >= `0.60`: mean coverage `0.924`, mean kept accuracy `0.926`.
-- OOF separation margin `0.058` (`minPureP=0.698`, `maxFatP=0.639`).
+- Single 5-fold CV: accuracy `0.939`, pure recall `1.000`, fat recall `0.889`.
+- At confidence >= `0.60`: coverage `0.939`, kept accuracy `0.935`, pure recall `1.000`, fat recall `0.882`.
+- Repeated randomized 5-fold CV, 200 repeats: mean accuracy `0.933`, median `0.939`, min `0.848`, p95 `0.970`, max `0.970`.
+- Repeated-CV confidence >= `0.60`: mean coverage `0.952`, mean kept accuracy `0.949`.
+- OOF separation margin `-0.209` (`minPureP=0.561`, `maxFatP=0.770`).
 
-Important interpretation: Stage 2 now has a real local pure/fat signal and is worth running in the app. It is still not production-proof because it has only 19 included examples from one local recording domain.
+Important interpretation: Stage 2 now has a stronger local pure/fat signal and is worth running in the app. It is still not production-proof because it has only 33 included examples from local recording domains and the OOF margin is negative.
 
 ## Critical Data Rules
 
@@ -101,7 +102,7 @@ Correct handling:
 The current trainer already adds local pre-shot hard negatives:
 
 - Category: `local_preshot_voice_ambient`
-- Count: `56`
+- Count: `84`
 - Purpose: prevent the model from learning "local phone recording" versus "external library clip."
 
 External positives are not currently useful. The sourced positives appear to be copies of local recordings, not independent golf-shot sources. Do not count them as external diversity.
@@ -116,7 +117,8 @@ Top-level docs:
 - `CLAUDE.md` - shorter synced handoff for Claude-style agents.
 - `PROJECT.md` - current v1 product status and next-step roadmap.
 - `MANUAL.md` - manual GitHub Pages setup and iPhone deployment test steps.
-- `ML_2.md` - current Stage 2 pure/fat validation report.
+- `ML_3.md` - current new-sample import, sanitation, and retraining report.
+- `ML_2.md` - previous Stage 2 pure/fat validation report before the new import.
 - `SOURCING_GUIDE.md` - guidance for sourcing external positive/negative audio.
 - `archive/` - older plans and progress docs that are useful history but not current guidance.
 
@@ -129,7 +131,7 @@ Raw shot folders:
 
 `data/`:
 
-- `data/labels.json` - canonical shot labels and shot times for the 28 local recordings.
+- `data/labels.json` - canonical shot labels and shot times for the 42 local recordings.
 - `data/external/` - sourced sound-effect data organized by polarity/license/status.
 - `data/external/manifest.jsonl` - manifest consumed by the Stage 1b trainer.
 - `data/stage1b_prepared/` - generated 500 ms training WAV clips.
@@ -162,6 +164,7 @@ Raw shot folders:
 
 `scripts/`:
 
+- `scripts/import_new_data.mjs` - imports `new_data/` folders into the top-level raw sample layout and auto-labels one-shot clips with recentered spectral-flux impact times.
 - `scripts/train_stage1b_detector.mjs` - prepares Stage 1b dataset and trains handcrafted baseline.
 - `scripts/train_stage1b_logmel.mjs` - trains/deploys log-mel verifier from prepared clips.
 - `scripts/train_stage2_pure_fat.mjs` - trains the pure-vs-fat classifier from prepared positive clips.
@@ -171,7 +174,7 @@ Raw shot folders:
 
 `package.json`:
 
-- Defines Node scripts for Stage 1b training, Stage 2 training, and repeated Stage 2 validation.
+- Defines Node scripts for new-data import, Stage 1b training, Stage 2 training, and repeated Stage 2 validation.
 - No frontend build step.
 
 ## How The App Works Now
@@ -198,7 +201,7 @@ Live path:
 11. `frontend/stage1b.js` runs the deployed verifier.
 12. Accepted candidates run the experimental Stage 2 pure-vs-fat classifier.
 13. Recent shot result and quality are shown in the practice-session panel.
-14. Accepted and rejected candidates are stored locally for review/export; rejected candidates can be hidden or shown in the UI.
+14. Accepted candidates are stored locally for review/export; Stage 1b rejected candidates are also stored by default as `no_shot` negatives when the data-collection option is enabled.
 15. Export writes a ZIP containing `manifest.json`, `clips/context/` review WAVs, and `clips/model_500ms/` canonical clips.
 
 File-analysis path:
@@ -279,12 +282,14 @@ What happens:
 Individual commands:
 
 ```sh
+npm run import:new-data
 npm run train:stage1b:handcrafted
 npm run train:stage1b:logmel
 npm run train:stage2:pure-fat
 npm run validate:stage2:pure-fat
 ```
 
+Use `import:new-data` for new one-shot sample folders staged under `new_data/`; run it with `-- --dry-run` first and manually review any future file with multiple plausible onsets.
 Use `train:stage1b:logmel` only if `data/stage1b_prepared/` is already current.
 Use `train:stage1b:handcrafted` when you need to regenerate prepared clips or refresh the handcrafted baseline; it must not change the deployed detector.
 Use `train:stage2:pure-fat` only after `data/stage1b_prepared/` exists and is current.
@@ -315,6 +320,7 @@ node --check frontend/audio_features.js
 node --check frontend/stage1b.js
 node --check frontend/stage2.js
 node --check frontend/app.js
+node --check scripts/import_new_data.mjs
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
 node --check scripts/stage2_pure_fat_policy.mjs
@@ -336,11 +342,11 @@ node frontend/eval_labels.mjs recentered
 
 Known good onset result at threshold `0.65`:
 
-- TP `28`
+- TP `42`
 - FP `0`
 - FN `0`
-- Mean signed offset about `-27.9 ms`
-- Median absolute offset about `26.9 ms`
+- Mean signed offset about `-18.6 ms`
+- Median absolute offset about `21.4 ms`
 
 Run frontend locally:
 
@@ -357,35 +363,35 @@ Deployed log-mel verifier:
 
 - Report: `data/stage1b_detector_report.json`
 - Model: `frontend/models/stage1b_detector.json`
-- Threshold: `0.80`
-- TP `28`
+- Threshold: `0.79`
+- TP `42`
 - FP `0`
-- TN `1082`
+- TN `1110`
 - FN `0`
 - Precision `1.000`
 - Recall `1.000`
 - Specificity `1.000`
 - Worst-fold specificity `1.000`
-- OOF separation margin `0.076`
+- OOF separation margin `0.072`
 
 Handcrafted baseline:
 
 - Report: `data/stage1b_handcrafted_report.json`
 - Model: `frontend/models/stage1b_handcrafted.json`
-- Threshold: `0.63`
-- TP `28`
-- FP `97`
-- TN `985`
+- Threshold: `0.67`
+- TP `42`
+- FP `82`
+- TN `1028`
 - FN `0`
-- Precision `0.224`
+- Precision `0.339`
 - Recall `1.000`
-- Specificity `0.910`
-- Worst-fold specificity `0.871`
-- OOF separation margin `-0.338`
+- Specificity `0.926`
+- Worst-fold specificity `0.905`
+- OOF separation margin `-0.302`
 
 Prepared negative categories:
 
-- `local_preshot_voice_ambient`: 56
+- `local_preshot_voice_ambient`: 84
 - `club_bag_equipment`: 118
 - `human_percussive`: 256
 - `non_golf_impacts`: 296
@@ -398,18 +404,18 @@ Stage 2 pure/fat v0:
 - Report: `data/stage2_pure_fat_report.json`
 - Repeated CV: `data/stage2_pure_fat_repeated_cv_report.json`
 - Model: `frontend/models/stage2_pure_fat.json`
-- Included examples: `19` = `10` pure / `9` fat
+- Included examples: `33` = `15` pure / `18` fat
 - Excluded examples: `9` = `4` topped / `2` borderline / `3` bad-data visual-review exclusions
-- Single 5-fold CV accuracy: `0.895`
-- Confidence >= `0.60` kept accuracy: `0.944` at `0.947` coverage
-- Repeated CV mean accuracy: `0.882`
-- Repeated CV min accuracy: `0.842`
-- Repeated CV mean kept accuracy at confidence >= `0.60`: `0.926`
-- OOF separation margin: `0.058`
+- Single 5-fold CV accuracy: `0.939`
+- Confidence >= `0.60` kept accuracy: `0.935` at `0.939` coverage
+- Repeated CV mean accuracy: `0.933`
+- Repeated CV min accuracy: `0.848`
+- Repeated CV mean kept accuracy at confidence >= `0.60`: `0.949`
+- OOF separation margin: `-0.209`
 
 ## Current Limitations
 
-- Only 28 local positive shot recordings.
+- Only 42 local positive shot recordings.
 - Topped class has very few examples.
 - Stage 2 pure/fat exists and runs in the app, but it is still an early local-domain classifier.
 - Stage 2 topped classifier does not exist yet.
@@ -454,7 +460,7 @@ Minimum useful holdout:
 
 - 20-30 new real shots.
 - 100-300 real local negatives.
-- Different session from the current 28 positives.
+- Different session from the current 42 positives.
 - Do not train on it until after evaluation.
 
 4. Re-run Stage 1b training after adding live hard negatives.
@@ -480,17 +486,18 @@ Current implementation:
 - `pure` vs `fat` only.
 - Excludes topped, 1mm/borderline examples, and three visually reviewed bad-data examples from v0 training.
 - Exclusion policy lives in `data/stage2_pure_fat_exclusions.json`; do not add hard-coded exclusions in trainer scripts.
-- CV accuracy `0.895` on 19 included clear examples.
-- At confidence >= `0.60`: coverage `0.947`, kept accuracy `0.944`, unsure `1/19`.
-- Repeated randomized CV mean accuracy `0.882`; all 200 repeats were >= `0.80`.
+- CV accuracy `0.939` on 33 included clear examples.
+- At confidence >= `0.60`: coverage `0.939`, kept accuracy `0.935`, unsure `2/33`.
+- Repeated randomized CV mean accuracy `0.933`; all 200 repeats were >= `0.80`.
 - Intended for live comparison and data collection, not final trusted feedback.
 
 Current data reality:
 
-- 28 total local positives.
+- 42 total local positives.
 - Approximate labels from folder names:
-  - Pure: about 11.
-  - Fat: about 11 plus 2 borderline/1mm fat.
+  - Pure: about 16.
+  - Fat: about 20 including 1-inch and slightly-fat examples.
+  - Borderline/1mm: about 2.
   - Topped: about 4.
 - Topped is the bottleneck.
 

@@ -629,6 +629,12 @@ function revokeDetectionUrls(det) {
 }
 
 async function addDetection(det) {
+  const rejected = det.verification?.label === 'not_shot';
+  if (rejected && !params.saveRejected) {
+    setStatus('Rejected onset ignored. Enable "collect rejected as no_shot" to save negatives.', 'info');
+    return;
+  }
+
   det.id = det.id || makeId('det');
   det.createdAt = det.createdAt || nowStamp();
   det.verification ||= { available: false, label: 'shot', pShot: 1, confidence: 1 };
@@ -1077,6 +1083,9 @@ $('#show-rejected').onchange = (e) => {
   params.showRejected = e.target.checked;
   renderDetections();
 };
+$('#collect-rejected').onchange = (e) => {
+  params.saveRejected = e.target.checked;
+};
 $('#file-input').onchange = async (e) => {
   const files = Array.from(e.target.files || []);
   for (const f of files) await analyzeFile(f);
@@ -1094,6 +1103,7 @@ $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFix
 $('#context-seconds').value = params.contextSeconds;
 $('#context-seconds-val').textContent = params.contextSeconds;
 $('#show-rejected').checked = params.showRejected;
+$('#collect-rejected').checked = params.saveRejected;
 updateCalibrationUi();
 updateSessionUi();
 updateRecentShot();

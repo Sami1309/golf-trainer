@@ -280,6 +280,454 @@
       "duration": 7.744,
       "labeledAt": "2026-04-23T08:36:23.874Z",
       "labeledBy": "sam"
+    },
+    "Fareways Grab & Golf 3.m4a": {
+      "path": "samples/87 - fat 1 inch/Fareways Grab & Golf 3.m4a",
+      "shotTimes": [
+        4.154438
+      ],
+      "folderLabel": "87 - fat 1 inch",
+      "duration": 7.444,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/87 - fat 1 inch",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 4.154438,
+          "flux": 1.531331,
+          "peakAbs": 0.888528
+        },
+        "candidates": [
+          {
+            "time": 4.154438,
+            "flux": 1.531331,
+            "peakAbs": 0.888528
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Course 64.m4a": {
+      "path": "samples/90 - fat/Rancho Park Golf Course 64.m4a",
+      "shotTimes": [
+        3.290437
+      ],
+      "folderLabel": "90 - fat",
+      "duration": 6.505312,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/90 - fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.290437,
+          "flux": 1.163991,
+          "peakAbs": 0.681546
+        },
+        "candidates": [
+          {
+            "time": 3.290437,
+            "flux": 1.163991,
+            "peakAbs": 0.681546
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 25.m4a": {
+      "path": "samples/92 - fat/Rancho Park Golf Club 25.m4a",
+      "shotTimes": [
+        3.425687
+      ],
+      "folderLabel": "92 - fat",
+      "duration": 6.676,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/92 - fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.425687,
+          "flux": 1.272158,
+          "peakAbs": 0.660354
+        },
+        "candidates": [
+          {
+            "time": 3.425687,
+            "flux": 1.272158,
+            "peakAbs": 0.660354
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 27.m4a": {
+      "path": "samples/94 - pure/Rancho Park Golf Club 27.m4a",
+      "shotTimes": [
+        4.0765
+      ],
+      "folderLabel": "94 - pure",
+      "duration": 7.017313,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/94 - pure",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 4.0765,
+          "flux": 1.158504,
+          "peakAbs": 0.955681
+        },
+        "candidates": [
+          {
+            "time": 4.0765,
+            "flux": 1.158504,
+            "peakAbs": 0.955681
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Course 65.m4a": {
+      "path": "samples/95 - pure 100%/Rancho Park Golf Course 65.m4a",
+      "shotTimes": [
+        3.192938
+      ],
+      "folderLabel": "95 - pure 100%",
+      "duration": 6.164,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/95 - pure 100%",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.192938,
+          "flux": 1.439573,
+          "peakAbs": 1.292171
+        },
+        "candidates": [
+          {
+            "time": 3.192938,
+            "flux": 1.439573,
+            "peakAbs": 1.292171
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 30.m4a": {
+      "path": "samples/99 - fat/Rancho Park Golf Club 30.m4a",
+      "shotTimes": [
+        3.862312
+      ],
+      "folderLabel": "99 - fat",
+      "duration": 7.017313,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/99 - fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.862312,
+          "flux": 1.473817,
+          "peakAbs": 0.732584
+        },
+        "candidates": [
+          {
+            "time": 3.862312,
+            "flux": 1.473817,
+            "peakAbs": 0.732584
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 32.m4a": {
+      "path": "samples/101 - slightly fat/Rancho Park Golf Club 32.m4a",
+      "shotTimes": [
+        4.404125
+      ],
+      "folderLabel": "101 - slightly fat",
+      "duration": 8.894687,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/101 - slightly fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 4.404125,
+          "flux": 1.237509,
+          "peakAbs": 0.784181
+        },
+        "candidates": [
+          {
+            "time": 4.404125,
+            "flux": 1.237509,
+            "peakAbs": 0.784181
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Course 67.m4a": {
+      "path": "samples/102 - for sure pure/Rancho Park Golf Course 67.m4a",
+      "shotTimes": [
+        3.242688
+      ],
+      "folderLabel": "102 - for sure pure",
+      "duration": 6.761312,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/102 - for sure pure",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.242688,
+          "flux": 1.050219,
+          "peakAbs": 0.787801
+        },
+        "candidates": [
+          {
+            "time": 3.242688,
+            "flux": 1.050219,
+            "peakAbs": 0.787801
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 33.m4a": {
+      "path": "samples/103 - for sure pure/Rancho Park Golf Club 33.m4a",
+      "shotTimes": [
+        3.495125
+      ],
+      "folderLabel": "103 - for sure pure",
+      "duration": 6.761312,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/103 - for sure pure",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.495125,
+          "flux": 1.38907,
+          "peakAbs": 0.88825
+        },
+        "candidates": [
+          {
+            "time": 3.495125,
+            "flux": 1.38907,
+            "peakAbs": 0.88825
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Course 70.m4a": {
+      "path": "samples/109 - for sure fat/Rancho Park Golf Course 70.m4a",
+      "shotTimes": [
+        3.984688
+      ],
+      "folderLabel": "109 - for sure fat",
+      "duration": 7.102688,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/109 - for sure fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.984688,
+          "flux": 1.608711,
+          "peakAbs": 1.13959
+        },
+        "candidates": [
+          {
+            "time": 3.984688,
+            "flux": 1.608711,
+            "peakAbs": 1.13959
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 39.m4a": {
+      "path": "samples/114 - pure/Rancho Park Golf Club 39.m4a",
+      "shotTimes": [
+        3.4245
+      ],
+      "folderLabel": "114 - pure",
+      "duration": 8.809313,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/114 - pure",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.4245,
+          "flux": 1.261756,
+          "peakAbs": 0.943686
+        },
+        "candidates": [
+          {
+            "time": 3.4245,
+            "flux": 1.261756,
+            "peakAbs": 0.943686
+          }
+        ]
+      }
+    },
+    "Rancho Park Golf Club 43.m4a": {
+      "path": "samples/118 - fat/Rancho Park Golf Club 43.m4a",
+      "shotTimes": [
+        3.004938
+      ],
+      "folderLabel": "118 - fat",
+      "duration": 6.761312,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/118 - fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.004938,
+          "flux": 1.352867,
+          "peakAbs": 0.893259
+        },
+        "candidates": [
+          {
+            "time": 3.004938,
+            "flux": 1.352867,
+            "peakAbs": 0.893259
+          }
+        ]
+      }
+    },
+    "Fareways Grab & Golf 4.m4a": {
+      "path": "samples/119 - fat/Fareways Grab & Golf 4.m4a",
+      "shotTimes": [
+        2.944688
+      ],
+      "folderLabel": "119 - fat",
+      "duration": 6.676,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/119 - fat",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 2.944688,
+          "flux": 1.319056,
+          "peakAbs": 0.992668
+        },
+        "candidates": [
+          {
+            "time": 2.944688,
+            "flux": 1.319056,
+            "peakAbs": 0.992668
+          }
+        ]
+      }
+    },
+    "Fareways Grab & Golf 5.m4a": {
+      "path": "samples/120 - fat /Fareways Grab & Golf 5.m4a",
+      "shotTimes": [
+        3.201938
+      ],
+      "folderLabel": "120 - fat ",
+      "duration": 6.334688,
+      "labeledAt": "2026-04-24T20:59:19.660Z",
+      "labeledBy": "codex-auto-import",
+      "labelingMethod": "spectral_flux_recentered_peak_v1",
+      "importSource": "new_data/120 - fat ",
+      "detector": {
+        "sampleRate": 16000,
+        "fftSize": 1024,
+        "hopSize": 256,
+        "onsetThreshold": 0.65,
+        "minGapSec": 0.2,
+        "recenterSearchMs": 120,
+        "selected": {
+          "time": 3.201938,
+          "flux": 1.402332,
+          "peakAbs": 0.785022
+        },
+        "candidates": [
+          {
+            "time": 3.201938,
+            "flux": 1.402332,
+            "peakAbs": 0.785022
+          }
+        ]
+      }
     }
   }
 }

@@ -24,7 +24,7 @@ Live/file pipeline:
 2. A 500 ms clip is extracted, recentered around impact, resampled to 16 kHz mono, and peak-normalized.
 3. Stage 1b loads `frontend/models/stage1b_detector.json` and rejects non-shot candidates.
 4. Accepted candidates run Stage 2 pure/fat classification from `frontend/models/stage2_pure_fat.json`.
-5. Accepted and rejected candidates are stored locally in IndexedDB with both the model clip and a configurable review clip.
+5. Accepted candidates are stored locally in IndexedDB with both the model clip and a configurable review clip; Stage 1b rejected onsets are also stored by default as `no_shot` negatives when the data-collection option is enabled.
 6. Users can label clips in the app and export a ZIP with WAVs plus manifest JSON.
 
 Live session flow:
@@ -48,9 +48,9 @@ Stage 1b deployed detector:
 - Report: `data/stage1b_detector_report.json`
 - Feature extractor: `logmel_summary`
 - Feature count: `206`
-- Threshold: `0.80`
-- CV: TP `28`, FP `0`, TN `1082`, FN `0`
-- OOF margin: `0.076` (`minPositiveP=0.801`, `maxNegativeP=0.725`)
+- Threshold: `0.79`
+- CV: TP `42`, FP `0`, TN `1110`, FN `0`
+- OOF margin: `0.072` (`minPositiveP=0.790`, `maxNegativeP=0.719`)
 
 Stage 2 pure/fat v0:
 
@@ -61,15 +61,15 @@ Stage 2 pure/fat v0:
 - Feature extractor: `logmel_summary`
 - Feature count: `206`
 - Confidence threshold: `0.60`
-- Included examples: `19` = `10` pure + `9` fat
+- Included examples: `33` = `15` pure + `18` fat
 - Excluded examples: `9` = `4` topped, `2` borderline/1mm fat, `3` bad-data visual-review exclusions
-- Single 5-fold CV accuracy: `0.895`
-- Confidence >= `0.60`: coverage `0.947`, kept accuracy `0.944`
-- Repeated randomized 5-fold CV over 200 repeats: mean accuracy `0.882`, min `0.842`, max `1.000`
-- Repeated-CV confidence >= `0.60`: mean coverage `0.924`, mean kept accuracy `0.926`
-- OOF margin: `0.058`
+- Single 5-fold CV accuracy: `0.939`
+- Confidence >= `0.60`: coverage `0.939`, kept accuracy `0.935`
+- Repeated randomized 5-fold CV over 200 repeats: mean accuracy `0.933`, min `0.848`, max `0.970`
+- Repeated-CV confidence >= `0.60`: mean coverage `0.952`, mean kept accuracy `0.949`
+- OOF margin: `-0.209`
 
-Interpretation: Stage 2 has real signal in the current local corpus. It does not prove production generalization because there are only 19 included examples from one local domain.
+Interpretation: Stage 2 has stronger signal in the current local corpus. It does not prove production generalization because there are only 33 included examples from local recording domains and the OOF margin is negative.
 
 ## Data Rules
 
@@ -77,6 +77,7 @@ Do not train on full local `.m4a` positives. The raw recordings include spoken s
 
 Correct handling:
 
+- Stage new one-shot raw folders under `new_data/` and import with `npm run import:new-data`.
 - Use `data/labels.json` as canonical shot timing and folder-label source.
 - Crop positives around labeled impact time.
 - Recenter near impact using peak amplitude.
@@ -101,6 +102,7 @@ node --check frontend/audio_features.js
 node --check frontend/stage1b.js
 node --check frontend/stage2.js
 node --check frontend/app.js
+node --check scripts/import_new_data.mjs
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
 node --check scripts/stage2_pure_fat_policy.mjs
@@ -111,6 +113,8 @@ node --check scripts/validate_stage2_repeated_cv.mjs
 Training:
 
 ```sh
+npm run import:new-data -- --dry-run
+npm run import:new-data
 npm run train:stage1b
 npm run train:stage2:pure-fat
 npm run validate:stage2:pure-fat
@@ -122,7 +126,7 @@ Onset validation:
 node frontend/eval_labels.mjs recentered
 ```
 
-Known good onset result: at threshold `0.65`, TP `28`, FP `0`, FN `0`, mean signed offset about `-27.9 ms`, median absolute offset about `26.9 ms`.
+Known good onset result: at threshold `0.65`, TP `42`, FP `0`, FN `0`, mean signed offset about `-18.6 ms`, median absolute offset about `21.4 ms`.
 
 Run frontend locally:
 

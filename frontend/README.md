@@ -8,6 +8,7 @@ Single-page web app for the Stage 1 hybrid detector:
 - Runs the same algorithm offline against uploaded audio files
 - Extracts a canonical 500 ms model clip plus a configurable review clip around each detection
 - Stores detections locally in IndexedDB for review after reloads
+- Can collect Stage 1b rejected onsets as `no_shot` negatives for data collection
 - Plays / labels / exports detections as WAVs plus a JSON manifest
 
 No backend and no build step. ZIP export uses JSZip from jsDelivr in the browser.
@@ -44,9 +45,18 @@ The pure-vs-fat Stage 2 model is also a small JSON logistic model loaded from
 npm run train:stage2:pure-fat
 ```
 
-Stage 2 v0 intentionally excludes topped examples, 1mm/borderline fat examples, and three visually reviewed bad-data examples recorded in `data/stage2_pure_fat_exclusions.json`. Current local CV is promising: 19 included examples, single 5-fold CV accuracy 0.895, and 0.944 kept accuracy at confidence >= 0.60. It is useful for live comparison and data collection, not yet a production swing-quality classifier.
+Stage 2 v0 intentionally excludes topped examples, 1mm/borderline fat examples, and three visually reviewed bad-data examples recorded in `data/stage2_pure_fat_exclusions.json`. Current local CV is promising: 33 included examples, single 5-fold CV accuracy 0.939, and repeated-CV mean kept accuracy 0.949 at confidence >= 0.60. It is useful for live comparison and data collection, not yet a production swing-quality classifier.
 
 Important: positives are cropped from `data/labels.json` around the labeled impact time. The script intentionally does **not** train on the full local `.m4a` positives because those recordings contain spoken shot names before impact. It now adds pre-impact crops from those same local files as hard negatives, so spoken pre-roll is treated as `not_shot` instead of leaking into positives. External positives are not used yet; current sourced positives are only copies of the same local recordings.
+
+From the repo root, import new one-shot sample folders with:
+
+```sh
+npm run import:new-data -- --dry-run
+npm run import:new-data
+```
+
+The importer moves `new_data/<folder label>/` into the top-level raw sample layout and writes recentered spectral-flux impact times to `data/labels.json`. Manually review future clips if dry-run output shows multiple plausible onsets.
 
 ## Run locally
 
@@ -86,7 +96,7 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 2. **One-shot live calibration**: tap **Start recording**, then hit one real ball. The app temporarily lowers the onset gate to catch that shot, asks you to confirm or retry it, then sets the live onset threshold to 65% of that measured strength.
 3. **File mode on known recordings**: upload any `.m4a` from the sample folders. File mode uses the calibrated labeled-sample threshold (`0.65`) instead of the live slider. The waveform should render with pink vertical lines at each detected onset.
 4. **Threshold tuning**: if live mode misses shots, use one-shot calibration rather than hand-tuning first. If everything fires, raise the threshold slightly.
-5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Check the detections table for real shots vs false positives and compare the pure/fat quality guess against your label.
+5. **iPhone live at range**: open URL, phone on ground, calibrate with one real shot, then hit a few more. Keep **collect rejected as no_shot** on if you want negative examples, and enable **show rejected/no_shot rows** when reviewing them. Check the detections table for real shots vs false positives and compare the pure/fat quality guess against your label.
 6. **Export**: hit Export All after a session. The app writes a ZIP with `manifest.json`, `clips/context/` review WAVs, and `clips/model_500ms/` canonical model clips. The review clip defaults to 5 seconds and can be changed before capture.
 
 ## Known gotchas
@@ -100,7 +110,7 @@ Safari requires HTTPS for `getUserMedia`. Options, easiest first:
 ## What validates Phase 0
 
 - [ ] On desktop: clap fires a detection, silence doesn't.
-- [ ] On desktop file-mode: every one of the 28 sample `.m4a` files produces ≥1 detection, and at least one of those detections, played back, clearly contains the impact.
+- [ ] On desktop file-mode: every one of the 42 sample `.m4a` files produces at least one detection, and at least one of those detections, played back, clearly contains the impact.
 - [ ] On iPhone: mic permission granted, live detection works at a driving range.
 - [ ] Exported ZIP contains valid 16 kHz mono 16-bit WAV files that play everywhere.
 
@@ -108,7 +118,7 @@ Failing any of these before adding a backend means the pipeline has a problem we
 
 ## What this does NOT do yet
 
-- Pure/fat classifier is experimental and trained on only 19 included local examples.
+- Pure/fat classifier is experimental and trained on only 33 included local examples.
 - No topped classifier yet.
 - No multi-device sync / backend.
 - No spectrogram (yet).

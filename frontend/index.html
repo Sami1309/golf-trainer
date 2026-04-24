@@ -57,10 +57,6 @@
         quality conf: <input type="range" id="stage2-confidence" min="0.50" max="0.95" step="0.01" />
         <span id="stage2-confidence-val"></span>
       </label>
-      <label>
-        <input type="checkbox" id="show-rejected" />
-        show rejected
-      </label>
       <span class="readout">
         flux now: <b id="live-flux-now">—</b>
         &nbsp; peak: <b id="live-flux-peak">—</b>
@@ -109,8 +105,8 @@
 <section class="card" id="review-section">
   <h2>Detections <span id="detection-count">0</span></h2>
   <p class="hint">
-    Each live/file candidate is stored locally with a configurable review clip and a canonical
-    500 ms model clip. Label it as pure / fat / topped / no_shot / unsure, then export a ZIP
+    Live/file shot candidates are stored locally with a configurable review clip and a canonical
+    500 ms model clip. Rejected onsets can also be collected as no_shot negatives. Label rows as pure / fat / topped / no_shot / unsure, then export a ZIP
     with WAVs plus a manifest.
   </p>
   <div class="controls">
@@ -119,6 +115,14 @@
     <label>
       review clip (s): <input type="range" id="context-seconds" min="2" max="10" step="1" />
       <span id="context-seconds-val"></span>
+    </label>
+    <label>
+      <input type="checkbox" id="collect-rejected" />
+      collect rejected as no_shot
+    </label>
+    <label>
+      <input type="checkbox" id="show-rejected" />
+      show rejected/no_shot rows
     </label>
     <span class="readout" id="stored-count">0 stored · 0 labeled</span>
   </div>

@@ -28,32 +28,34 @@ Stage 1a:
 
 - Browser spectral-flux onset detector.
 - File-mode calibrated threshold: `0.65`.
-- Known local labeled-set result: TP `28`, FP `0`, FN `0`.
+- Known local labeled-set result: TP `42`, FP `0`, FN `0`.
 
 Stage 1b:
 
 - Browser model: `frontend/models/stage1b_detector.json`.
 - Type: log-mel summary standardized logistic regression.
-- Threshold: `0.80`.
-- CV: TP `28`, FP `0`, TN `1082`, FN `0`.
-- OOF margin: `0.076`.
+- Threshold: `0.79`.
+- CV: TP `42`, FP `0`, TN `1110`, FN `0`.
+- OOF margin: `0.072`.
 
 Stage 2:
 
 - Browser model: `frontend/models/stage2_pure_fat.json`.
 - Type: log-mel summary standardized logistic regression.
 - Output: `pure`, `fat`, or `unsure`.
-- Included examples: `19` = `10` pure + `9` fat.
+- Included examples: `33` = `15` pure + `18` fat.
 - Exclusion policy: `data/stage2_pure_fat_exclusions.json`.
-- Single 5-fold CV accuracy: `0.895`.
-- Repeated 200x 5-fold CV mean accuracy: `0.882`.
-- Confidence >= `0.60` repeated-CV mean kept accuracy: `0.926`.
+- Single 5-fold CV accuracy: `0.939`.
+- Repeated 200x 5-fold CV mean accuracy: `0.933`.
+- Confidence >= `0.60` repeated-CV mean kept accuracy: `0.949`.
 
 Interpretation: Stage 2 is good enough for live comparison and data collection. It is not yet production-proof coaching feedback.
 
 ## Validation Commands
 
 ```sh
+npm run import:new-data -- --dry-run
+npm run import:new-data
 node --check frontend/audio_features.js
 node --check frontend/stage1b.js
 node --check frontend/stage2.js
@@ -82,6 +84,7 @@ node frontend/eval_labels.mjs recentered
 ## Guardrails
 
 - Keep raw `.m4a` and `.MOV` files out of normal Git.
+- Stage new one-shot recordings under `new_data/`, run `npm run import:new-data -- --dry-run`, and manually review any file with multiple plausible onset candidates.
 - Do not train positives from full local `.m4a` recordings.
 - Keep 500 ms, 16 kHz mono, peak-normalized clips aligned across training and inference.
 - Keep manual Stage 2 exclusions in `data/stage2_pure_fat_exclusions.json`, not in trainer code.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T23:50:43.135Z",
+  "generatedAt": "2026-04-24T21:01:53.271Z",
   "modelPath": "frontend/models/stage2_pure_fat.json",
   "featureExtractor": "logmel_summary",
   "featureCount": 206,
@@ -29,8 +29,8 @@
       "missing_label_entry"
     ]
   },
-  "pure": 10,
-  "fat": 9,
+  "pure": 15,
+  "fat": 18,
   "excluded": [
     {
       "sourcePath": "22 - topped/Fareways Grab & Golf.m4a",
@@ -95,66 +95,80 @@
   ],
   "cv": {
     "threshold": 0.5,
-    "tpPure": 10,
+    "tpPure": 15,
     "fpPure": 2,
-    "tnFat": 7,
+    "tnFat": 16,
     "fnPure": 0,
-    "accuracy": 0.8947368421052632,
-    "purePrecision": 0.8333333333333334,
+    "accuracy": 0.9393939393939394,
+    "purePrecision": 0.8823529411764706,
     "pureRecall": 1,
     "fatPrecision": 1,
-    "fatRecall": 0.7777777777777778
+    "fatRecall": 0.8888888888888888
   },
   "cvAtConfidence060": {
     "confidenceThreshold": 0.6,
-    "unsure": 1,
-    "coverage": 0.9473684210526315,
+    "unsure": 2,
+    "coverage": 0.9393939393939394,
     "kept": {
       "threshold": 0.5,
-      "tpPure": 10,
-      "fpPure": 1,
-      "tnFat": 7,
+      "tpPure": 14,
+      "fpPure": 2,
+      "tnFat": 15,
       "fnPure": 0,
-      "accuracy": 0.9444444444444444,
-      "purePrecision": 0.9090909090909091,
+      "accuracy": 0.9354838709677419,
+      "purePrecision": 0.875,
       "pureRecall": 1,
       "fatPrecision": 1,
-      "fatRecall": 0.875
+      "fatRecall": 0.8823529411764706
     }
   },
   "oofScoreSeparation": {
-    "minPureP": 0.6976594365532632,
-    "maxFatP": 0.6393110002789965,
-    "separationMargin": 0.05834843627426678,
+    "minPureP": 0.5610240320879303,
+    "maxFatP": 0.7702964757333995,
+    "separationMargin": -0.20927244364546926,
     "pureScores": [
-      0.6976594365532632,
-      0.7479120352396452,
-      0.8475764364277715,
-      0.9324611457579237,
-      0.9529342830742198,
-      0.9660430627801988,
-      0.970317033293678,
-      0.9761819862900406,
-      0.981602752960639,
-      0.9995217751180682
+      0.5610240320879303,
+      0.787877720318862,
+      0.8154785788939632,
+      0.8466702334443916,
+      0.8849593533521994,
+      0.9525639887001607,
+      0.9539204851008926,
+      0.9662222440618372,
+      0.9729459810663923,
+      0.9784441499619254,
+      0.9904088160194414,
+      0.9947625252990906,
+      0.9981718581057988,
+      0.9990461797142511,
+      0.9992190854857673
     ],
     "fatScores": [
-      0.0006791398048153396,
-      0.0027637296801528233,
-      0.003035631692940019,
-      0.010952622565677127,
-      0.02016130123476541,
-      0.07666607098729615,
-      0.08043734952096533,
-      0.5207418148212132,
-      0.6393110002789965
+      0.0008888087501224851,
+      0.006494062532410287,
+      0.006659061619242508,
+      0.0077410014975391505,
+      0.008340241881737752,
+      0.01161598190701511,
+      0.016564215576880714,
+      0.01840672525891699,
+      0.018763384616971066,
+      0.018831937052376194,
+      0.04009628493876354,
+      0.04695988461080994,
+      0.05191151968345743,
+      0.12775291346753015,
+      0.21050608487463263,
+      0.4545928966636501,
+      0.7073312823419017,
+      0.7702964757333995
     ]
   },
   "trainOnlyMetrics": {
     "threshold": 0.5,
-    "tpPure": 10,
+    "tpPure": 15,
     "fpPure": 0,
-    "tnFat": 9,
+    "tnFat": 18,
     "fnPure": 0,
     "accuracy": 1,
     "purePrecision": 1,
@@ -163,51 +177,65 @@
     "fatRecall": 1
   },
   "trainScoreSeparation": {
-    "minPureP": 0.924236909541573,
-    "maxFatP": 0.06974625156362821,
-    "separationMargin": 0.8544906579779448,
+    "minPureP": 0.9035720171923364,
+    "maxFatP": 0.1660407387250119,
+    "separationMargin": 0.7375312784673245,
     "pureScores": [
-      0.924236909541573,
-      0.9689260270550042,
-      0.9731151152349726,
-      0.9735561568085136,
-      0.9757656480860764,
-      0.9764074741514197,
-      0.9849324897325826,
-      0.9887082281446775,
-      0.9895663725075624,
-      0.9991501374964457
+      0.9035720171923364,
+      0.9225356450473589,
+      0.9587727098836004,
+      0.9598756681415703,
+      0.9618938488563193,
+      0.9668118900439248,
+      0.9748941210361012,
+      0.9764225968211474,
+      0.9806119052916571,
+      0.9821199152477486,
+      0.9834660035185976,
+      0.9922900289114175,
+      0.9992049836081256,
+      0.9993445435110808,
+      0.9994019366641476
     ],
     "fatScores": [
-      0.0016059634645591526,
-      0.0030393590146348516,
-      0.0042027680323764045,
-      0.009052889912816026,
-      0.015366469565232735,
-      0.018661698938941734,
-      0.020943684146971963,
-      0.0568509989833196,
-      0.06974625156362821
+      0.0012323625843113533,
+      0.0036600284281828217,
+      0.007958343179376116,
+      0.00888529810220058,
+      0.009391558817403917,
+      0.012862157073042129,
+      0.01299281775760301,
+      0.013542476881413674,
+      0.014345689852345134,
+      0.017723937900236363,
+      0.019444448830301303,
+      0.022458604664037995,
+      0.03837862698684515,
+      0.05074098461530755,
+      0.07385796461497506,
+      0.08371119268143179,
+      0.09408659016223586,
+      0.1660407387250119
     ]
   },
   "folds": [
     {
       "fold": 1,
-      "train": 15,
-      "val": 4,
-      "valPure": 2,
-      "valFat": 2,
+      "train": 26,
+      "val": 7,
+      "valPure": 3,
+      "valFat": 4,
       "at_050": {
         "threshold": 0.5,
-        "tpPure": 2,
+        "tpPure": 3,
         "fpPure": 1,
-        "tnFat": 1,
+        "tnFat": 3,
         "fnPure": 0,
-        "accuracy": 0.75,
-        "purePrecision": 0.6666666666666666,
+        "accuracy": 0.8571428571428571,
+        "purePrecision": 0.75,
         "pureRecall": 1,
         "fatPrecision": 1,
-        "fatRecall": 0.5
+        "fatRecall": 0.75
       },
       "at_conf_060": {
         "confidenceThreshold": 0.6,
@@ -215,65 +243,65 @@
         "coverage": 1,
         "kept": {
           "threshold": 0.5,
-          "tpPure": 2,
+          "tpPure": 3,
           "fpPure": 1,
-          "tnFat": 1,
+          "tnFat": 3,
           "fnPure": 0,
-          "accuracy": 0.75,
-          "purePrecision": 0.6666666666666666,
+          "accuracy": 0.8571428571428571,
+          "purePrecision": 0.75,
           "pureRecall": 1,
           "fatPrecision": 1,
-          "fatRecall": 0.5
+          "fatRecall": 0.75
         }
       }
     },
     {
       "fold": 2,
-      "train": 15,
-      "val": 4,
-      "valPure": 2,
-      "valFat": 2,
+      "train": 26,
+      "val": 7,
+      "valPure": 3,
+      "valFat": 4,
       "at_050": {
         "threshold": 0.5,
-        "tpPure": 2,
-        "fpPure": 0,
-        "tnFat": 2,
+        "tpPure": 3,
+        "fpPure": 1,
+        "tnFat": 3,
         "fnPure": 0,
-        "accuracy": 1,
-        "purePrecision": 1,
+        "accuracy": 0.8571428571428571,
+        "purePrecision": 0.75,
         "pureRecall": 1,
         "fatPrecision": 1,
-        "fatRecall": 1
+        "fatRecall": 0.75
       },
       "at_conf_060": {
         "confidenceThreshold": 0.6,
-        "unsure": 0,
-        "coverage": 1,
+        "unsure": 1,
+        "coverage": 0.8571428571428571,
         "kept": {
           "threshold": 0.5,
-          "tpPure": 2,
-          "fpPure": 0,
+          "tpPure": 3,
+          "fpPure": 1,
           "tnFat": 2,
           "fnPure": 0,
-          "accuracy": 1,
-          "purePrecision": 1,
+          "accuracy": 0.8333333333333334,
+          "purePrecision": 0.75,
           "pureRecall": 1,
           "fatPrecision": 1,
-          "fatRecall": 1
+          "fatRecall": 0.6666666666666666
         }
       }
     },
     {
       "fold": 3,
-      "train": 15,
-      "val": 4,
-      "valPure": 2,
-      "valFat": 2,
+      "train": 26,
+      "val": 7,
+      "valPure": 3,
+      "valFat": 4,
       "at_050": {
         "threshold": 0.5,
-        "tpPure": 2,
+        "tpPure": 3,
         "fpPure": 0,
-        "tnFat": 2,
+        "tnFat": 4,
         "fnPure": 0,
         "accuracy": 1,
         "purePrecision": 1,
@@ -287,9 +315,9 @@
         "coverage": 1,
         "kept": {
           "threshold": 0.5,
-          "tpPure": 2,
+          "tpPure": 3,
           "fpPure": 0,
-          "tnFat": 2,
+          "tnFat": 4,
           "fnPure": 0,
           "accuracy": 1,
           "purePrecision": 1,
@@ -301,15 +329,51 @@
     },
     {
       "fold": 4,
-      "train": 15,
-      "val": 4,
-      "valPure": 2,
-      "valFat": 2,
+      "train": 27,
+      "val": 6,
+      "valPure": 3,
+      "valFat": 3,
       "at_050": {
         "threshold": 0.5,
-        "tpPure": 2,
+        "tpPure": 3,
         "fpPure": 0,
-        "tnFat": 2,
+        "tnFat": 3,
+        "fnPure": 0,
+        "accuracy": 1,
+        "purePrecision": 1,
+        "pureRecall": 1,
+        "fatPrecision": 1,
+        "fatRecall": 1
+      },
+      "at_conf_060": {
+        "confidenceThreshold": 0.6,
+        "unsure": 1,
+        "coverage": 0.8333333333333334,
+        "kept": {
+          "threshold": 0.5,
+          "tpPure": 2,
+          "fpPure": 0,
+          "tnFat": 3,
+          "fnPure": 0,
+          "accuracy": 1,
+          "purePrecision": 1,
+          "pureRecall": 1,
+          "fatPrecision": 1,
+          "fatRecall": 1
+        }
+      }
+    },
+    {
+      "fold": 5,
+      "train": 27,
+      "val": 6,
+      "valPure": 3,
+      "valFat": 3,
+      "at_050": {
+        "threshold": 0.5,
+        "tpPure": 3,
+        "fpPure": 0,
+        "tnFat": 3,
         "fnPure": 0,
         "accuracy": 1,
         "purePrecision": 1,
@@ -323,9 +387,9 @@
         "coverage": 1,
         "kept": {
           "threshold": 0.5,
-          "tpPure": 2,
+          "tpPure": 3,
           "fpPure": 0,
-          "tnFat": 2,
+          "tnFat": 3,
           "fnPure": 0,
           "accuracy": 1,
           "purePrecision": 1,
@@ -334,196 +398,272 @@
           "fatRecall": 1
         }
       }
-    },
-    {
-      "fold": 5,
-      "train": 16,
-      "val": 3,
-      "valPure": 2,
-      "valFat": 1,
-      "at_050": {
-        "threshold": 0.5,
-        "tpPure": 2,
-        "fpPure": 1,
-        "tnFat": 0,
-        "fnPure": 0,
-        "accuracy": 0.6666666666666666,
-        "purePrecision": 0.6666666666666666,
-        "pureRecall": 1,
-        "fatPrecision": 0,
-        "fatRecall": 0
-      },
-      "at_conf_060": {
-        "confidenceThreshold": 0.6,
-        "unsure": 1,
-        "coverage": 0.6666666666666666,
-        "kept": {
-          "threshold": 0.5,
-          "tpPure": 2,
-          "fpPure": 0,
-          "tnFat": 0,
-          "fnPure": 0,
-          "accuracy": 1,
-          "purePrecision": 1,
-          "pureRecall": 1,
-          "fatPrecision": 0,
-          "fatRecall": 0
-        }
-      }
     }
   ],
   "predictions": [
     {
+      "sourcePath": "101 - slightly fat/Rancho Park Golf Club 32.m4a",
+      "folderLabel": "101 - slightly fat",
+      "actual": "fat",
+      "pPure": 0.7073312823419017,
+      "predicted": "pure",
+      "confidence": 0.7073312823419017
+    },
+    {
+      "sourcePath": "102 - for sure pure/Rancho Park Golf Course 67.m4a",
+      "folderLabel": "102 - for sure pure",
+      "actual": "pure",
+      "pPure": 0.787877720318862,
+      "predicted": "pure",
+      "confidence": 0.787877720318862
+    },
+    {
+      "sourcePath": "103 - for sure pure/Rancho Park Golf Club 33.m4a",
+      "folderLabel": "103 - for sure pure",
+      "actual": "pure",
+      "pPure": 0.9539204851008926,
+      "predicted": "pure",
+      "confidence": 0.9539204851008926
+    },
+    {
+      "sourcePath": "109 - for sure fat/Rancho Park Golf Course 70.m4a",
+      "folderLabel": "109 - for sure fat",
+      "actual": "fat",
+      "pPure": 0.04695988461080994,
+      "predicted": "fat",
+      "confidence": 0.9530401153891901
+    },
+    {
+      "sourcePath": "114 - pure/Rancho Park Golf Club 39.m4a",
+      "folderLabel": "114 - pure",
+      "actual": "pure",
+      "pPure": 0.9525639887001607,
+      "predicted": "pure",
+      "confidence": 0.9525639887001607
+    },
+    {
+      "sourcePath": "118 - fat/Rancho Park Golf Club 43.m4a",
+      "folderLabel": "118 - fat",
+      "actual": "fat",
+      "pPure": 0.01161598190701511,
+      "predicted": "fat",
+      "confidence": 0.9883840180929849
+    },
+    {
+      "sourcePath": "119 - fat/Fareways Grab & Golf 4.m4a",
+      "folderLabel": "119 - fat",
+      "actual": "fat",
+      "pPure": 0.018763384616971066,
+      "predicted": "fat",
+      "confidence": 0.981236615383029
+    },
+    {
       "sourcePath": "12 - for sure fat (maybe average fat)/Rancho Park Golf Course 12.m4a",
       "folderLabel": "12 - for sure fat (maybe average fat)",
       "actual": "fat",
-      "pPure": 0.0027637296801528233,
+      "pPure": 0.0077410014975391505,
       "predicted": "fat",
-      "confidence": 0.9972362703198472
+      "confidence": 0.9922589985024608
+    },
+    {
+      "sourcePath": "120 - fat /Fareways Grab & Golf 5.m4a",
+      "folderLabel": "120 - fat ",
+      "actual": "fat",
+      "pPure": 0.05191151968345743,
+      "predicted": "fat",
+      "confidence": 0.9480884803165426
     },
     {
       "sourcePath": "14 - very pure/Rancho Park Golf Course 14.m4a",
       "folderLabel": "14 - very pure",
       "actual": "pure",
-      "pPure": 0.9529342830742198,
+      "pPure": 0.8849593533521994,
       "predicted": "pure",
-      "confidence": 0.9529342830742198
+      "confidence": 0.8849593533521994
     },
     {
       "sourcePath": "15 - pure/Rancho Park Golf Course 15.m4a",
       "folderLabel": "15 - pure",
       "actual": "pure",
-      "pPure": 0.9324611457579237,
+      "pPure": 0.8466702334443916,
       "predicted": "pure",
-      "confidence": 0.9324611457579237
+      "confidence": 0.8466702334443916
     },
     {
       "sourcePath": "19 - fat/Rancho Park Golf Course 19.m4a",
       "folderLabel": "19 - fat",
       "actual": "fat",
-      "pPure": 0.0006791398048153396,
+      "pPure": 0.0008888087501224851,
       "predicted": "fat",
-      "confidence": 0.9993208601951846
+      "confidence": 0.9991111912498775
     },
     {
       "sourcePath": "23 - very fat/Rancho Park Golf Course 22.m4a",
       "folderLabel": "23 - very fat",
       "actual": "fat",
-      "pPure": 0.02016130123476541,
+      "pPure": 0.006494062532410287,
       "predicted": "fat",
-      "confidence": 0.9798386987652346
+      "confidence": 0.9935059374675898
     },
     {
       "sourcePath": "27 - very pure/Rancho Park Golf Course 25.m4a",
       "folderLabel": "27 - very pure",
       "actual": "pure",
-      "pPure": 0.970317033293678,
+      "pPure": 0.9784441499619254,
       "predicted": "pure",
-      "confidence": 0.970317033293678
+      "confidence": 0.9784441499619254
     },
     {
       "sourcePath": "28 - very pure/Rancho Park Golf Course 26.m4a",
       "folderLabel": "28 - very pure",
       "actual": "pure",
-      "pPure": 0.981602752960639,
+      "pPure": 0.9904088160194414,
       "predicted": "pure",
-      "confidence": 0.981602752960639
+      "confidence": 0.9904088160194414
     },
     {
       "sourcePath": "31 - for sure and very fat/Rancho Park Golf Course 28.m4a",
       "folderLabel": "31 - for sure and very fat",
       "actual": "fat",
-      "pPure": 0.6393110002789965,
-      "predicted": "pure",
-      "confidence": 0.6393110002789965
+      "pPure": 0.4545928966636501,
+      "predicted": "fat",
+      "confidence": 0.5454071033363499
     },
     {
       "sourcePath": "39 - very pure /Rancho Park Golf Course 36.m4a",
       "folderLabel": "39 - very pure ",
       "actual": "pure",
-      "pPure": 0.6976594365532632,
+      "pPure": 0.5610240320879303,
       "predicted": "pure",
-      "confidence": 0.6976594365532632
+      "confidence": 0.5610240320879303
     },
     {
       "sourcePath": "43 - medium fat/Rancho Park Golf Course 39.m4a",
       "folderLabel": "43 - medium fat",
       "actual": "fat",
-      "pPure": 0.010952622565677127,
+      "pPure": 0.018831937052376194,
       "predicted": "fat",
-      "confidence": 0.9890473774343229
+      "confidence": 0.9811680629476238
     },
     {
       "sourcePath": "45 - for sure fat/Rancho Park Golf Course 41.m4a",
       "folderLabel": "45 - for sure fat",
       "actual": "fat",
-      "pPure": 0.07666607098729615,
+      "pPure": 0.006659061619242508,
       "predicted": "fat",
-      "confidence": 0.9233339290127038
+      "confidence": 0.9933409383807575
     },
     {
       "sourcePath": "46 - pure for sure/Rancho Park Golf Course 42.m4a",
       "folderLabel": "46 - pure for sure",
       "actual": "pure",
-      "pPure": 0.9761819862900406,
+      "pPure": 0.9947625252990906,
       "predicted": "pure",
-      "confidence": 0.9761819862900406
+      "confidence": 0.9947625252990906
     },
     {
       "sourcePath": "52 - pure for sure small divot/Rancho Park Golf Course 45.m4a",
       "folderLabel": "52 - pure for sure small divot",
       "actual": "pure",
-      "pPure": 0.9995217751180682,
+      "pPure": 0.9990461797142511,
       "predicted": "pure",
-      "confidence": 0.9995217751180682
+      "confidence": 0.9990461797142511
     },
     {
       "sourcePath": "53 - fat for sure 1 inch/Rancho Park Golf Course 46.m4a",
       "folderLabel": "53 - fat for sure 1 inch",
       "actual": "fat",
-      "pPure": 0.5207418148212132,
+      "pPure": 0.7702964757333995,
       "predicted": "pure",
-      "confidence": 0.5207418148212132
+      "confidence": 0.7702964757333995
     },
     {
       "sourcePath": "57 - fat for sure/Rancho Park Golf Club 7.m4a",
       "folderLabel": "57 - fat for sure",
       "actual": "fat",
-      "pPure": 0.08043734952096533,
+      "pPure": 0.008340241881737752,
       "predicted": "fat",
-      "confidence": 0.9195626504790346
+      "confidence": 0.9916597581182622
     },
     {
       "sourcePath": "58 - fat for sure/Rancho Park Golf Course 50.m4a",
       "folderLabel": "58 - fat for sure",
       "actual": "fat",
-      "pPure": 0.003035631692940019,
+      "pPure": 0.016564215576880714,
       "predicted": "fat",
-      "confidence": 0.99696436830706
+      "confidence": 0.9834357844231193
     },
     {
       "sourcePath": "59 - pure for sure/Rancho Park Golf Course 51.m4a",
       "folderLabel": "59 - pure for sure",
       "actual": "pure",
-      "pPure": 0.8475764364277715,
+      "pPure": 0.9662222440618372,
       "predicted": "pure",
-      "confidence": 0.8475764364277715
+      "confidence": 0.9662222440618372
     },
     {
       "sourcePath": "6- pure (very)/Rancho Park Golf Course 6.m4a",
       "folderLabel": "6- pure (very)",
       "actual": "pure",
-      "pPure": 0.7479120352396452,
+      "pPure": 0.8154785788939632,
       "predicted": "pure",
-      "confidence": 0.7479120352396452
+      "confidence": 0.8154785788939632
     },
     {
       "sourcePath": "62 - pure 99% sure/Rancho Park Golf Course 53.m4a",
       "folderLabel": "62 - pure 99% sure",
       "actual": "pure",
-      "pPure": 0.9660430627801988,
+      "pPure": 0.9729459810663923,
       "predicted": "pure",
-      "confidence": 0.9660430627801988
+      "confidence": 0.9729459810663923
+    },
+    {
+      "sourcePath": "87 - fat 1 inch/Fareways Grab & Golf 3.m4a",
+      "folderLabel": "87 - fat 1 inch",
+      "actual": "fat",
+      "pPure": 0.04009628493876354,
+      "predicted": "fat",
+      "confidence": 0.9599037150612365
+    },
+    {
+      "sourcePath": "90 - fat/Rancho Park Golf Course 64.m4a",
+      "folderLabel": "90 - fat",
+      "actual": "fat",
+      "pPure": 0.21050608487463263,
+      "predicted": "fat",
+      "confidence": 0.7894939151253674
+    },
+    {
+      "sourcePath": "92 - fat/Rancho Park Golf Club 25.m4a",
+      "folderLabel": "92 - fat",
+      "actual": "fat",
+      "pPure": 0.12775291346753015,
+      "predicted": "fat",
+      "confidence": 0.8722470865324699
+    },
+    {
+      "sourcePath": "94 - pure/Rancho Park Golf Club 27.m4a",
+      "folderLabel": "94 - pure",
+      "actual": "pure",
+      "pPure": 0.9992190854857673,
+      "predicted": "pure",
+      "confidence": 0.9992190854857673
+    },
+    {
+      "sourcePath": "95 - pure 100%/Rancho Park Golf Course 65.m4a",
+      "folderLabel": "95 - pure 100%",
+      "actual": "pure",
+      "pPure": 0.9981718581057988,
+      "predicted": "pure",
+      "confidence": 0.9981718581057988
+    },
+    {
+      "sourcePath": "99 - fat/Rancho Park Golf Club 30.m4a",
+      "folderLabel": "99 - fat",
+      "actual": "fat",
+      "pPure": 0.01840672525891699,
+      "predicted": "fat",
+      "confidence": 0.981593274741083
     }
   ]
 }
