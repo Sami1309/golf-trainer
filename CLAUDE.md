@@ -16,6 +16,8 @@ Build an iPhone-ready golf-shot audio app:
 
 The web app in `frontend/` is the active product surface. It is vanilla JS with no build step.
 
+Current product milestone: **mobile web v1 data-collection app**. The functional flow is in place. Do not spend more time hand-polishing the UI before the planned design/mockup input is available.
+
 Live/file pipeline:
 
 1. Stage 1a spectral-flux onset detector finds candidate transients.
@@ -33,6 +35,8 @@ Live session flow:
 - Confirmed calibration puts the app into live mode.
 - Live mode shows the most recent accepted shot and the pure/fat/unsure quality estimate.
 - Review clips default to 5 seconds so the user can speak labels around the shot.
+- Live audio uses a 12 second worklet ring buffer so review clips can include post-shot context.
+- Export writes `manifest.json`, context WAVs, and canonical 500 ms model WAVs.
 
 The `quality` column in the app is the Stage 2 pure/fat classifier result. It is a useful live comparison signal, not final trusted coaching feedback.
 
@@ -154,7 +158,14 @@ Workflow:
 
 ## Best Resume Point
 
-Next useful work is live iPhone/range validation:
+Next useful product work:
+
+1. Take the user's design/mockup input for the v1 mobile UI.
+2. Apply it to the existing functional flow in `frontend/`.
+3. Write a static HTTPS deployment guide.
+4. Plan the web-v1-to-native-iPhone path.
+
+Next useful model/data work is live iPhone/range validation:
 
 1. Serve `frontend/` over HTTPS.
 2. Open on iPhone Safari.

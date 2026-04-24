@@ -16,6 +16,8 @@ Target behavior:
 
 Current work is live validation and data collection. The hybrid detector is deployed in the web app. A pure-vs-fat Stage 2 classifier is also deployed for live comparison, but the full pure/fat/topped classifier is not implemented yet.
 
+Current product milestone: **mobile web v1 data-collection app**. The code is functionally set up for range testing; the next UI pass should wait for the planned external design/mockup input rather than doing more ad hoc styling.
+
 ## Current Truth
 
 The app currently has a working hybrid detector:
@@ -27,6 +29,7 @@ The app currently has a working hybrid detector:
 - Accepted live/file detections run the Stage 2 pure-vs-fat model for comparison.
 - Live/file candidates are stored locally in IndexedDB with a 500 ms model clip and configurable review clip.
 - The review clip defaults to `5` seconds so the user can speak shot notes before or after impact.
+- Live audio uses a `12` second AudioWorklet ring buffer so the default 5 second review clip can be extracted after waiting for post-shot context.
 - File-analysis mode runs the same detector/verifier path on uploaded files.
 - File mode uses the calibrated labeled-sample onset threshold, not the live slider.
 - Live mode starts with one-shot calibration: user starts recording, hits one calibration shot, confirms/retries it, and the app maps measured shot strength to onset threshold before entering live mode.
@@ -141,7 +144,7 @@ Raw shot folders:
 `frontend/`:
 
 - `frontend/index.html` - single-page web UI.
-- `frontend/app.js` - main live/file detection app logic.
+- `frontend/app.js` - main live/file detection app logic, v1 live session state, calibration confirmation, review/export flow.
 - `frontend/audio_features.js` - shared 16 kHz clip prep, handcrafted features, log-mel features.
 - `frontend/stage1b.js` - model loading and Stage 1b inference.
 - `frontend/fft.js` - FFT and Hann window helpers used by detectors/features.
@@ -172,6 +175,13 @@ Raw shot folders:
 
 ## How The App Works Now
 
+V1 app states:
+
+- `idle`: ready to start recording.
+- `calibrating`: microphone is running and calibration is armed with the temporary low onset gate.
+- `calibration-confirm`: one calibration shot was heard; detection is paused until the user confirms or retries.
+- `live`: calibrated shot detection is running and recent accepted shots show quality estimates.
+
 Live path:
 
 1. User opens `frontend/index.html` in browser.
@@ -188,6 +198,7 @@ Live path:
 12. Accepted candidates run the experimental Stage 2 pure-vs-fat classifier.
 13. Recent shot result and quality are shown in the practice-session panel.
 14. Accepted and rejected candidates are stored locally for review/export; rejected candidates can be hidden or shown in the UI.
+15. Export writes a ZIP containing `manifest.json`, `clips/context/` review WAVs, and `clips/model_500ms/` canonical clips.
 
 File-analysis path:
 
@@ -228,6 +239,7 @@ Keep this consistent across training and inference:
 - Clip length: `500 ms`
 - Clip samples: `8000`
 - Review clip default: `5` seconds, configurable in the app before capture/export.
+- Live ring buffer: `12` seconds. Keep it longer than the max review clip length plus post-shot wait time.
 - Positive crop shape: roughly `100 ms` pre-impact and `400 ms` post-impact
 - Normalization: peak-normalize to `-3 dBFS`
 - Generated training format: 16-bit PCM WAV
@@ -407,6 +419,15 @@ Stage 2 pure/fat v0:
 - There is no backend or persistent labeling system yet.
 
 ## Recommended Next Steps
+
+Immediate non-model next steps:
+
+1. Provide the design prompt/output for the v1 mobile app UI.
+2. Apply that design to the existing functional flow in `frontend/`.
+3. Write a deployment guide for static HTTPS hosting.
+4. Plan the longer path from web v1 validation to a real native iPhone app.
+
+Model/data next steps:
 
 1. Live iPhone/range test the deployed hybrid detector plus pure/fat quality column.
 
