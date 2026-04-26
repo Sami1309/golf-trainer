@@ -155,6 +155,7 @@ Raw shot folders:
 - `frontend/onset-worklet.js` - audio worklet support for live audio buffering.
 - `frontend/style.css` - app styles.
 - `frontend/README.md` - how to run/test the web app.
+- `frontend/labels_review.html` / `frontend/labels_review.js` / `frontend/labels_review.css` - local-only labels-audit page. Loads `data/labels.json` via `/api/labels` from the review server, renders waveform + impact marker per recording, supports nudge/peak-snap/play, PATCHes saved edits, and triggers `prepare:stage1b` and retraining via `/api/run`. Detects when the API is unreachable (e.g. on GitHub Pages) and shows a "run npm run review locally" card instead.
 - `frontend/eval_labels.mjs` - offline onset detector evaluation against `data/labels.json`.
 - `frontend/diag.mjs`, `frontend/smoke_test.mjs` - diagnostics/smoke tools.
 - `frontend/models/stage1b_detector.json` - deployed browser model.
@@ -165,8 +166,10 @@ Raw shot folders:
 `scripts/`:
 
 - `scripts/import_new_data.mjs` - imports `new_data/` folders into the top-level raw sample layout and auto-labels one-shot clips with recentered spectral-flux impact times.
-- `scripts/train_stage1b_detector.mjs` - prepares Stage 1b dataset and trains handcrafted baseline.
-- `scripts/train_stage1b_logmel.mjs` - trains/deploys log-mel verifier from prepared clips.
+- `scripts/review_server.mjs` - local-only Node HTTP server backing `frontend/labels_review.html`. Serves the repo root, exposes `GET`/`PATCH /api/labels`, and streams allow-listed npm scripts over `GET /api/run`. Started via `npm run review`.
+- `scripts/prepare_stage1b_data.mjs` - rebuilds `data/stage1b_prepared/` from `data/labels.json` plus the external negatives manifest. Owns all data preparation; both Stage 1b trainers consume its output.
+- `scripts/train_stage1b_detector.mjs` - trains the handcrafted Stage 1b baseline from prepared clips. Writes only the handcrafted model/report; never touches the deployed model.
+- `scripts/train_stage1b_logmel.mjs` - trains/deploys the log-mel verifier from prepared clips. Writes both the log-mel model and the deployed detector.
 - `scripts/train_stage2_pure_fat.mjs` - trains the pure-vs-fat classifier from prepared positive clips.
 - `scripts/stage2_pure_fat_policy.mjs` - shared Stage 2 label/exclusion policy helper.
 - `scripts/validate_stage2_repeated_cv.mjs` - repeated randomized Stage 2 pure/fat CV.
@@ -261,28 +264,20 @@ npm run train:stage1b
 This runs:
 
 ```sh
-node scripts/train_stage1b_detector.mjs && node scripts/train_stage1b_logmel.mjs
+node scripts/prepare_stage1b_data.mjs && node scripts/train_stage1b_logmel.mjs && node scripts/train_stage1b_detector.mjs
 ```
 
 What happens:
 
-1. `train_stage1b_detector.mjs` rebuilds `data/stage1b_prepared/`.
-2. It crops local positives from `data/labels.json`.
-3. It adds local pre-shot negatives from the same local recordings.
-4. It pulls trainable external negatives from `data/external/manifest.jsonl`.
-5. It writes prepared 500 ms WAVs and manifest.
-6. It trains the handcrafted baseline.
-7. It writes only the `stage1b_handcrafted` model/report.
-8. `train_stage1b_logmel.mjs` reads only the prepared clips.
-9. It extracts log-mel summary features.
-10. It trains the log-mel logistic verifier.
-11. It writes `stage1b_logmel` model/report.
-12. It writes `frontend/models/stage1b_detector.json` and `data/stage1b_detector_report.json` with the deployed log-mel model/report.
+1. `prepare_stage1b_data.mjs` rebuilds `data/stage1b_prepared/` (positives, local pre-shot negatives, external negatives) and writes the manifest plus a small `prepare_report.json`.
+2. `train_stage1b_logmel.mjs` reads the prepared clips, extracts log-mel summary features, trains the log-mel verifier, and writes both the `stage1b_logmel` artifacts and the deployed `frontend/models/stage1b_detector.json` / `data/stage1b_detector_report.json`.
+3. `train_stage1b_detector.mjs` reads the same prepared clips, extracts handcrafted features, and writes only the handcrafted baseline. It never touches the deployed model.
 
 Individual commands:
 
 ```sh
 npm run import:new-data
+npm run prepare:stage1b
 npm run train:stage1b:handcrafted
 npm run train:stage1b:logmel
 npm run train:stage2:pure-fat
@@ -290,9 +285,10 @@ npm run validate:stage2:pure-fat
 ```
 
 Use `import:new-data` for new one-shot sample folders staged under `new_data/`; run it with `-- --dry-run` first and manually review any future file with multiple plausible onsets.
-Use `train:stage1b:logmel` only if `data/stage1b_prepared/` is already current.
-Use `train:stage1b:handcrafted` when you need to regenerate prepared clips or refresh the handcrafted baseline; it must not change the deployed detector.
-Use `train:stage2:pure-fat` only after `data/stage1b_prepared/` exists and is current.
+Use `prepare:stage1b` when only the prepared clips need rebuilding (e.g. after labels change). Both `train:stage1b:logmel` and `train:stage1b:handcrafted` already chain a fresh prepare step before training.
+Use `train:stage1b:logmel` to refresh only the deployed log-mel model.
+Use `train:stage1b:handcrafted` to refresh only the handcrafted baseline; it cannot deploy a worse model because it does not write the deployed paths.
+Use `train:stage2:pure-fat` after Stage 1b prepared clips are current. The Stage 2 trainer/validator now refuse to run if `data/labels.json` is newer than `data/stage1b_prepared/manifest.jsonl`.
 Use `validate:stage2:pure-fat` after Stage 2 training to test split stability over 200 randomized stratified 5-fold repeats.
 
 ## Threshold Selection
@@ -321,6 +317,7 @@ node --check frontend/stage1b.js
 node --check frontend/stage2.js
 node --check frontend/app.js
 node --check scripts/import_new_data.mjs
+node --check scripts/prepare_stage1b_data.mjs
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
 node --check scripts/stage2_pure_fat_policy.mjs

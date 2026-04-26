@@ -60,16 +60,16 @@ Stage 2 pure/fat v0:
 - Curation policy: `data/stage2_pure_fat_exclusions.json`
 - Feature extractor: `logmel_summary`
 - Feature count: `206`
-- Confidence threshold: `0.60`
+- Confidence threshold: `0.78` (lifted from `0.60` in ML 4 after a 200-repeat sweep — see `ML_4.md`)
 - Included examples: `33` = `15` pure + `18` fat
 - Excluded examples: `9` = `4` topped, `2` borderline/1mm fat, `3` bad-data visual-review exclusions
 - Single 5-fold CV accuracy: `0.939`
-- Confidence >= `0.60`: coverage `0.939`, kept accuracy `0.935`
+- Confidence >= `0.78`: coverage `0.879`, kept accuracy `1.000` (pure recall `1.000`, fat recall `1.000`)
 - Repeated randomized 5-fold CV over 200 repeats: mean accuracy `0.933`, min `0.848`, max `0.970`
-- Repeated-CV confidence >= `0.60`: mean coverage `0.952`, mean kept accuracy `0.949`
-- OOF margin: `-0.209`
+- Repeated-CV confidence >= `0.78`: mean coverage `0.807`, mean kept accuracy `0.985`, mean kept fat recall `0.972`, mean kept pure recall `1.000`
+- OOF margin: `-0.209` (unchanged; threshold gate is what catches the overlap region, see ML_4.md)
 
-Interpretation: Stage 2 has stronger signal in the current local corpus. It does not prove production generalization because there are only 33 included examples from local recording domains and the OOF margin is negative.
+Interpretation: Stage 2 has stronger signal in the current local corpus, and at the lifted confidence threshold it is `~98.5%` accurate when it makes a confident call. It still does not prove production generalization: only 33 examples from local recording domains, OOF margin remains negative, and about one in five clips lands in `unsure`.
 
 ## Data Rules
 
@@ -103,6 +103,7 @@ node --check frontend/stage1b.js
 node --check frontend/stage2.js
 node --check frontend/app.js
 node --check scripts/import_new_data.mjs
+node --check scripts/prepare_stage1b_data.mjs
 node --check scripts/train_stage1b_detector.mjs
 node --check scripts/train_stage1b_logmel.mjs
 node --check scripts/stage2_pure_fat_policy.mjs
@@ -115,10 +116,13 @@ Training:
 ```sh
 npm run import:new-data -- --dry-run
 npm run import:new-data
+npm run prepare:stage1b
 npm run train:stage1b
 npm run train:stage2:pure-fat
 npm run validate:stage2:pure-fat
 ```
+
+`prepare:stage1b` regenerates `data/stage1b_prepared/` from `data/labels.json` plus the external negatives manifest. `train:stage1b` runs prepare first and then trains the deployed log-mel verifier and the handcrafted baseline. `train:stage1b:logmel` and `train:stage1b:handcrafted` also re-run prepare so they can be invoked standalone. The Stage 2 trainer and validator refuse to run if `data/labels.json` is newer than the prepared manifest.
 
 Onset validation:
 
@@ -136,6 +140,14 @@ python3 -m http.server 8000
 ```
 
 For iPhone mic testing, Safari needs HTTPS. Use ngrok, Cloudflare Tunnel, Tailscale Funnel, or static HTTPS hosting.
+
+Audit auto-imported impact times (or correct any other label) with the local review tool:
+
+```sh
+npm run review
+```
+
+Then open `http://127.0.0.1:5173/frontend/labels_review.html`. The review server (in `scripts/review_server.mjs`) serves the repo root, exposes `GET`/`PATCH /api/labels` for audited edits, and streams `npm run prepare:stage1b` / `train:stage1b` / `train:stage2:pure-fat` over `GET /api/run` (allow-listed scripts only). The page is local-only by design: GitHub Pages hosts only `frontend/`, so the review page degrades to an instructions card when `/api/labels` is unreachable. Edits go through `prepare:stage1b` so the freshness check passes before retraining.
 
 ## Git And Data Policy
 

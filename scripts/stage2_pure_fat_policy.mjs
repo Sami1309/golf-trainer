@@ -6,6 +6,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const STAGE2_PURE_FAT_EXCLUSION_POLICY_REL = 'data/stage2_pure_fat_exclusions.json';
 const POLICY_PATH = join(ROOT, STAGE2_PURE_FAT_EXCLUSION_POLICY_REL);
 
+const BUILT_IN_EXCLUSION_RULES = [
+  { reason: 'topped_not_in_pure_vs_fat_v0', description: 'Topped examples are held out until there is enough topped data for a real class.' },
+  { reason: 'borderline_fat_excluded', description: '1mm/borderline-fat examples are intentionally outside the clear pure-vs-fat v0 target.' },
+  { reason: 'unknown_folder_label', description: 'Folder labels that do not contain pure or fat are not inferred.' },
+  { reason: 'missing_label_entry', description: 'Prepared shot rows without a labels.json entry are not inferred.' },
+];
+
 let cachedPolicy = null;
 
 export async function loadStage2PureFatPolicy() {
@@ -63,6 +70,6 @@ export function summarizeStage2PureFatPolicy(policy) {
       shotNumber: String(item.shotNumber),
       reason: item.reason,
     })),
-    builtInReasons: (policy.builtInExclusionRules ?? []).map(item => item.reason),
+    builtInReasons: BUILT_IN_EXCLUSION_RULES.map(rule => rule.reason),
   };
 }

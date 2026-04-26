@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -210,7 +210,30 @@ function scoreSummary(scored) {
   };
 }
 
+async function assertPreparedDataIsFresh() {
+  let labelsStat;
+  let manifestStat;
+  try {
+    labelsStat = await stat(LABELS_PATH);
+  } catch (e) {
+    throw new Error(`Cannot stat ${LABELS_PATH}: ${e.message}`);
+  }
+  try {
+    manifestStat = await stat(PREPARED_MANIFEST_PATH);
+  } catch (e) {
+    throw new Error(`Prepared manifest missing at ${PREPARED_MANIFEST_PATH}. Run "npm run prepare:stage1b" first.`);
+  }
+  if (labelsStat.mtimeMs > manifestStat.mtimeMs) {
+    throw new Error(
+      `data/labels.json (${labelsStat.mtime.toISOString()}) is newer than ` +
+      `data/stage1b_prepared/manifest.jsonl (${manifestStat.mtime.toISOString()}). ` +
+      `Run "npm run prepare:stage1b" before retraining Stage 2 so cropped clips match current labels.`
+    );
+  }
+}
+
 async function loadRows() {
+  await assertPreparedDataIsFresh();
   const exclusionPolicy = await loadStage2PureFatPolicy();
   const labelsDoc = JSON.parse(await readFile(LABELS_PATH, 'utf8'));
   const labelByRelPath = new Map();
@@ -287,8 +310,9 @@ const allIndices = rows.map((_, i) => i);
 const finalScaler = meanStd(rows, allIndices);
 const finalModel = trainLogistic(rows, allIndices, finalScaler);
 const allScored = rows.map((row, idx) => ({ idx, y: row.y, pPure: predict(row, finalModel, finalScaler) }));
+const CONFIDENCE_THRESHOLD = 0.78;
 const oofMetrics = metrics(oof, 0.5);
-const oofConfidenceMetrics = confidenceMetrics(oof, 0.6);
+const oofConfidenceMetrics = confidenceMetrics(oof, CONFIDENCE_THRESHOLD);
 const oofScoreSeparation = scoreSummary(oof);
 const trainMetrics = metrics(allScored, 0.5);
 const trainScoreSeparation = scoreSummary(allScored);
@@ -307,7 +331,7 @@ const modelOut = {
   classes: ['fat', 'pure'],
   positiveClass: 'pure',
   negativeClass: 'fat',
-  confidenceThreshold: 0.6,
+  confidenceThreshold: CONFIDENCE_THRESHOLD,
   features: LOG_MEL_FEATURE_NAMES,
   mean: finalScaler.mean,
   std: finalScaler.std,
@@ -322,7 +346,7 @@ const modelOut = {
     exclusionPolicy: summarizeStage2PureFatPolicy(exclusionPolicy),
     preparedManifest: PREPARED_MANIFEST_PATH.replace(ROOT + '/', ''),
     cv: oofMetrics,
-    cvAtConfidence060: oofConfidenceMetrics,
+    cvAtConfidence: oofConfidenceMetrics,
     oofScoreSeparation,
     trainOnlyMetrics: trainMetrics,
     trainScoreSeparation,
@@ -340,7 +364,7 @@ const report = {
   fat: nFat,
   excluded: skipped,
   cv: oofMetrics,
-  cvAtConfidence060: oofConfidenceMetrics,
+  cvAtConfidence: oofConfidenceMetrics,
   oofScoreSeparation,
   trainOnlyMetrics: trainMetrics,
   trainScoreSeparation,
@@ -364,7 +388,7 @@ await writeFile(REPORT_PATH, JSON.stringify(report, null, 2));
 
 console.log(`Stage 2 pure/fat trained: ${nPure} pure, ${nFat} fat, excluded ${skipped.length}`);
 console.log(`CV accuracy ${oofMetrics.accuracy.toFixed(3)} pureRecall=${oofMetrics.pureRecall.toFixed(3)} fatRecall=${oofMetrics.fatRecall.toFixed(3)}`);
-console.log(`CV @ confidence>=0.60 coverage=${oofConfidenceMetrics.coverage.toFixed(3)} unsure=${oofConfidenceMetrics.unsure} keptAccuracy=${oofConfidenceMetrics.kept.accuracy.toFixed(3)}`);
+console.log(`CV @ confidence>=${CONFIDENCE_THRESHOLD.toFixed(2)} coverage=${oofConfidenceMetrics.coverage.toFixed(3)} unsure=${oofConfidenceMetrics.unsure} keptAccuracy=${oofConfidenceMetrics.kept.accuracy.toFixed(3)}`);
 console.log(`OOF margin minPure=${oofScoreSeparation.minPureP?.toFixed(3) ?? 'n/a'} maxFat=${oofScoreSeparation.maxFatP?.toFixed(3) ?? 'n/a'} margin=${oofScoreSeparation.separationMargin?.toFixed(3) ?? 'n/a'}`);
 console.log(`Wrote ${MODEL_PATH}`);
 console.log(`Wrote ${REPORT_PATH}`);

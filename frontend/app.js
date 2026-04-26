@@ -31,8 +31,8 @@ const LIVE_CALIBRATION_THRESHOLD_FACTOR = 0.65;
 const params = {
   threshold: 0.8,     // spectral flux threshold — tuned against the 28 m4a samples
   minGapMs: 200,      // min time between detected onsets
-  stage1bThreshold: 0.7,
-  stage2ConfidenceThreshold: 0.6,
+  stage1bThreshold: null, // null means use the threshold baked into stage1b_detector.json
+  stage2ConfidenceThreshold: null, // null means use confidenceThreshold from stage2_pure_fat.json
   contextSeconds: DEFAULT_CONTEXT_SECONDS,
   showRejected: false,
   saveRejected: true,
@@ -534,8 +534,8 @@ async function onLiveDetected(ctxTimeSample, flux) {
         onsetThreshold: params.threshold,
         calibrationFlux: params.calibrationFlux,
         pendingCalibration: calibrationCapture,
-        stage1bThreshold: params.stage1bThreshold,
-        stage2ConfidenceThreshold: params.stage2ConfidenceThreshold,
+        stage1bThreshold: verification.threshold,
+        stage2ConfidenceThreshold: quality.threshold,
         contextSeconds: params.contextSeconds,
       },
     });
@@ -1096,10 +1096,22 @@ $('#file-input').onchange = async (e) => {
 updateThresholdUi();
 $('#min-gap').value = params.minGapMs;
 $('#min-gap-val').textContent = params.minGapMs;
-$('#stage1b-threshold').value = params.stage1bThreshold;
-$('#stage1b-threshold-val').textContent = params.stage1bThreshold.toFixed(2);
-$('#stage2-confidence').value = params.stage2ConfidenceThreshold;
-$('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
+// stage1b/stage2 thresholds are populated by initStage1b/initStage2 once the
+// deployed models load. Until then leave the UI showing a placeholder so a
+// null param never reaches `.toFixed`, which used to crash this whole init
+// block and silently disable both verifiers.
+if (params.stage1bThreshold != null) {
+  $('#stage1b-threshold').value = params.stage1bThreshold;
+  $('#stage1b-threshold-val').textContent = params.stage1bThreshold.toFixed(2);
+} else {
+  $('#stage1b-threshold-val').textContent = '…';
+}
+if (params.stage2ConfidenceThreshold != null) {
+  $('#stage2-confidence').value = params.stage2ConfidenceThreshold;
+  $('#stage2-confidence-val').textContent = params.stage2ConfidenceThreshold.toFixed(2);
+} else {
+  $('#stage2-confidence-val').textContent = '…';
+}
 $('#context-seconds').value = params.contextSeconds;
 $('#context-seconds-val').textContent = params.contextSeconds;
 $('#show-rejected').checked = params.showRejected;

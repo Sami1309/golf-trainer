@@ -840,7 +840,7 @@
   ],
   "bias": -2.579527198012674,
   "training": {
-    "generatedAt": "2026-04-24T21:01:45.238Z",
+    "generatedAt": "2026-04-24T22:39:47.199Z",
     "positives": 42,
     "negatives": 1110,
     "preparedManifest": "data/stage1b_prepared/manifest.jsonl",

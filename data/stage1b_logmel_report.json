@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-24T21:01:45.238Z",
+  "generatedAt": "2026-04-24T22:39:47.199Z",
   "modelPath": "frontend/models/stage1b_logmel.json",
   "deployedModelPath": "frontend/models/stage1b_detector.json",
   "featureExtractor": "logmel_summary",

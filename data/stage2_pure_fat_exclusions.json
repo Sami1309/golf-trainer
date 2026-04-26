@@ -1,8 +1,8 @@
 {
   "version": 1,
   "task": "stage2_pure_fat_classifier",
-  "updatedAt": "2026-04-23",
-  "policy": "Manual exclusions are used only for examples independently reviewed as bad or unusable pure-vs-fat training data. Built-in exclusions still omit topped and 1mm/borderline-fat examples from the v0 binary classifier.",
+  "updatedAt": "2026-04-24",
+  "policy": "Only manualExclusions are read by the trainer. Built-in exclusions (topped, 1mm/borderline, unknown folder labels, missing label entries) are encoded in scripts/stage2_pure_fat_policy.mjs and surfaced through summarizeStage2PureFatPolicy. Edit this file only to add or remove a manual exclusion.",
   "manualExclusions": [
     {
       "shotNumber": "49",
@@ -21,24 +21,6 @@
       "folderLabel": "83 - pure very pure",
       "reason": "bad_data_excluded_by_visual_review",
       "note": "Explicit user review found this recording unsuitable as pure-vs-fat training signal."
-    }
-  ],
-  "builtInExclusionRules": [
-    {
-      "reason": "topped_not_in_pure_vs_fat_v0",
-      "description": "Topped examples are held out until there is enough topped data for a real class."
-    },
-    {
-      "reason": "borderline_fat_excluded",
-      "description": "1mm/borderline-fat examples are intentionally outside the clear pure-vs-fat v0 target."
-    },
-    {
-      "reason": "unknown_folder_label",
-      "description": "Folder labels that do not contain pure or fat are not inferred."
-    },
-    {
-      "reason": "missing_label_entry",
-      "description": "Prepared shot rows without a labels.json entry are not inferred."
     }
   ]
 }

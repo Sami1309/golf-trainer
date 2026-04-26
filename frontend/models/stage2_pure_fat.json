@@ -11,7 +11,7 @@
   ],
   "positiveClass": "pure",
   "negativeClass": "fat",
-  "confidenceThreshold": 0.6,
+  "confidenceThreshold": 0.78,
   "features": [
     "logmel_total_mean",
     "logmel_total_std",
@@ -846,7 +846,7 @@
   ],
   "bias": -0.19914824110398446,
   "training": {
-    "generatedAt": "2026-04-24T21:01:53.271Z",
+    "generatedAt": "2026-04-24T22:47:47.387Z",
     "pure": 15,
     "fat": 18,
     "excluded": 9,
@@ -854,7 +854,7 @@
     "exclusionPolicy": {
       "path": "data/stage2_pure_fat_exclusions.json",
       "version": 1,
-      "updatedAt": "2026-04-23",
+      "updatedAt": "2026-04-24",
       "manualExclusions": [
         {
           "shotNumber": "49",
@@ -889,21 +889,21 @@
       "fatPrecision": 1,
       "fatRecall": 0.8888888888888888
     },
-    "cvAtConfidence060": {
-      "confidenceThreshold": 0.6,
-      "unsure": 2,
-      "coverage": 0.9393939393939394,
+    "cvAtConfidence": {
+      "confidenceThreshold": 0.78,
+      "unsure": 4,
+      "coverage": 0.8787878787878788,
       "kept": {
         "threshold": 0.5,
         "tpPure": 14,
-        "fpPure": 2,
+        "fpPure": 0,
         "tnFat": 15,
         "fnPure": 0,
-        "accuracy": 0.9354838709677419,
-        "purePrecision": 0.875,
+        "accuracy": 1,
+        "purePrecision": 1,
         "pureRecall": 1,
         "fatPrecision": 1,
-        "fatRecall": 0.8823529411764706
+        "fatRecall": 1
       }
     },
     "oofScoreSeparation": {

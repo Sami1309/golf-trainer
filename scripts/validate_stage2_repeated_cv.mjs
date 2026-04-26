@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, stat, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -240,7 +240,30 @@ function summarize(values) {
   };
 }
 
+async function assertPreparedDataIsFresh() {
+  let labelsStat;
+  let manifestStat;
+  try {
+    labelsStat = await stat(LABELS_PATH);
+  } catch (e) {
+    throw new Error(`Cannot stat ${LABELS_PATH}: ${e.message}`);
+  }
+  try {
+    manifestStat = await stat(PREPARED_MANIFEST_PATH);
+  } catch (e) {
+    throw new Error(`Prepared manifest missing at ${PREPARED_MANIFEST_PATH}. Run "npm run prepare:stage1b" first.`);
+  }
+  if (labelsStat.mtimeMs > manifestStat.mtimeMs) {
+    throw new Error(
+      `data/labels.json (${labelsStat.mtime.toISOString()}) is newer than ` +
+      `data/stage1b_prepared/manifest.jsonl (${manifestStat.mtime.toISOString()}). ` +
+      `Run "npm run prepare:stage1b" before validating Stage 2 so cropped clips match current labels.`
+    );
+  }
+}
+
 async function loadRows() {
+  await assertPreparedDataIsFresh();
   const exclusionPolicy = await loadStage2PureFatPolicy();
   const labelsDoc = JSON.parse(await readFile(LABELS_PATH, 'utf8'));
   const labelByRelPath = new Map();
@@ -290,6 +313,7 @@ if (rows[0].x.length !== LOG_MEL_FEATURE_NAMES.length) {
 
 const foldsByRepeat = makeRandomStratifiedFolds(rows, REPEATS, FOLDS, BASE_SEED);
 const repeatReports = [];
+const repeatScored = [];
 const perExample = rows.map(row => ({
   sourcePath: row.sourcePath,
   title: row.title,
@@ -319,6 +343,7 @@ for (let repeat = 0; repeat < foldsByRepeat.length; repeat++) {
       metrics: metrics(foldScored, 0.5),
     });
   }
+  repeatScored.push(scored);
 
   for (const s of scored) {
     const entry = perExample[s.idx];
@@ -350,6 +375,30 @@ const pureRecallValues = repeatReports.map(r => r.metrics.pureRecall);
 const fatRecallValues = repeatReports.map(r => r.metrics.fatRecall);
 const coverageValues = repeatReports.map(r => r.confidence060.coverage);
 const keptAccuracyValues = repeatReports.map(r => r.confidence060.metrics.accuracy);
+
+// Sweep symmetric confidence thresholds (kept = max(p, 1-p) >= t) across
+// all 200 repeats using the cached scored predictions.
+const sweepThresholds = [0.50, 0.55, 0.60, 0.65, 0.70, 0.72, 0.75, 0.78, 0.80, 0.82, 0.85];
+const sweepResults = sweepThresholds.map(threshold => {
+  const coverages = [];
+  const keptAccs = [];
+  const fatRecalls = [];
+  const pureRecalls = [];
+  for (const scored of repeatScored) {
+    const m = confidenceMetrics(scored, threshold);
+    coverages.push(m.coverage);
+    keptAccs.push(m.metrics.accuracy);
+    fatRecalls.push(m.metrics.fatRecall);
+    pureRecalls.push(m.metrics.pureRecall);
+  }
+  return {
+    threshold,
+    coverage: summarize(coverages),
+    keptAccuracy: summarize(keptAccs),
+    keptFatRecall: summarize(fatRecalls),
+    keptPureRecall: summarize(pureRecalls),
+  };
+});
 
 const perExampleSummary = perExample
   .map(e => ({
@@ -390,6 +439,7 @@ const report = {
   },
   weakestExamples: perExampleSummary.slice(0, 10),
   perExample: perExampleSummary,
+  confidenceSweep: sweepResults,
   repeatReports,
 };
 
@@ -400,4 +450,9 @@ console.log(`Accuracy mean=${report.summary.accuracy.mean.toFixed(3)} median=${r
 console.log(`Pure recall mean=${report.summary.pureRecall.mean.toFixed(3)} Fat recall mean=${report.summary.fatRecall.mean.toFixed(3)}`);
 console.log(`Conf>=0.60 coverage mean=${report.summary.confidence060Coverage.mean.toFixed(3)} keptAcc mean=${report.summary.confidence060KeptAccuracy.mean.toFixed(3)}`);
 console.log(`Repeats >=0.70 acc: ${report.summary.repeatsAtOrAbove070}/${REPEATS}; >=0.80: ${report.summary.repeatsAtOrAbove080}/${REPEATS}; >=0.90: ${report.summary.repeatsAtOrAbove090}/${REPEATS}`);
+console.log('Confidence threshold sweep (mean across repeats):');
+console.log('  threshold  coverage  keptAcc   keptFatR  keptPureR');
+for (const s of sweepResults) {
+  console.log(`  ${s.threshold.toFixed(2)}       ${s.coverage.mean.toFixed(3)}     ${s.keptAccuracy.mean.toFixed(3)}     ${s.keptFatRecall.mean.toFixed(3)}     ${s.keptPureRecall.mean.toFixed(3)}`);
+}
 console.log(`Wrote ${REPORT_PATH}`);
