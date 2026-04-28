@@ -8,6 +8,13 @@ import {
   getAllDetections,
   putDetection,
 } from './shot_store.js';
+import {
+  SessionRecorder,
+  isMediaRecorderSupported,
+  listRecoverableSessions,
+  recoverSessionToBlob,
+  discardRecoverableSession,
+} from './session_recorder.js';
 
 // ------------------------------------------------------------
 // Tunables (also reflected in UI controls)
@@ -18,6 +25,7 @@ const CLIP_POST_MS = 400;
 const CLIP_LEN_MS = CLIP_PRE_MS + CLIP_POST_MS;
 const DEFAULT_CONTEXT_SECONDS = 5;
 const LIVE_RING_SECONDS = 12;
+const SESSION_CHUNK_MS = 30_000;  // crash-safe checkpoint cadence
 
 // Spectral flux parameters for file-mode (offline) analysis
 const FILE_FFT_SIZE = 1024;
@@ -36,6 +44,8 @@ const params = {
   contextSeconds: DEFAULT_CONTEXT_SECONDS,
   showRejected: false,
   saveRejected: true,
+  saveFullRecording: true,
+  keepScreenAwake: true,
   calibrationArmed: false,
   calibrationFlux: null,
   calibrationPending: null,
@@ -186,15 +196,15 @@ function updateSessionUi() {
 
   if (!live.running) {
     state.textContent = 'Ready';
-    title.textContent = 'Set the phone near the ball';
-    detail.textContent = 'Put the iPhone in front of or behind the club path, then start recording. The first shot is used for calibration.';
+    title.textContent = 'Set phone 6-8 ft from the ball';
+    detail.textContent = 'Place it outside the club path, start recording, then hit one calibration shot before live capture begins.';
     return;
   }
 
   if (params.sessionMode === 'calibrating') {
-    state.textContent = 'Recording - calibration needed';
+    state.textContent = 'Recording - calibration';
     title.textContent = 'Hit one calibration shot';
-    detail.textContent = 'The app is listening with a low onset gate. After it hears the shot, confirm before live mode starts.';
+    detail.textContent = 'Swing once when ready. Detection pauses after the impact so you can confirm or retry the threshold.';
     return;
   }
 
@@ -206,8 +216,16 @@ function updateSessionUi() {
   }
 
   state.textContent = 'Recording - live mode';
-  title.textContent = 'Live shot detection is running';
-  detail.textContent = 'Hit shots normally. Recent detections and pure/fat estimates appear below.';
+  title.textContent = 'Swing when ready';
+  detail.textContent = 'Accepted shots and pure/fat estimates appear below. Non-shot transients can be saved for review.';
+}
+
+function qualityDisplayLabel(label, rejected = false) {
+  if (rejected) return 'Transient rejected';
+  if (label === 'pure') return 'Pure strike';
+  if (label === 'fat') return 'Fat contact';
+  if (label === 'no_shot' || label === 'not_shot') return 'No shot';
+  return 'Unsure strike';
 }
 
 function updateRecentShot(det = null) {
@@ -215,13 +233,14 @@ function updateRecentShot(det = null) {
   if (!box) return;
   if (!det) {
     box.className = 'recent-shot empty';
-    box.innerHTML = '<div class="recent-label">No shot yet</div><div class="recent-meta">After calibration, recent detected shots and quality estimates appear here.</div>';
+    box.innerHTML = '<div class="recent-label">No shot yet</div><div class="recent-meta">After calibration, recent detections and quality estimates appear here.</div>';
     return;
   }
 
   const rejected = det.verification?.label === 'not_shot';
   const quality = det.quality || {};
   const qualityLabel = rejected ? 'not a shot' : (quality.label || 'unsure');
+  const displayLabel = qualityDisplayLabel(qualityLabel, rejected);
   const predicted = quality.predictedLabel && quality.predictedLabel !== quality.label
     ? `model leaned ${quality.predictedLabel}`
     : '';
@@ -230,7 +249,7 @@ function updateRecentShot(det = null) {
   box.className = `recent-shot ${rejected ? 'rejected' : 'accepted'} quality-${safeName(qualityLabel)}`;
   box.innerHTML = '';
   box.append(
-    el('div', { className: 'recent-label' }, rejected ? 'Transient rejected' : qualityLabel),
+    el('div', { className: 'recent-label' }, displayLabel),
     el('div', { className: 'recent-meta' }, `Shot ${det.displayId || detections.length || 1} · ${verifierPct} · ${qualityPct}${predicted ? ` · ${predicted}` : ''}`),
   );
 }
@@ -270,9 +289,9 @@ class Strip {
   draw(overlays = []) {
     const { ctx, canvas, color, scale } = this;
     const w = canvas.width, h = canvas.height;
-    ctx.fillStyle = '#111';
+    ctx.fillStyle = '#f8fbf6';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = '#333';
+    ctx.strokeStyle = '#d7e3d9';
     ctx.beginPath();
     ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
     ctx.strokeStyle = color;
@@ -285,12 +304,120 @@ class Strip {
     ctx.stroke();
     // threshold line (for flux strip)
     if (overlays.includes('threshold')) {
-      ctx.strokeStyle = '#f55';
+      ctx.strokeStyle = '#c88b2c';
       ctx.setLineDash([4, 4]);
       const y = h / 2 - liveFluxThreshold() * scale;
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
       ctx.setLineDash([]);
     }
+  }
+}
+
+// ------------------------------------------------------------
+// Wake Lock helpers (keep the screen on while recording)
+// ------------------------------------------------------------
+const wakeLock = { sentinel: null, requested: false };
+
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return false;
+  try {
+    wakeLock.sentinel = await navigator.wakeLock.request('screen');
+    wakeLock.sentinel.addEventListener('release', () => {
+      wakeLock.sentinel = null;
+    });
+    return true;
+  } catch (e) {
+    console.warn('wakeLock request failed', e);
+    return false;
+  }
+}
+
+async function releaseWakeLock() {
+  wakeLock.requested = false;
+  if (!wakeLock.sentinel) return;
+  try { await wakeLock.sentinel.release(); } catch {}
+  wakeLock.sentinel = null;
+}
+
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState === 'visible' && wakeLock.requested && !wakeLock.sentinel) {
+    await requestWakeLock();
+  }
+});
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
+}
+
+function formatBytes(n) {
+  if (!n) return '0 B';
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  if (n < 1024 * 1024 * 1024) return `${(n / 1024 / 1024).toFixed(1)} MB`;
+  return `${(n / 1024 / 1024 / 1024).toFixed(2)} GB`;
+}
+
+function setSessionStatusReadout(text, kind = '') {
+  const el = $('#session-status-readout');
+  if (!el) return;
+  el.textContent = text || '';
+  el.className = `session-status-readout${kind ? ` is-${kind}` : ''}`;
+}
+
+async function renderRecoveryCard() {
+  const card = $('#recovery-card');
+  const list = $('#recovery-list');
+  if (!card || !list) return;
+  let sessions = [];
+  try {
+    sessions = await listRecoverableSessions();
+  } catch (e) {
+    console.warn('recovery scan failed', e);
+    return;
+  }
+  if (sessions.length === 0) {
+    card.hidden = true;
+    list.innerHTML = '';
+    return;
+  }
+  card.hidden = false;
+  list.innerHTML = '';
+  for (const s of sessions) {
+    const meta = el('div', { className: 'recovery-meta' },
+      el('b', {}, `Session from ${s.startedAt || 'unknown time'}`),
+      el('span', {}, `${formatBytes(s.sizeBytes)} · ${s.mimeType || 'audio'}`),
+    );
+    const dl = el('button', { className: 'primary', textContent: 'Download' });
+    dl.onclick = async () => {
+      dl.disabled = true;
+      try {
+        const result = await recoverSessionToBlob(s.id);
+        if (result?.blob) {
+          downloadBlob(result.blob, result.filename);
+          await discardRecoverableSession(s.id);
+          await renderRecoveryCard();
+        }
+      } catch (err) {
+        console.warn('recovery download failed', err);
+        dl.disabled = false;
+      }
+    };
+    const del = el('button', { className: 'danger', textContent: 'Discard' });
+    del.onclick = async () => {
+      if (!confirm('Discard this recovered recording? This cannot be undone.')) return;
+      await discardRecoverableSession(s.id);
+      await renderRecoveryCard();
+    };
+    const actions = el('div', { className: 'recovery-actions' }, dl, del);
+    const row = el('div', { className: 'recovery-row' }, meta, actions);
+    list.appendChild(row);
   }
 }
 
@@ -311,6 +438,7 @@ const live = {
   workletTotalSamples: 0,
   pendingExtracts: new Map(),
   extractSeq: 0,
+  recorder: null,
 };
 
 async function startLive() {
@@ -344,8 +472,8 @@ async function startLive() {
   live.source.connect(live.worklet);
   // Note: do NOT connect anything to ctx.destination or we'll feed mic back.
 
-  live.waveStrip = new Strip($('#live-wave'), '#6cf', 80);
-  live.fluxStrip = new Strip($('#live-flux'), '#6f6', 30);
+  live.waveStrip = new Strip($('#live-wave'), '#0f7a35', 80);
+  live.fluxStrip = new Strip($('#live-flux'), '#206b8f', 30);
   live.prevMag = null;
   live.running = true;
   live.workletTotalSamples = 0;
@@ -360,21 +488,85 @@ async function startLive() {
   updateCalibrationUi();
   updateSessionUi();
   requestAnimationFrame(livePollTick);
+
+  // Optional: full-session recording, crash-safe via 30s IDB checkpoints.
+  if (params.saveFullRecording) {
+    if (!isMediaRecorderSupported()) {
+      setSessionStatusReadout('Full recording not supported in this browser.', 'warning');
+    } else {
+      try {
+        live.recorder = new SessionRecorder({
+          stream: live.stream,
+          timesliceMs: SESSION_CHUNK_MS,
+          fileBaseName: `${tester}_session`,
+        });
+        await live.recorder.start();
+        setSessionStatusReadout('Recording session audio · auto-saves every 30 s', 'ok');
+      } catch (e) {
+        live.recorder = null;
+        setSessionStatusReadout(`Full recording failed: ${e.message}`, 'error');
+      }
+    }
+  } else {
+    setSessionStatusReadout('');
+  }
+
+  // Optional: keep the screen awake (release on stop, re-acquire on tab show).
+  if (params.keepScreenAwake) {
+    wakeLock.requested = true;
+    const ok = await requestWakeLock();
+    if (!ok && !('wakeLock' in navigator)) {
+      const cur = $('#session-status-readout').textContent;
+      const note = 'Screen-awake unavailable; keep this tab in the foreground.';
+      setSessionStatusReadout(cur ? `${cur} · ${note}` : note, 'warning');
+    }
+  }
 }
 
-function stopLive() {
+async function stopLive() {
   if (!live.running) return;
   live.running = false;
   try { live.worklet.disconnect(); } catch {}
   try { live.source.disconnect(); } catch {}
+
+  // Finalize the full-session recording before tearing down the mic stream so
+  // MediaRecorder still has access to its track. Errors here must not block
+  // the rest of teardown — losing audio is recoverable on next page load.
+  let finalize = null;
+  if (live.recorder) {
+    finalize = (async () => {
+      try {
+        const result = await live.recorder.stop();
+        if (result?.blob && result.blob.size > 0) {
+          downloadBlob(result.blob, result.filename);
+          setSessionStatusReadout(`Saved ${result.filename} (${formatBytes(result.sizeBytes)})`, 'ok');
+        } else {
+          setSessionStatusReadout('No audio captured for this session.', 'warning');
+        }
+      } catch (e) {
+        console.warn('session finalize failed', e);
+        setSessionStatusReadout(
+          `Session save failed: ${e.message}. You can recover it on the next reload.`,
+          'error',
+        );
+      }
+    })();
+  }
+
   try { live.stream.getTracks().forEach(t => t.stop()); } catch {}
   try { live.ctx.close(); } catch {}
+
+  await releaseWakeLock();
+
   params.calibrationArmed = false;
   params.calibrationPending = null;
   params.sessionMode = 'idle';
   setStatus('Stopped');
   updateCalibrationUi();
   updateSessionUi();
+
+  if (finalize) await finalize;
+  live.recorder = null;
 }
 
 function onWorkletMessage(e) {
@@ -990,9 +1182,9 @@ function renderFileAnalysis(name, sig, sr, flux, times, onsets, thresholdUsed = 
 
   // Waveform with onset lines
   const wctx = wCanvas.getContext('2d');
-  wctx.fillStyle = '#111';
+  wctx.fillStyle = '#f8fbf6';
   wctx.fillRect(0, 0, wCanvas.width, wCanvas.height);
-  wctx.strokeStyle = '#6cf';
+  wctx.strokeStyle = '#0f7a35';
   wctx.beginPath();
   const samplesPerPx = Math.max(1, Math.floor(sig.length / wCanvas.width));
   for (let x = 0; x < wCanvas.width; x++) {
@@ -1009,7 +1201,7 @@ function renderFileAnalysis(name, sig, sr, flux, times, onsets, thresholdUsed = 
   }
   wctx.stroke();
   // Onset overlays
-  wctx.strokeStyle = '#f5a';
+  wctx.strokeStyle = '#bd3c35';
   for (const o of onsets) {
     const x = Math.floor((o.time * sr) / samplesPerPx);
     wctx.beginPath(); wctx.moveTo(x, 0); wctx.lineTo(x, wCanvas.height); wctx.stroke();
@@ -1017,10 +1209,10 @@ function renderFileAnalysis(name, sig, sr, flux, times, onsets, thresholdUsed = 
 
   // Flux curve with threshold
   const fctx = fCanvas.getContext('2d');
-  fctx.fillStyle = '#111';
+  fctx.fillStyle = '#f8fbf6';
   fctx.fillRect(0, 0, fCanvas.width, fCanvas.height);
   const fluxMax = Math.max(thresholdUsed * 2, ...flux);
-  fctx.strokeStyle = '#6f6';
+  fctx.strokeStyle = '#206b8f';
   fctx.beginPath();
   for (let i = 0; i < flux.length; i++) {
     const x = (i / flux.length) * fCanvas.width;
@@ -1029,7 +1221,7 @@ function renderFileAnalysis(name, sig, sr, flux, times, onsets, thresholdUsed = 
   }
   fctx.stroke();
   // threshold
-  fctx.strokeStyle = '#f55';
+  fctx.strokeStyle = '#c88b2c';
   fctx.setLineDash([4, 4]);
   const thY = fCanvas.height - (thresholdUsed / fluxMax) * fCanvas.height;
   fctx.beginPath(); fctx.moveTo(0, thY); fctx.lineTo(fCanvas.width, thY); fctx.stroke();
@@ -1039,8 +1231,20 @@ function renderFileAnalysis(name, sig, sr, flux, times, onsets, thresholdUsed = 
 // ------------------------------------------------------------
 // Wire up UI
 // ------------------------------------------------------------
-$('#live-start').onclick = startLive;
-$('#live-stop').onclick = stopLive;
+$('#live-start').onclick = () => { void startLive(); };
+$('#live-stop').onclick = () => { void stopLive(); };
+$('#save-full-recording').onchange = (e) => {
+  params.saveFullRecording = e.target.checked;
+};
+$('#keep-screen-awake').onchange = (e) => {
+  params.keepScreenAwake = e.target.checked;
+  if (!params.keepScreenAwake) {
+    void releaseWakeLock();
+  } else if (live.running) {
+    wakeLock.requested = true;
+    void requestWakeLock();
+  }
+};
 $('#export-all').onclick = exportAll;
 $('#clear-detections').onclick = clearDetections;
 $('#confirm-calibration').onclick = confirmLiveCalibration;
@@ -1116,9 +1320,27 @@ $('#context-seconds').value = params.contextSeconds;
 $('#context-seconds-val').textContent = params.contextSeconds;
 $('#show-rejected').checked = params.showRejected;
 $('#collect-rejected').checked = params.saveRejected;
+$('#save-full-recording').checked = params.saveFullRecording;
+$('#keep-screen-awake').checked = params.keepScreenAwake;
+
+if (!isMediaRecorderSupported()) {
+  $('#save-full-recording').checked = false;
+  $('#save-full-recording').disabled = true;
+  params.saveFullRecording = false;
+  const hint = $('#recording-hint');
+  if (hint) hint.textContent = 'This browser does not support background recording. Use Safari or Chrome to capture full-session audio.';
+}
+
+if (!('wakeLock' in navigator)) {
+  $('#keep-screen-awake').checked = false;
+  $('#keep-screen-awake').disabled = true;
+  params.keepScreenAwake = false;
+}
+
 updateCalibrationUi();
 updateSessionUi();
 updateRecentShot();
+void renderRecoveryCard();
 
 async function initStage1b() {
   try {
@@ -1273,13 +1495,13 @@ function drawLabelingWaveform() {
   const canvas = $('#labeling-wave');
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
-  ctx.fillStyle = '#0a0a0c';
+  ctx.fillStyle = '#f8fbf6';
   ctx.fillRect(0, 0, w, h);
 
   if (labelingState.decodedBuffer) {
     const sig = getChannelMono(labelingState.decodedBuffer);
     const spp = Math.max(1, Math.floor(sig.length / w));
-    ctx.strokeStyle = '#6cf';
+    ctx.strokeStyle = '#0f7a35';
     ctx.beginPath();
     for (let x = 0; x < w; x++) {
       let mn = 0, mx = 0;
@@ -1300,10 +1522,10 @@ function drawLabelingWaveform() {
   const shotTimes = (lbl && lbl.shotTimes) || [];
   for (const t of shotTimes) {
     const x = (t / (labelingState.duration || 1)) * w;
-    ctx.strokeStyle = '#f5a';
+    ctx.strokeStyle = '#bd3c35';
     ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-    ctx.fillStyle = '#f5a';
+    ctx.fillStyle = '#bd3c35';
     ctx.fillRect(x - 6, 0, 12, 5);
     ctx.lineWidth = 1;
   }
@@ -1313,7 +1535,7 @@ function drawLabelingWaveform() {
   if (labelingState.audio) {
     const t = labelingState.audio.currentTime;
     const x = (t / (labelingState.duration || 1)) * w;
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = '#0b1712';
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
     $('#labeling-time').textContent = t.toFixed(3);
   }
@@ -1586,7 +1808,7 @@ function renderCalibration() {
       el('td', { className: 'num' }, String(pf.fileFP)),
       el('td', { className: 'num' }, String(pf.fileFN)),
     );
-    if (pf.fileFN > 0) tr.style.color = '#f88';
+    if (pf.fileFN > 0) tr.style.color = '#8e251f';
     pfTbody.appendChild(tr);
   }
   div.append(pfTable);
